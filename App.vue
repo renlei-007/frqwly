@@ -14,4 +14,16 @@
 
 <style>
 	/*每个页面公共css */
+	/*取消滚动条*/
+	scroll-view ::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+		background-color: transparent;
+	}
+	::-webkit-scrollbar {
+		display:none !important;
+		width:0;
+		height:0;
+		color:transparent;
+	}
 </style>

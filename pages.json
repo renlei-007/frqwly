@@ -3,7 +3,10 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"app-plus": {
+					"scrollIndicator":"none"
+				}
 			}
 		} ,{
             "path" : "pages/mine/mine",

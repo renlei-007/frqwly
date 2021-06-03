@@ -1,11 +1,11 @@
 /**
   * @Description:下拉刷新上拉加载组件
-  * @author XM
-  * @Date 2020-7-8
+  * @author RL
+  * @Date 2021-6-2
   */
 <template name="ys-scroll">
   <scroll-view
-    :style="'background:'+background"
+    :style="'height:calc(100vh);'+'background:'+background"
     class="ys_scroll"
     :scroll-y="scroll_y"
     :scroll-x="scroll_x"
