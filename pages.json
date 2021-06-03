@@ -1,0 +1,73 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		} ,{
+            "path" : "pages/mine/mine",
+            "style" : {
+                "navigationBarTitleText": "我的",
+                "enablePullDownRefresh": false
+            }
+        } ,{
+            "path" : "pages/login/login",
+            "style" : {
+                "navigationBarTitleText": "登录",
+                "enablePullDownRefresh": false
+            }
+            
+        } ,{
+            "path" : "pages/map/map",
+            "style" : {
+                "navigationBarTitleText": "地图",
+                "enablePullDownRefresh": false
+            }
+        }
+    ],
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"ys-(.*)": "@/components/base/ys-$1.vue"// 匹配components目录内的vue文件
+		}
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#956FEC",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#aaa",
+		"selectedColor": "#b92121",
+		"borderStyle": "black",
+		"backgroundColor": "#fff",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "/static/icon/home.png",
+				"selectedIconPath": "/static/icon/home_on.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/map/map",
+				"iconPath": "/static/icon/map.png",
+				"selectedIconPath": "/static/icon/map_on.png",
+				"text": "地图"
+			},
+			// {
+			// 	"pagePath": "pages/search/search",
+			// 	"iconPath": "/static/icon/search.png",
+			// 	"selectedIconPath": "/static/icon/search_on.png",
+			// 	"text": "搜索"
+			// },
+			{
+				"pagePath": "pages/mine/mine",
+				"iconPath": "/static/icon/user.png",
+				"selectedIconPath": "/static/icon/user_on.png",
+				"text": "我的"
+			}
+			
+		]
+	}
+}

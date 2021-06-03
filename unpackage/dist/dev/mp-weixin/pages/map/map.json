@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "地图",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "sl-filter": "/components/sl-filter/sl-filter",
+    "ys-scroll": "/components/base/ys-scroll"
+  }
+}
