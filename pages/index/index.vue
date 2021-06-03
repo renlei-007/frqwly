@@ -1,3 +1,8 @@
+/**
+ * @Description: 首页
+ * @author RL
+ * @Date 2021-06-02
+ */
 <template>
 	<view class="content index">
 		<!-- #ifdef MP-WEIXIN -->
