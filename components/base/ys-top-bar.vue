@@ -8,7 +8,7 @@
     <!-- #ifdef MP-WEIXIN -->
     <view class="wx_bar_box" :style="head_box_style">
       <view class="wx_custom_box wx_logo_box">
-        <view class="wx_logo_box_wai">芙蓉区文旅体云</view>
+        <view class="wx_logo_box_wai">{{title}}</view>
       </view>
     </view>
     <!-- #endif -->
@@ -20,6 +20,9 @@
 <script>
   export default{
     name:'ys-top-bar',
+	props: {
+		title: String,
+	},
     data(){
       return{
         head_box_style:'',//导航栏样式

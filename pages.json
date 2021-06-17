@@ -11,8 +11,10 @@
 		} ,{
             "path" : "pages/mine/mine",
             "style" : {
-                "navigationBarTitleText": "我的",
-                "enablePullDownRefresh": false
+                "navigationStyle": "custom",
+                "app-plus": {
+                	"scrollIndicator":"none"
+                }
             }
         } ,{
             "path" : "pages/login/login",
@@ -25,6 +27,43 @@
             "path" : "pages/map/map",
             "style" : {
                 "navigationBarTitleText": "地图",
+                "enablePullDownRefresh": false
+            }
+        } ,{
+            "path" : "pages/mine/setting",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "个人设置",
+                "enablePullDownRefresh": false
+            }
+        } ,{
+            "path" : "pages/mine/revise-phone",
+            "style" : {
+                "navigationBarTitleText": "修改号码",
+                "enablePullDownRefresh": false
+            }
+        } ,{
+            "path" : "pages/mine/attestation",
+            "style" : {
+                "navigationBarTitleText": "实名认证",
+                "enablePullDownRefresh": false
+            }
+        } ,{
+            "path" : "pages/mine/feedback",
+            "style" : {
+                "navigationBarTitleText": "意见反馈",
+                "enablePullDownRefresh": false
+            }
+        } ,{
+            "path" : "pages/mine/aboutme",
+            "style" : {
+                "navigationBarTitleText": "关于我们",
+                "enablePullDownRefresh": false
+            }
+        } ,{
+            "path" : "pages/mine/myactive",
+            "style" : {
+                "navigationBarTitleText": "我的活动",
                 "enablePullDownRefresh": false
             }
         }
@@ -43,7 +82,7 @@
 	},
 	"tabBar": {
 		"color": "#aaa",
-		"selectedColor": "#b92121",
+		"selectedColor": "#4B44A2",
 		"borderStyle": "black",
 		"backgroundColor": "#fff",
 		"list": [{

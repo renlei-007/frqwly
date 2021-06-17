@@ -26,6 +26,7 @@
     computed:{
     },
     mounted() {
+		console.log(this.list);
       this.icon_size = uni.upx2px(this.size);
     },
     methods:{
@@ -56,8 +57,8 @@
       <swiper-item v-for="(content,index) in list" :key="index" >
         <view class="menu_list">
           <view class="menu_item" v-for="(item,key) in content" :key="key" :style="'width:'+(100/line_num)+'%;'" @tap="tapMenu(index,key)">
-            <view class="icon_box" :style="'width: '+icon_size+'px;background:'+item.bac">
-              <image src="" mode="aspectFill" class="icon" :style="'width: '+icon_size+'px;height:'+icon_size+'px;'"></image>
+            <view class="icon_box" :style="'width: '+icon_size+'px;'">
+              <image :src="item.img" mode="aspectFill" class="icon" :style="'width: '+icon_size+'px;height:'+icon_size+'px;'"></image>
             </view>
             <view class="name">{{item.title}}</view>
           </view>
@@ -73,8 +74,8 @@
 <style lang="scss">
   .ys_menu_list{
     width:690rpx;
-	margin: 30rpx auto 0;
 	background-color: #FFFFFF;
+	border-radius: 16rpx;
     .menu_box{
       width: 100%;
       .menu_list{
@@ -107,7 +108,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            margin-top: 20rpx;
+            margin-top: -20rpx;
           }
         }
       }

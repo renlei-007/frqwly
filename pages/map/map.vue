@@ -104,6 +104,14 @@ export default {
 				title: '厕所',
 			},{
 				title: '餐饮',
+			},{
+				title: '住宿',
+			},{
+				title: '娱乐',
+			},{
+				title: '旅行社',
+			},{
+				title: '其他',
 			},],
 			menuList: [{
 					'title': '类别',

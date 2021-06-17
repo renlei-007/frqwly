@@ -5,7 +5,7 @@
   */
 <template name="ys-scroll">
   <scroll-view
-    :style="'height:calc(100vh);'+'background:'+background"
+    :style="'background:'+background"
     class="ys_scroll"
     :scroll-y="scroll_y"
     :scroll-x="scroll_x"

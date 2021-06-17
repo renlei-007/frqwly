@@ -1,6 +1,53 @@
 <template>
 	<view class="content mine">
-		
+		<ys-top-bar title="个人中心"></ys-top-bar>
+		<view class="user_box">
+			<view class="user_box_b">
+				<view class="user_info_box">
+					<view class="user_img">
+						<image src="../../static/user.png" mode=""></image>
+					</view>
+					<view class="user_name_box">
+						<view class="user_name">微信用户</view>
+						<view class="attestation">实名认证：未认证</view>
+					</view>
+				</view>
+				<view class="sign_box">
+					<view class="sign_box_icon"></view>
+					<view class="sign_box_text">连续签到0天</view>
+				</view>
+			</view>
+		</view>
+		<view class="datas_box">
+			<view class="datas_box_item">
+				<view class="datas_box_item_num">0</view>
+				<view class="datas_box_item_name">积分</view>
+			</view>
+			<view class="datas_box_item">
+				<view class="datas_box_item_num">0</view>
+				<view class="datas_box_item_name">消息</view>
+			</view>
+			<view class="datas_box_item">
+				<view class="datas_box_item_num">0</view>
+				<view class="datas_box_item_name">评论</view>
+			</view>
+		</view>
+		<view class="active_panel">
+			<view class="active_panel_item" v-for="(item,index) in active_menu" :key="index" @tap="goPage('active',index)">
+				<image class="active_panel_item_icon" :src="item.src" mode=""></image>
+				<view class="active_panel_item_text">{{item.title}}</view>
+			</view>
+		</view>
+		<view class="function_menu">
+			<view class="menu_item menu_item_line" v-for="(item,index) in function_menu" :key = "index" @tap="goPage('function',index)"> 
+				<image mode="" :src="item.src" class="icon"></image>
+				<view class="name_area">
+					<text>{{item.title}}</text>
+					<text class="contents" v-if="index == 4">400-117-3773</text>
+				</view>
+			</view>
+		</view>
+		<view class="log_out">退出登录</view>
 	</view>
 </template>
 
@@ -8,12 +55,277 @@
 	export default {
 		data() {
 			return {
-				
+				function_menu: [
+					{
+						src: require('../../static/active-icon/wdsc.png'),
+						title: '我的收藏',
+					},
+					{
+						src: require('../../static/active-icon/smrz.png'),
+						title: '实名认证',
+					},
+					{
+						src: require('../../static/active-icon/xgsj.png'),
+						title: '修改手机',
+					},
+					{
+						src: require('../../static/active-icon/grsz.png'),
+						title: '个人设置',
+					},
+					{
+						src: require('../../static/active-icon/yjfk.png'),
+						title: '意见反馈',
+					},
+					{
+						src: require('../../static/active-icon/gywm.png'),
+						title: '关于我们',
+					},
+				],
+				active_menu: [
+					{
+						src: require('../../static/active-icon/wdhd.png'),
+						title: '我的活动',
+					},
+					{
+						src: require('../../static/active-icon/wdcg.png'),
+						title: '我的场馆',
+					},
+					{
+						src: require('../../static/active-icon/wdst.png'),
+						title: '我的社团',
+					},
+					{
+						src: require('../../static/active-icon/mkxx.png'),
+						title: '慕课学习',
+					},
+				],
 			};
-		}
+		},
+		methods: {
+			goPage(val,index){
+				if(val=='function'){
+					switch (index){
+						case 1:
+							uni.navigateTo({
+								url: './attestation'
+							})
+							break
+						case 2:
+							uni.navigateTo({
+								url: './revise-phone'
+							})
+							break
+						case 3: 
+							uni.navigateTo({
+								url: './setting'
+							})
+							break
+						case 4:
+							uni.navigateTo({
+								url: './feedback'
+							})
+							break
+						case 5:
+							uni.navigateTo({
+								url: './aboutme'
+							})
+							break
+					}
+				}
+				if(val=='active'){
+					switch (index){
+						case 0:
+							uni.navigateTo({
+								url: './myactive'
+							})
+							break
+					}
+				}
+			},
+		},
 	}
 </script>
 
 <style lang="scss" scoped>
+.content {
+	width: 100%;
+	background: #F2F5FA;
+	box-sizing: border-box;
+	/* #ifdef H5 */
+	padding-bottom: 150rpx;
+	/* #endif */
+	.user_box {
+		width: 100%;
+		height: 240rpx;
+		box-sizing: border-box;
+		padding: 0 35rpx;
+		background-color: #956FEC;
+		border-radius: 0 0 10% 10%;
+		/* #ifdef MP-WEIXIN */
+		padding-top: 88rpx;
+		/* #endif */
+		/* #ifndef MP-WEIXIN */
+		padding-top: 60rpx;
+		/* #endif */
+		&_b {
+			align-items: center;
+			display: flex;
+			justify-content: space-between;
+			.user_info_box {
+				display: flex;
+				.user_img {
+					width: 96rpx;
+					height: 96rpx;
+					border-radius: 50%;
+					background-color: #F2F2F2;
+					margin-right: 30rpx;
+					text-align: center;
+					line-height: 96rpx;
+					image {
+						width: 100%;
+						height: 100%;
+					}
+				}
+				.user_name_box {
+					.user_name {
+						font-size: 32rpx;
+						line-height: 60rpx;
+						color: #FFFFFF;
+					}
+					.attestation {
+						font-size: 24rpx;
+						color: #FFFFFF;
+						opacity: 0.81;
+					}
+				}
+			}
+			.sign_box {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				padding-top: 15rpx;
+				.sign_box_icon {
+					width: 40rpx;
+					height: 40rpx;
+				}
+				.sign_box_text {
+					font-size: 18rpx;
+					line-height: 36rpx;
+					color: #FEF8E0;
+				}
+			}
+		}
+	}
+	.datas_box {
+		width: 690rpx;
+		height: 150rpx;
+		margin: -20rpx auto 0;
+		background-color: #FFFFFF;
+		display: flex;
+		border-radius: 20rpx;
+		&_item {
+			width: 33.33%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			&_num {
+				font-size: 40rpx;
+				color: #1B1C1E;
+			}
+			&_name {
+				font-size: 24rpx;
+				color: #8B8B9C;
+				margin-top: 10rpx;
+			}
+		}
+	}
+	.active_panel {
+		width: 690rpx;
+		height: 184rpx;
+		margin: 30rpx auto 0;
+		background-color: #FFFFFF;
+		display: flex;
+		border-radius: 20rpx;
+		&_item {
+			width: 25%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			&_icon {
+				width: 80rpx;
+				height: 80rpx;
+			}
+			&_text {
+				font-size: 24rpx;
+				line-height: 36rpx;
+				color: #1B1C1E;
+				margin-top: 10rpx;
+			}
+		}
+	}
+	.function_menu {
+		width: 690rpx;
+		background-color: #ffffff;
+		border-radius: 20rpx;
+		padding: 0 20rpx;
+		box-sizing: border-box;
+		margin: 20rpx auto 0;
+		.menu_item {
+			width: 100%;
+			height: 110rpx;
+			display: flex;
+			align-items: center;
+			position: relative;
+			.icon {
+				width: 50rpx;
+				height: 50rpx;
+				display: flex;
+			}
+			.name_area {
+				width: 660rpx;
+				height: 100%;
+				padding: 0 20rpx;
+				box-sizing: border-box;
+				background-image: url('~@/static/more-black.png');
+				background-position: right;
+				background-repeat: no-repeat;
+				background-size: 12rpx 22rpx;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				font-size: 28rpx;
+				color: #333333;
 
+				.contents {
+					color: #956FEC;
+				}
+			}
+		}
+		.menu_item_line::after {
+			position: absolute;
+			content: '';
+			bottom: 0;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 690rpx;
+			height: 1px;
+			background-color: #e6e6e6;
+		}
+		.menu_item_line:last-child::after {
+			background-color: #FFFFFF;
+		}
+	}
+	.log_out{
+		width: 100%;
+		height: 112rpx;
+		text-align: center;
+		line-height: 112rpx;
+		font-size: 34rpx;
+		color: #956FEC;
+		margin-top: 60rpx;
+		background-color: #FFFFFF;
+	}
+}
 </style>
