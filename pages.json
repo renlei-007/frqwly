@@ -11,7 +11,7 @@
 		} ,{
             "path" : "pages/mine/mine",
             "style" : {
-                "navigationStyle": "custom",
+				"navigationBarTitleText": "个人中心",
                 "app-plus": {
                 	"scrollIndicator":"none"
                 }
@@ -66,6 +66,111 @@
                 "navigationBarTitleText": "我的活动",
                 "enablePullDownRefresh": false
             }
+        } ,{
+            "path" : "pages/cate/active-detail",
+            "style" : {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+        } ,{
+            "path" : "pages/mine/reward-points",
+            "style" : {
+                "navigationBarTitleText": "积分明细",
+                "enablePullDownRefresh": false
+            }
+        } ,{
+            "path" : "pages/cate/live-detail",
+            "style" : {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+        } ,{
+            "path" : "pages/cate/art-expert",
+            "style" : {
+                "navigationBarTitleText": "艺术欣赏",
+                "enablePullDownRefresh": false
+            }
+        } ,{
+            "path" : "pages/cate/scenic-spot",
+            "style" : {
+                "navigationBarTitleText": "精品旅游",
+                "enablePullDownRefresh": false
+            }
+        } ,{
+            "path" : "pages/mine/comment-list",
+            "style" : {
+                "navigationBarTitleText": "我的评论",
+                "enablePullDownRefresh": false
+            }
+        } ,{
+            "path" : "pages/cate/scenic-list",
+            "style" : {
+                "navigationBarTitleText": "精品旅游",
+                "enablePullDownRefresh": false
+            }
+        }
+        ,{
+            "path" : "pages/cate/venues-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "场馆服务",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/venues-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/active-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "活动报名",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/art-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "艺术欣赏",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/live-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "直播点播",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/volunteers-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "志愿者服务",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/heritage-choose",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "非遗保护",
+                "enablePullDownRefresh": false
+            }
+            
         }
     ],
 	"easycom": {

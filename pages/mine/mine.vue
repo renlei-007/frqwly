@@ -5,30 +5,32 @@
 			<view class="user_box_b">
 				<view class="user_info_box">
 					<view class="user_img">
-						<image src="../../static/user.png" mode=""></image>
+						<image :src="is_login?user.userImg:'../../static/user.png'" mode=""></image>
 					</view>
 					<view class="user_name_box">
-						<view class="user_name">微信用户</view>
-						<view class="attestation">实名认证：未认证</view>
+						<view class="user_name">{{is_login?user.username:'微信用户'}}</view>
+						<view class="attestation">{{is_login&&user.isCertification?'实名认证：已认证':'实名认证：未认证'}}</view>
 					</view>
 				</view>
-				<view class="sign_box">
-					<view class="sign_box_icon"></view>
-					<view class="sign_box_text">连续签到0天</view>
+				<view class="sign_box" @tap="signIn">
+					<view class="sign_box_icon">
+						<image src="../../static/sign.png" class="sign_box_icon_img" mode=""></image>
+					</view>
+					<view class="sign_box_text">连续签到{{is_login?user.signTimes:0}}天</view>
 				</view>
 			</view>
 		</view>
 		<view class="datas_box">
-			<view class="datas_box_item">
-				<view class="datas_box_item_num">0</view>
+			<view class="datas_box_item" @tap="todetail(0)">
+				<view class="datas_box_item_num">{{is_login?user.score:0}}</view>
 				<view class="datas_box_item_name">积分</view>
 			</view>
 			<view class="datas_box_item">
-				<view class="datas_box_item_num">0</view>
+				<view class="datas_box_item_num">{{messageCount}}</view>
 				<view class="datas_box_item_name">消息</view>
 			</view>
-			<view class="datas_box_item">
-				<view class="datas_box_item_num">0</view>
+			<view class="datas_box_item" @tap="todetail(2)">
+				<view class="datas_box_item_num">{{commentCount}}</view>
 				<view class="datas_box_item_name">评论</view>
 			</view>
 		</view>
@@ -47,7 +49,20 @@
 				</view>
 			</view>
 		</view>
-		<view class="log_out">退出登录</view>
+		<view class="log_out" @tap="logout">退出登录</view>
+		
+		<view class="mask" v-if="is_sign" @tap="is_sign = false">
+			<view class="mask_content">
+				<view class="point">积分明细</view>
+				<image class="mask_img" src="../../static/money.png" mode=""></image>
+				<view class="get_point">签到得积分</view>
+				<view class="continue">你累计签到<text style="color: #FF8E19;">11</text>天，请继续保持！</view>
+				<view class="sign_btn" @tap.stop="toSign">签到</view>
+				
+				<view class="mask_content_blank1"></view>
+				<view class="mask_content_blank2"></view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -55,6 +70,10 @@
 	export default {
 		data() {
 			return {
+				is_sign: false,
+				user: {},
+				messageCount: 0,
+				commentCount: 0,
 				function_menu: [
 					{
 						src: require('../../static/active-icon/wdsc.png'),
@@ -99,7 +118,19 @@
 						title: '慕课学习',
 					},
 				],
+				is_login: true,
 			};
+		},
+		onLoad() {
+			if(uni.getStorageSync('user_info')){
+				this.user = uni.getStorageSync('user_info')
+				this.getMessageNumber()
+			}
+			if(JSON.stringify(this.user)=='{}'){
+				this.is_login = false
+			}else{
+				this.is_login = true
+			}
 		},
 		methods: {
 			goPage(val,index){
@@ -141,6 +172,68 @@
 							break
 					}
 				}
+			},
+			todetail(index){
+				if(index==0){
+					uni.navigateTo({
+						url: './reward-points'
+					})
+				}
+				if(index==2){
+					uni.navigateTo({
+						url: './comment-list'
+					})
+				}
+			},
+			getMessageNumber(){
+				this.homeRequest({
+					url: '/message/count',
+					method: 'GET',
+					data: {},
+				}).then(res=>{
+					console.log(res);
+					this.messageCount = res.body;
+				})
+				this.homeRequest({
+					url: '/comment/count',
+					method: 'GET',
+					data: {},
+				}).then(res=>{
+					console.log(res);
+					this.commentCount = res.body;
+				})
+			},
+			signIn(){
+				this.is_sign = true
+			},
+			toSign(){
+				console.log(111111);
+				this.homeRequest({
+					url: '/signin',
+					method: 'POST',
+					data: {},
+				}).then(res=>{
+					console.log(res);
+					if(res.code==200){
+						this.is_sign = false
+					}else{
+						this.toast(res.message,'none')
+					}
+				})
+			},
+			logout(){
+				uni.showModal({
+					title: '退出',
+					content: '确定要退出登录吗?',
+					success: (res) => {
+						if(res.confirm){
+							uni.clearStorageSync()
+							uni.reLaunch({
+								url: '../login/login'
+							})
+						}
+					}
+				})
 			},
 		},
 	}
@@ -203,14 +296,19 @@
 				display: flex;
 				flex-direction: column;
 				align-items: center;
-				padding-top: 15rpx;
+				// padding-top: 15rpx;
 				.sign_box_icon {
-					width: 40rpx;
-					height: 40rpx;
+					width: 48rpx;
+					height: 48rpx;
+					&_img{
+						width: 48rpx;
+						height: 48rpx;
+					}
 				}
 				.sign_box_text {
 					font-size: 18rpx;
 					line-height: 36rpx;
+					margin-top: 4rpx;
 					color: #FEF8E0;
 				}
 			}
@@ -326,6 +424,40 @@
 		color: #956FEC;
 		margin-top: 60rpx;
 		background-color: #FFFFFF;
+	}
+}
+.mask{
+	.mask_content{
+		.mask_img{
+			width: 260rpx;
+			height: 214rpx;
+			margin: 24rpx auto 0;
+		}
+		.get_point{
+			font-size: 32rpx;
+			line-height: 32rpx;
+			font-weight: bolder;
+			color: #1B1C1E;
+			margin: 16rpx 0 0;
+		}
+		.continue{
+			font-size: 22rpx;
+			font-weight: 400;
+			line-height: 22rpx;
+			color: #6D6E6F;
+			margin-top: 28rpx;
+		}
+		.sign_btn{
+			width: 348rpx;
+			height: 64rpx;
+			background: linear-gradient(126deg, #C28FF5 0%, #7630DF 100%);
+			border-radius: 36rpx;
+			text-align: center;
+			line-height: 64rpx;
+			font-size: 32rpx;
+			color: #FFFFFF;
+			margin: 50rpx auto 0;
+		}
 	}
 }
 </style>

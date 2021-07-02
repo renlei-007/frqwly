@@ -5,13 +5,14 @@
 		</view>
 		<view class="code inp_box">
 			<input type="number" class="code_inp" v-model="code" placeholder="验证码" />
-			<view class="tips" @tap="getCode">{{tips}}</view>
+			<view class="tips" @tap="getVerCode">{{tips}}</view>
 		</view>
 		<view class="submit" @tap="submit">保存修改</view>
 	</view>
 </template>
 
 <script>
+	import {Throttle} from '@/common/tool.js'
 	export default {
 		data() {
 			return {
@@ -23,38 +24,92 @@
 			};
 		},
 		methods: {
-			getCode(){
+			getVerCode(){
+				var myreg=/^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+				if (this.phonenumber.length != 11 || !myreg.test(this.phonenumber)) {
+				     uni.showToast({
+				        icon: 'none',
+						position: 'bottom',
+				        title: '手机号不正确'
+				    });
+				    return false;
+				}
+				
 				if(this.step==0){
-					this.tips = 60
-					let s = 60
-					this.timer = setInterval(()=>{
-						console.log(22222222);
-						s--
-						this.tips = s
-						if(s==0){
-							this.tips = '重新获取'
-							this.step = 1
-							clearTimeout(this.timer)
-							this.timer = null
+					this.indexRequest({url:'/sms/send_register_msg',data:{
+						smsSendType: 3,
+						mobilePhone: this.phonenumber,
+					}}).then(res=>{
+						if(res.data.code==200){
+							this.tips = 60
+							let s = 60
+							this.step = 2
+							this.timer = setInterval(()=>{
+								console.log(22222222);
+								s--
+								this.tips = s
+								if(s==0){
+									this.tips = '重新获取'
+									this.step = 1
+									clearTimeout(this.timer)
+									this.timer = null
+								}
+							},1000)
+						}else{
+							this.toast(res.data.message,'none')
 						}
-					},1000)
+					})
 				}
 				if(this.step==1){
-					this.tips = 60
-					let s = 60
-					this.timer = setInterval(()=>{
-						console.log(22222222);
-						s--
-						this.tips = s
-						if(s==0){
-							this.tips = '重新获取'
-							this.step = 1
-							clearTimeout(this.timer)
-							this.timer = null
-						}
-					},1000)
+					this.indexRequest({url:'/sms/send_register_msg',data:{
+						smsSendType: 3,
+						mobilePhone: this.phoneData,
+					}}).then(res=>{
+						this.tips = 60
+						let s = 60
+						this.step = 2
+						this.timer = setInterval(()=>{
+							console.log(22222222);
+							s--
+							this.tips = s
+							if(s==0){
+								this.tips = '重新获取'
+								this.step = 1
+								clearTimeout(this.timer)
+								this.timer = null
+							}
+						},1000)
+					})
 				}
 			},
+			submit:Throttle(function(){
+				console.log(1);
+				var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+				if (this.phonenumber.length !=11 || !myreg.test(this.phonenumber)) {
+				    this.toast('请输入正确的手机号码','none')
+				    return false;
+				}
+				if (this.code.length != 6) {
+				    this.toast('验证码不正确','none')
+				    return false;
+				}
+				
+				this.homeRequest({url:'/changePhone',methods:'POST',data:{
+					phone: this.phonenumber,
+					validCode: this.code
+				}}).then(res=>{
+					if(res.code==200){
+						this.toast('修改成功！')
+						setTimeout(()=>{
+							uni.navigateBack({
+								delta:1
+							})
+						},1500)
+					}else{
+						this.toast(res.message,'none')
+					}
+				})
+			})
 		},
 	}
 </script>

@@ -4,19 +4,19 @@
 			<view class="input_box_item">
 				<view class="input_box_item_name">用户名</view>
 				<view class="input_box_item_write">
-					<input type="text" class="inp" placeholder="请输入用户名" v-model="user_form.name" />
+					<input type="text" class="inp" placeholder="请输入用户名" v-model="user_form.realname" />
 				</view>
 			</view>
 			<view class="input_box_item input_box_item_address">
 				<view class="input_box_item_name">选择区域</view>
 				<view class="input_box_item_write">
-					<input type="text" class="inp" placeholder="请点击进行选择" disabled v-model="user_form.area" />
+					<input type="text" class="inp" placeholder="请点击进行选择" disabled v-model="area" />
 				</view>
 			</view>
 			<view class="input_box_item">
 				<view class="input_box_item_name">详细地址</view>
 				<view class="input_box_item_write">
-					<input type="text" class="inp" placeholder="请输入详细地址（可选填）" v-model="user_form.address" />
+					<input type="text" class="inp" placeholder="请输入详细地址（可选填）" v-model="user_form.comefrom" />
 				</view>
 			</view>
 			<view class="input_box_item">
@@ -34,7 +34,7 @@
 			<view class="input_box_item input_box_item_more" @tap="selected(1)">
 				<view class="input_box_item_name">政治面貌</view>
 				<view class="input_box_item_write">
-					<input type="text" class="inp" placeholder="请选择政治面貌" disabled v-model="user_form.politic" />
+					<input type="text" class="inp" placeholder="请选择政治面貌" disabled v-model="user_form.political" />
 				</view>
 			</view>
 		</view>
@@ -48,13 +48,14 @@
 		data() {
 			return {
 				user_form: {
-					name: '',
-					area: '',
-					address: '',
+					userImg: '',
+					realname: '',
+					comefrom: '',
 					school: '',
 					education: '',
-					politic: '',
+					political: '',
 				},
+				area: '',
 				pickTitle: '',
 				educationList: ['小学','初中','高中','专科','本科','研究生',],
 				politicList: ['中共党员','共青团员','群众'],
@@ -62,7 +63,20 @@
 				Index: -1,
 			};
 		},
+		onLoad() {
+			this.getUserInfo()
+		},
 		methods: {
+			getUserInfo(){
+				this.homeRequest({
+					url: '/setting/get',
+					method: 'GET',
+					data: {},
+				}).then(res=>{
+					console.log(res);
+					this.user_form = res.body
+				})
+			},
 			selected(val){//调起选择器组件
 				this.Index = val
 				if(val==0){
@@ -76,12 +90,19 @@
 				if(this.Index == 0){
 					this.user_form.education = res.value[0]
 				}else{
-					this.user_form.politic = res.value[0]
+					this.user_form.political = res.value[0]
 				}
 			},
 			submit(){
-				uni.navigateBack({
-					delta: 1,
+				this.homeRequest({url: '/setting',method: 'GET',data: this.user_form}).then(res=>{
+					if(res.code==200){
+						this.toast('修改成功！','none')
+						setTimeout(()=>{
+							uni.navigateBack({
+								delta: 1,
+							})
+						},1500)
+					}
 				})
 			},
 		},

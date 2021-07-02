@@ -15,14 +15,13 @@
 			</view>
 		</view>
 		<swiper class="banner_box" circular  indicator-dots="true" indicator-active-color="rgba(255,153,51,1)">
-			<swiper-item  class="swiper-recommend" v-for="(item, index) in 4"  :key="index">
-				<!-- <view class="img"><image :src="" mode="widthFix"></image></view> -->
-				{{index+1}}
+			<swiper-item  class="swiper-recommend" v-for="(item, index) in carouselList"  :key="index">
+				<view class="img"><image class="swiper_img" :src="item.attr_image_url" mode="widthFix"></image></view>
 			</swiper-item>
 		</swiper>
 		<!-- 分类轮播 -->
 		<view class="news" style="padding: 0;">
-			<ys-menu-list class="z_index" :size="116" :list="cate_list"></ys-menu-list>
+			<ys-menu-list class="z_index" :size="116" :list="cate_list" @select="cateSelect"></ys-menu-list>
 		</view>
 		
 		<!-- 文旅资讯 -->
@@ -33,22 +32,13 @@
 			</view>
 			<view class="news_content">
 				<view class="zx_news">
-					<view class="zx_news_li">
+					<view class="zx_news_li" v-for="(item,index) in newsList" :key="index">
 						<view class="zx_news_li_content">
-							<view class="zx_news_li_content_title">100年</view>
-							<view class="zx_news_li_content_body">庆祝中国共产党成立100周年庆祝中国共产党成立100周年...</view>
+							<view class="zx_news_li_content_title">{{item.title}}</view>
+							<view class="zx_news_li_content_body">{{item.description}}</view>
 						</view>
 						<view class="zx_news_li_img">
-							<image class="zximgs" src="" mode=""></image>
-						</view>
-					</view>
-					<view class="zx_news_li">
-						<view class="zx_news_li_content">
-							<view class="zx_news_li_content_title">100年</view>
-							<view class="zx_news_li_content_body">庆祝中国共产党成立100周年庆祝中国共产党成立100周年...</view>
-						</view>
-						<view class="zx_news_li_img">
-							<image class="zximgs" src="" mode=""></image>
+							<image class="zximgs" :src="item.titleImg" mode=""></image>
 						</view>
 					</view>
 				</view>
@@ -63,11 +53,11 @@
 			</view>
 			<view class="news_content">
 				<view class="tj_news">
-					<view class="tj_news_li" v-for="item in 4" :key="item">
+					<view class="tj_news_li" v-for="(item,index) in recommendList" :key="index">
 						<view class="tj_news_li_img">
-							<image class="tjimgs" src="" mode=""></image>
+							<image class="tjimgs" :src="item.titleImg" mode=""></image>
 						</view>
-						<view class="tj_news_li_name">xx旅游区</view>
+						<view class="tj_news_li_name">{{item.title}}</view>
 					</view>
 				</view>
 			</view>
@@ -81,13 +71,13 @@
 			</view>
 			<view class="news_content">
 				<view class="fw_news">
-					<view class="fw_news_li" v-for="item in 4" :key="item">
+					<view class="fw_news_li" v-for="(item,index) in activityList" :key="index">
 						<view class="fw_news_li_img">
-							<image class="fwimgs" src="" mode=""></image>
+							<image class="fwimgs" :src="item.titleImg" mode=""></image>
 						</view>
 						<view class="fw_news_li_text">
-							<view class="fw_news_li_text_title">美术班（美术室）</view>
-							<view class="fw_news_li_text_time fw_txt">时间：2021-05-11</view>
+							<view class="fw_news_li_text_title">{{item.title}}</view>
+							<view class="fw_news_li_text_time fw_txt">时间：{{item.releaseDate.slice(0,10)}}</view>
 							<view class="fw_news_li_text_address fw_txt" style="margin-bottom: 20rpx;">地址：湘乡市文化馆</view>
 						</view>
 					</view>
@@ -102,9 +92,13 @@
 		data() {
 			return {
 				bannerList: [],//轮播图数据
+				recommendList:[],//精彩推荐
+				activityList:[],//文旅服务
+				newsList: [],//文旅资讯
+				carouselList: [], //轮播图
 				cate_list: [[{//分类数据
 					title: '文旅体资讯',
-					img: require('../../static/banner/wltzx.png'),
+					img: require('@/static/banner/wltzx.png'),
 					bac: 'linear-gradient(161deg, #EC6B1F 0%, #E75325 87%, #E64F26 100%);',
 				},{
 					title: '活动报名',
@@ -127,13 +121,13 @@
 					img: require('../../static/banner/wspx.png'),
 					bac: 'linear-gradient(138deg, #6CD6FE 0%, #33A0F8 100%);',
 				},{
-					title: '文旅地图',
-					img: require('../../static/banner/wldt.png'),
-					bac: 'linear-gradient(141deg, #FDD945 0%, #FCB909 100%);',
+					title: '非遗保护',
+					img: require('../../static/banner/fybh.png'),
+					bac: 'linear-gradient(138deg, #FB65C9 0%, #F62EAF 100%);',
 				},{
-					title: '数字资源',
-					img: require('../../static/banner/szzy.png'),
-					bac: 'linear-gradient(146deg, #E64F36 0%, #DF1C29 100%);',
+					title: '精品旅游',
+					img: require('../../static/banner/jply.png'),
+					bac: 'linear-gradient(144deg, #0FD79A 0%, #1FD369 100%);',
 				}],[{
 					title: '艺术欣赏',
 					img: require('../../static/banner/ysxs.png'),
@@ -143,17 +137,9 @@
 					img: require('../../static/banner/yhst.png'),
 					bac: 'linear-gradient(141deg, #FDD945 0%, #FCB909 100%);',
 				},{
-					title: '精品旅游',
-					img: require('../../static/banner/jply.png'),
-					bac: 'linear-gradient(144deg, #0FD79A 0%, #1FD369 100%);',
-				},{
-					title: '全局检索',
-					img: require('../../static/banner/qjss.png'),
-					bac: 'linear-gradient(140deg, #F79A0B 0%, #EF770E 100%);',
-				},{
-					title: '非遗保护',
-					img: require('../../static/banner/fybh.png'),
-					bac: 'linear-gradient(138deg, #FB65C9 0%, #F62EAF 100%);',
+					title: '数字资源',
+					img: require('../../static/banner/szzy.png'),
+					bac: 'linear-gradient(146deg, #E64F36 0%, #DF1C29 100%);',
 				},{
 					title: '数字文化馆',
 					img: require('../../static/banner/szwhg.png'),
@@ -162,10 +148,46 @@
 			}
 		},
 		onLoad() {
-			
+			this.getList()
 		},
 		methods: {
-
+			cateSelect(data){
+				console.log(data);
+				if(data.index==0&&data.key==1){
+					this.navigateTo('/pages/cate/active-list')
+				}else if(data.index==0&&data.key==2){
+					this.navigateTo('/pages/cate/venues-list')
+				}else if(data.index==0&&data.key==4){
+					this.navigateTo('/pages/cate/live-list')
+				}else if(data.index==1&&data.key==0){
+					this.navigateTo('/pages/cate/art-list')
+				}else if(data.index==0&&data.key==7){
+					this.navigateTo('/pages/cate/scenic-list')
+				}
+			},
+			getList(){
+				this.indexRequest({url:'/ad/list.jspx',data:{adspaceId:5}}).then(res=>{
+					this.carouselList = res.data.body;
+				})
+				
+				this.indexRequest({url:'/content/list.jspx',data:{channelIds:'135', count:2, orderBy:4}}).then(res=>{
+					this.recommendList = this.recommendList.concat(res.data.body);
+				})
+				this.indexRequest({url:'/content/list.jspx',data:{channelIds:'125', count:2, orderBy:4}}).then(res=>{
+					this.recommendList = this.recommendList.concat(res.data.body);
+				})
+				
+				this.indexRequest({url:'/content/list.jspx',data:{channelIds:'116', count:2, orderBy:4}}).then(res=>{
+					this.activityList = this.activityList.concat(res.data.body);
+				})
+				this.indexRequest({url:'/content/list.jspx',data:{channelIds:'117', count:2, orderBy:4}}).then(res=>{
+					this.activityList = this.activityList.concat(res.data.body);
+				})
+				
+				this.indexRequest({url:'/content/list.jspx',data:{channelIds:'108', count:2, orderBy:4}}).then(res=>{
+					this.newsList = res.data.body;
+				})
+			},
 		}
 	}
 </script>
@@ -230,6 +252,14 @@
 			font-size: 16rpx;
 			text-align: center;
 			color: #fff;
+			.img{
+				width: 100%;
+				height: 100%;
+				.swiper_img{
+					width: 100%;
+					height: 100%;
+				}
+			}
 		}
 	}
 	.news{

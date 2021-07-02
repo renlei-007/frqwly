@@ -31,7 +31,7 @@ export const Debounce = (fn, t) => {
 export const Throttle = (fn, t) => {
   let last;
   let timer;
-  let interval = t || 200;
+  let interval = t || 1000;
   return function () {
     let args = arguments;
     let now = +new Date();

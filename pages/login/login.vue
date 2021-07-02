@@ -2,12 +2,12 @@
 	<view class="content login">
 		<view class="login_box">
 			<view class="name_int log_int">
-				<input type="number" v-model="userfrom.username" placeholder="用户名/电话" />
+				<input type="text" v-model="userform.username" placeholder="用户名/电话" />
 			</view>
 			<view class="pass_int log_int">
-				<input type="password" v-model="userfrom.password" placeholder="密码" />
+				<input type="password" v-model="userform.password" placeholder="密码" />
 			</view>
-			<view class="log_btn">登录</view>
+			<view class="log_btn" @tap="login">登录</view>
 		</view>
 		<view class="orthers">
 			<view class="wx_btn">微信快捷登录</view>
@@ -22,15 +22,80 @@
 </template>
 
 <script>
+	import rand from '@/common/random.js'
+	import sign from '@/common/sign.js'
+	import aes from '@/common/aes.js'
 	export default {
 		data() {
 			return {
-				userfrom: {
+				userform: {
 					username: '',
 					password: '',
 				},
 			};
-		}
+		},
+		methods: {
+			login(){
+				let globalData = {
+					appId:"1580387213331704",
+					appKey:"Sd6qkHm9o4LaVluYRX5pUFyNuiu2a8oi",
+					aesKey:"S9u978Q31NGPGc5H",
+					ivKey:"X83yESM9iShLxfwS",
+				}
+				var nonce_str = rand.getRand();//随机数
+				let postParams=[];
+				let aesPassword = aes.encrypt(this.userform.password, globalData.aesKey, globalData.ivKey);
+				postParams[0] = ['username', this.userform.username];
+				postParams[1] = ['aesPassword', aesPassword];
+				postParams[2]=["appId", globalData.appId];
+				postParams[3]=["nonce_str",nonce_str];
+				var signVal=sign.createSign(postParams, globalData.appKey);//签名
+				this.request({
+					url:'/user/login.jspx',
+					data:{
+					  username:this.userform.username,
+					  aesPassword: aesPassword,
+					  appId: globalData.appId,
+					  nonce_str:nonce_str,
+					  sign:signVal
+					},
+					complete: (res)=>{
+						console.log(res);
+						if(res.code!=200){
+							console.log(1);
+							uni.showToast({
+							  title:res.message,
+							  icon:'none'
+							})
+						}
+						if(res.code==200){
+							console.log(2);
+							uni.setStorageSync('sessionKey', res.body);
+							this.getUser(this.userform.username, res.body).then(user=>{
+								console.log(user);
+								uni.setStorageSync('user_info',user.body);
+								uni.showToast({
+								  title:'登录成功'
+								});
+								setTimeout(()=>{
+								  uni.reLaunch({
+									url:'/pages/index/index'
+								  })
+								},500)
+							}).catch((message)=>{
+								uni.showToast({
+									icon: 'none',
+									title: message
+								});
+							});
+						}
+					}
+				})
+				// uni.switchTab({
+				// 	url: '../index/index'
+				// })
+			},
+		},
 	}
 </script>
 
