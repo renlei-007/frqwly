@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "直播点播",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "ys-scroll": "/components/base/ys-scroll"
+  }
+}

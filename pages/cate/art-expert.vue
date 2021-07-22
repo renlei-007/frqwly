@@ -11,40 +11,6 @@
 			</view>
 			<view class="arts_txt">{{showText}}<text v-if="!showAll" style="color: #7666E3;margin-left: 16rpx;" @tap="getMore">展开更多</text></view>
 		</view>
-		<!-- <view class="active_detail">
-			<view class="active_detail_tab">
-				<view class="active_detail_tab_title active">评论</view>
-			</view>
-			<view class="active_detail_comment">
-				<view class="active_detail_comment_area">
-					<image class="avatar" src="../../static/user_avatar.png" mode=""></image>
-					<view class="active_detail_comment_area_box">
-						<textarea class="active_detail_comment_area_box_inp" v-model="comment" placeholder="说两句吧..." />
-						<view class="submit_btn">发布</view>
-					</view>
-				</view>
-				<view class="active_detail_comment_else">
-					<view class="all_comment">
-						<image src="../../static/active-icon/gywm.png" mode=""></image>
-						<text>全部评论</text>
-					</view>
-					<view class="right_part">
-						<view class="right_part_detail">
-							<image src="../../static/active-icon/gywm.png" mode=""></image>
-							<text>分享</text>
-						</view>
-						<view class="right_part_detail">
-							<image src="../../static/active-icon/gywm.png" mode=""></image>
-							<text>22</text>
-						</view>
-						<view class="right_part_detail">
-							<image src="../../static/active-icon/gywm.png" mode=""></image>
-							<text>收藏</text>
-						</view>
-					</view>
-				</view>
-			</view>
-		</view> -->
 		
 		<view class="blank"></view>
 		
@@ -59,6 +25,8 @@
 				</view>
 			</view>
 		</view>
+		<ys-bottom :id="id" @show="is_show = true"></ys-bottom>
+		<ys-comment v-if="is_show" :id="id" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
 	</view>
 </template>
 
@@ -67,7 +35,6 @@
 		data() {
 			return {
 				nowIndex: 0,
-				artdetail: '当前，新型冠状病毒疫情牵动着无数人的心，全国各地的医务工作者正争分夺秒地奋战在抗击疫情全国各地的医务工作者正争分夺秒地奋战在抗击疫情',
 				showText: '',
 				showAll: false,
 				Index: 0,
@@ -75,19 +42,55 @@
 				comment: '',
 				content: {},
 				artList: [],
+				is_show: false,
+				commentList: [],
 			};
 		},
 		onLoad(e) {
 			this.id = e.id
 			this.getDetail()
 			this.getArtList()
+			if(this.isLogin){
+				this.getCommentList()
+			}
 		},
 		methods: {
+			/**
+			 * 页面刷新
+			 */
+			refresh(){
+				this.page = 0;
+				this.commentList = [];
+				this.getCommentList();
+			},
+			/**
+			 * 加载更多
+			 */
+			loadMore(){
+			    this.page += 10
+				this.getCommentList();
+			},
+			close(){
+				this.is_show = false
+			},
+			getCommentList(){
+				let params = {
+					contentId: this.id, 
+					checked: 1, 
+					first: this.page, 
+					count: 10,
+				}
+				this.indexRequest({url:'/comment/list.jspx',data:params}).then(res=>{
+					console.log(res);
+					var content = res.data.body;
+					this.commentList = this.commentList.concat(content);
+				})
+			},
 			indexChange(e){
 				this.nowIndex = e.detail.current
 			},
 			getMore(){
-				this.showText = this.artdetail
+				this.showText = this.content.description
 				this.showAll = true
 			},
 			getDetail(){
@@ -138,7 +141,10 @@ page{
 }
 .art-expert{
 	background-color: #FFFFFF;
-	padding-top: 1rpx;
+	box-sizing: border-box;
+	width: 100%;
+	height: auto;
+	padding-bottom: 150rpx;
 	.arts{
 		width: 100%;
 		box-sizing: border-box;

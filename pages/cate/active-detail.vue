@@ -1,5 +1,5 @@
 <template>
-	<view class="content active-detail">
+	<view class="active-detail content">
 		<view class="main_img">
 			<image class="indeximg" :src="content.titleImg" mode=""></image>
 		</view>
@@ -7,15 +7,16 @@
 			<view class="active_title">{{content.title}}</view>
 			<view class="active_mess" style="margin-top: 16rpx;">
 				<image class="info_icon" src="/static/first_time.png" mode=""></image>
-				<text class="info_text">{{content.ticketingSetting?content.ticketingSetting.startTime:''}}至{{content.ticketingSetting?content.ticketingSetting.endTime:''}}</text>
+				<text class="info_text">{{content.ticketingSetting&&content.ticketingSetting.startTime?content.ticketingSetting.startTime:'暂无 '}}-{{content.ticketingSetting&&content.ticketingSetting.endTime?content.ticketingSetting.endTime:' 暂无'}}</text>
 			</view>
 			<view class="active_mess">
 				<image class="info_icon" src="/static/second_time.png" mode=""></image>
 				<text class="info_text">{{dateFormat(content)}}</text>
 			</view>
 			<view class="active_mess">
-				<image class="info_icon" src="/static/position.png" mode=""></image>
+				<image class="info_icon" src="/static/position.png" style="height: 34rpx;" mode=""></image>
 				<text class="info_text">{{content.attr_address || ''}}</text>
+				<view class="address_btns" @tap="openMap(content)" v-if="content.position">查看地图</view>
 			</view>
 			<view class="active_mess">
 				<image class="info_icon" src="/static/phone.png" mode=""></image>
@@ -30,7 +31,7 @@
 				</view>
 			</view>
 			<view class="tips" v-if="content.ticketingSetting">
-				<image src="../../static/tips.png" class="tips_icon" mode=""></image>
+				<image src="/static/tips.png" class="tips_icon" mode=""></image>
 				本场活动单次最多预订{{content.ticketingSetting.maxTicket}}张票，最多可预订{{content.ticketingSetting.times}}次
 			</view>
 		</view>
@@ -42,35 +43,6 @@
 			<view class="active_detail_content">
 				<rich-text :nodes="content.txt"></rich-text>
 			</view>
-			<!-- <view class="active_detail_comment" v-else>
-				<view class="active_detail_comment_area">
-					<image class="avatar" src="../../static/user_avatar.png" mode=""></image>
-					<view class="active_detail_comment_area_box">
-						<textarea class="active_detail_comment_area_box_inp" v-model="comment" placeholder="说两句吧..." />
-						<view class="submit_btn">提交</view>
-					</view>
-				</view>
-				<view class="active_detail_comment_else">
-					<view class="all_comment">
-						<image src="../../static/active-icon/gywm.png" mode=""></image>
-						<text>全部评论</text>
-					</view>
-					<view class="right_part">
-						<view class="right_part_detail">
-							<image src="../../static/active-icon/gywm.png" mode=""></image>
-							<text>分享</text>
-						</view>
-						<view class="right_part_detail">
-							<image src="../../static/active-icon/gywm.png" mode=""></image>
-							<text>22</text>
-						</view>
-						<view class="right_part_detail">
-							<image src="../../static/active-icon/gywm.png" mode=""></image>
-							<text>收藏</text>
-						</view>
-					</view>
-				</view>
-			</view> -->
 		</view>
 		<view class="tj_active">
 			<view class="tj_active_title">相关推荐</view>
@@ -86,31 +58,35 @@
 		
 		<view class="public_bottom">
 			<view class="icon_area">
-				<view class="icon_item">
+				<view class="icon_item" @tap="comment_show=true">
 					<image class="icon_img" src="/static/cate/pinglun.png" mode=""></image>
 					<text>评论</text>
 				</view>
-				<view class="icon_item">
+				<view class="icon_item" @tap="share">
 					<image class="icon_img" src="/static/cate/zhuanfa.png" mode=""></image>
 					<text>转发</text>
 				</view>
-				<view class="icon_item">
-					<image class="icon_img" src="/static/cate/dianzan.png" mode=""></image>
-					<text>点赞</text>
+				<view class="icon_item" @tap="btnFabulous">
+					<image class="icon_img" :src="isFabulous?'/static/cate/dianzan_red.png':'/static/cate/dianzan.png'" mode=""></image>
+					<text :class="{dz_red:isFabulous}">点赞</text>
 				</view>
-				<view class="icon_item">
-					<image class="icon_img" src="/static/cate/shoucang.png" mode=""></image>
-					<text>收藏</text>
+				<view class="icon_item" @tap="collection">
+					<image class="icon_img" :src="is_keep?'/static/cate/shoucang_red.png':'/static/cate/shoucang.png'" mode=""></image>
+					<text :class="{dz_red:is_keep}">收藏</text>
 				</view>
 			</view>
 			<view class="public_btn" @tap="signUp" v-if='ticketStatus == 0 && status == 0'>立即报名</view>
-			<view class="public_btn public_btn_g" v-else>{{ticketStatus==1?'即将开始':ticketStatus==2?'已结束':ticketStatus==4?'直接前往':ticketStatus==5?'人数已满':'报名次数已满'}}</view>
+			<view class="public_btn public_btn_g" v-if="ticketStatus==1">即将开始</view>
+			<view class="public_btn public_btn_g" v-if="ticketStatus==2">已结束</view>
+			<view class="public_btn public_btn_g" v-if="ticketStatus==4">直接前往</view>
+			<view class="public_btn public_btn_g" v-if="ticketStatus==5">人数已满</view>
+			<view class="public_btn public_btn_g" v-if="status==6">报名次数已满</view>
 		</view>
-		<!-- <view class="bottom_btn" @tap="signUp" :class="{'is_ing':type==1}">{{type==0?'已结束':'立即报名'}}</view> -->
+		<ys-comment v-if="comment_show" :id="id" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
 		
 		<view class="mask" v-if="is_sign" @tap="is_sign = false">
 			<view class="mask_content">
-				<image class="mask_img" src="../../static/lingdang.png" mode=""></image>
+				<image class="mask_img" src="/static/lingdang.png" mode=""></image>
 				<view class="success">报名成功，请准时参加哦~</view>
 				<view class="sign_btn">开启</view>
 				<view class="info">
@@ -122,6 +98,19 @@
 				<view class="mask_content_blank2"></view>
 			</view>
 		</view>
+		
+		<view class="mask" v-if="is_show" @tap="is_show = false">
+			<view class="mask_content">
+				<view class="point">积分明细</view>
+				<image class="mask_img" src="/static/lingdang.png" mode=""></image>
+				<view class="get_point">报名前，请进行实名认证~</view>
+				<view class="sign_btn" @tap.stop="toSign">前往</view>
+				
+				<view class="mask_content_blank1"></view>
+				<view class="mask_content_blank2"></view>
+			</view>
+		</view>
+		<ys-share ref="share" :contentHeight="580" :shareList="shareList"></ys-share>
 	</view>
 </template>
 
@@ -134,23 +123,146 @@
 				nowIndex: 0,
 				nodes: '',
 				comment: '',
-				type: 1,
 				content: {},
 				status: 0,
 				ticketStatus: 0,
 				activeList: [],
+				is_show: false,
+				comment_show: false,
+				commentList: [],
+				page: 0,
+				
+				isFabulous: false,
+				is_keep: false,
+				shareList : [{
+						type: 1,
+						icon: '/static/share_wechat.png',
+						text: '微信好友'
+					},
+					{
+						type: 2,
+						icon: '/static/share_moment.png',
+						text: '朋友圈'
+					},
+					{
+						type: 3,
+						icon: '/static/share_qq.png',
+						text: 'QQ好友'
+					},
+					{
+						type: 4,
+						icon: '/static/share_qqzone.png',
+						text: 'QQ空间'
+					}
+				],
 			};
 		},
 		onLoad(e) {
 			this.id = e.id
 			this.getDetail()
 			this.getActiveList()
+			this.getCommentList()
+			let isFabulous = uni.getStorageSync('fabulous'+this.id);
+			if(isFabulous){
+				this.isFabulous = true;
+			}
+			if(this.isLogin){
+				this.getTicketStatus()
+				
+				this.homeRequest({
+					url: '/content/collectExit',
+					method: 'GET',
+					data: {cId: this.id},
+				}).then(res=>{
+					if(res.body=='true'){
+						this.is_keep = true;
+					}else{
+						this.is_keep = false;
+					}
+				})
+			}
 		},
 		methods: {
-			signUp(){
-				if(this.type==1){
-					this.is_sign = true
+			/**
+			 * 页面刷新
+			 */
+			refresh(){
+				console.log('刷新');
+				this.page = 0;
+				this.commentList = [];
+				this.getCommentList();
+			},
+			/**
+			 * 加载更多
+			 */
+			loadMore(){
+			    console.log('上拉加载');
+			    this.page += 10
+				this.getCommentList();
+			},
+			close(){
+				this.comment_show = false
+			},
+			share(){
+				// #ifdef MP-WEIXIN
+				wx.showShareMenu();
+				// #endif
+				// #ifdef H5
+				this.$refs.share.toggleMask();	
+				// #endif
+			},
+			getCommentList(){
+				let params = {
+					contentId: this.id, 
+					checked: 1, 
+					first: this.page, 
+					count: 10,
 				}
+				this.indexRequest({url:'/comment/list.jspx',data:params}).then(res=>{
+					var content = res.data.body;
+					this.commentList = this.commentList.concat(content);
+				})
+			},
+			signUp(){
+				// this.is_show = !this.isLogin
+				// return
+				if(!this.isLogin){
+					uni.showModal({
+						title: "提示",
+						content: "您还未登录，确定先登录吗？",
+						showCancel: true,
+						confirmText: "确定",
+						success: (res)=>{
+							if (res.confirm) {
+								uni.navigateTo({
+									url: '/pages/login/login?is_thing='+true
+								})
+							} else if (res.cancel) {
+							}
+						}
+					})
+				}else{
+					let username = uni.getStorageSync('user_info').username
+					this.homeRequest({
+						url: '/user/get',
+						method: 'GET',
+						data: {username: username},
+					}).then(res=>{
+						console.log(res);
+						if(!res.body.isCertification){
+							this.is_show = true
+						}else{
+							uni.navigateTo({
+								url: './active-signin?id='+this.id
+							})
+						}
+					})
+				}
+			},
+			toSign(){
+				uni.navigateTo({
+					url: '../mine/attestation'
+				})
 			},
 			getDetail(){
 				let params = {
@@ -161,11 +273,22 @@
 					console.log(res);
 					var content = res.data.body;
 					this.content = content;
-					this.status = res.data.body.status;
+					// this.status = res.data.body.status;
 					this.ticketStatus = res.data.body.ticketingSetting.status
 					uni.setNavigationBarTitle({
 						title: content.title
 					})
+				})
+			},
+			getTicketStatus(){
+				this.homeRequest({
+					url: '/ticket/status',
+					method: 'GET',
+					data: {contentId: this.id},
+				}).then(res=>{
+					if(res.code == 200){
+						this.status = res.body.status;
+					}
 				})
 			},
 			getActiveList(){
@@ -182,18 +305,79 @@
 				})
 			},
 			dateFormat(item){
-				if(item && item.ticketingSetting){
+				if(item && item.ticketingSetting && item.ticketingSetting.registrationStart){
 					let start = item.ticketingSetting.registrationStart ? item.ticketingSetting.registrationStart.substring(0, 10) : '';
-					let end  =  item.ticketingSetting.registrationStart ? item.ticketingSetting.registrationStart.substring(0, 10) : '';
-					return start + '至' + end;
+					let end  =  item.ticketingSetting.registrationEnd ? item.ticketingSetting.registrationEnd.substring(0, 10) : '';
+					return start + '-' + end;
 				}else{
-					return '';
+					return '暂无';
 				}
 			},
 			todetail(id){
 				uni.redirectTo({
 					url: '/pages/cate/active-detail?id='+id
 				})
+			},
+			openMap(item){
+				var pos = this.bMapToQQMap(item.position.lng, item.position.lat);
+				uni.openLocation({
+					latitude: pos.lat,
+					longitude: pos.lng,
+					name: item.title,
+					address: item.attr_address
+				})
+			},
+			btnFabulous: function() {
+				if(this.isFabulous){
+					this.indexRequest({url:'/content/down',data:{contentId: this.id}}).then(res=>{
+						if(res.data.code==200){
+							this.isFabulous = false;
+							uni.removeStorageSync('fabulous'+this.id);
+							this.toast('取消点赞成功！')
+						}
+					})
+				}else{
+					this.indexRequest({url:'/content/up',data:{contentId: this.id}}).then(res=>{
+						if(res.data.code==200){
+							this.isFabulous = true;
+							uni.setStorageSync('fabulous'+this.id, true);
+							this.toast('点赞成功！')
+						}
+					})
+				}
+			},
+			collection(){
+				if(!this.isLogin){
+					uni.showModal({
+						title: "提示",
+						content: "您还未登录，确定先登录吗？",
+						showCancel: true,
+						confirmText: "确定",
+						success: (res)=>{
+							if (res.confirm) {
+								uni.navigateTo({
+									url: '/pages/login/login?is_thing='+true
+								})
+							} else if (res.cancel) {
+							}
+						}
+					})
+				}else{
+					this.homeRequest({
+						url: '/content/collect',
+						method: 'GET',
+						data: {id: this.id,operate: this.is_keep?0:1},
+					}).then(res=>{
+						if(res.code==200){
+							if(this.is_keep){
+								this.toast('取消收藏成功！')
+							}else{
+								this.toast('收藏成功！')
+							}
+							this.is_keep = !this.is_keep
+						}
+					})
+				}
 			},
 		},
 	}
@@ -205,6 +389,7 @@ page{
 }
 .active-detail{
 	width: 100%;
+	height: auto;
 	box-sizing: border-box;
 	padding-bottom: 150rpx;
 	background-color: #FFFFFF;
@@ -274,6 +459,17 @@ page{
 					color: #C61219;
 				}
 			}
+			.address_btns{
+				width: 108rpx;
+				height: 38rpx;
+				border: 1px solid #5D4ADE;
+				border-radius: 8rpx;
+				text-align: center;
+				line-height: 38rpx;
+				font-size: 22rpx;
+				color: #614DDF;
+				margin-left: 30rpx;
+			}
 		}
 		.tips{
 			width: 690rpx;
@@ -324,7 +520,8 @@ page{
 		}
 		&_content{
 			width: 100%;
-			min-height: 400rpx;
+			box-sizing: border-box;
+			padding: 30rpx 0;
 		}
 	}
 	.bottom_btn{
@@ -385,5 +582,8 @@ page{
 			}
 		}
 	}
+}
+.dz_red{
+	color: rgb(223,20,20);
 }
 </style>

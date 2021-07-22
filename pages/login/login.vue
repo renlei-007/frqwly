@@ -25,14 +25,19 @@
 	import rand from '@/common/random.js'
 	import sign from '@/common/sign.js'
 	import aes from '@/common/aes.js'
+	import Vue from 'vue'
 	export default {
 		data() {
 			return {
 				userform: {
 					username: '',
 					password: '',
+					is_thing: false,
 				},
 			};
+		},
+		onLoad(e) {
+			this.is_thing = e.is_thing
 		},
 		methods: {
 			login(){
@@ -70,22 +75,33 @@
 						}
 						if(res.code==200){
 							console.log(2);
-							uni.setStorageSync('sessionKey', res.body);
 							this.getUser(this.userform.username, res.body).then(user=>{
+								console.log(11111111);
+								uni.setStorageSync('sessionKey', res.body);
 								console.log(user);
 								uni.setStorageSync('user_info',user.body);
 								uni.showToast({
 								  title:'登录成功'
 								});
-								setTimeout(()=>{
-								  uni.reLaunch({
-									url:'/pages/index/index'
-								  })
-								},500)
+								Vue.prototype.isLogin = true
+								if(this.is_thing){
+									setTimeout(()=>{
+									  uni.navigateBack({
+										delta: 1
+									  })
+									},500)
+								}else{
+									setTimeout(()=>{
+									  uni.reLaunch({
+										url:'/pages/index/index'
+									  })
+									},500)
+								}
 							}).catch((message)=>{
+								console.log(message);
 								uni.showToast({
 									icon: 'none',
-									title: message
+									title: message.message
 								});
 							});
 						}

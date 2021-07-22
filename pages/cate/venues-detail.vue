@@ -7,7 +7,7 @@
 			<view class="venues_title">{{content.stitle}}</view>
 			<view class="venues_info">
 				<view class="venues_info_title">类别：</view>
-				<view class="venues_info_name">{{content.attr_type.length>0?content.attr_type[0]:'暂无'}}</view>
+				<view class="venues_info_name">{{content.typeName?content.typeName:'暂无'}}</view>
 			</view>
 			<view class="venues_info">
 				<view class="venues_info_title">地址：</view>
@@ -55,25 +55,28 @@
 		
 		<view class="public_bottom">
 			<view class="icon_area">
-				<view class="icon_item">
+				<view class="icon_item" @tap="comment_show=true">
 					<image class="icon_img" src="/static/cate/pinglun.png" mode=""></image>
 					<text>评论</text>
 				</view>
-				<view class="icon_item">
+				<view class="icon_item" @tap="share">
 					<image class="icon_img" src="/static/cate/zhuanfa.png" mode=""></image>
 					<text>转发</text>
 				</view>
-				<view class="icon_item">
-					<image class="icon_img" src="/static/cate/dianzan.png" mode=""></image>
-					<text>点赞</text>
+				<view class="icon_item" @tap="btnFabulous">
+					<image class="icon_img" :src="isFabulous?'/static/cate/dianzan_red.png':'/static/cate/dianzan.png'" mode=""></image>
+					<text :class="{dz_red:isFabulous}">点赞</text>
 				</view>
-				<view class="icon_item">
-					<image class="icon_img" src="/static/cate/shoucang.png" mode=""></image>
-					<text>收藏</text>
+				<view class="icon_item" @tap="collection">
+					<image class="icon_img" :src="is_keep?'/static/cate/shoucang_red.png':'/static/cate/shoucang.png'" mode=""></image>
+					<text :class="{dz_red:is_keep}">收藏</text>
 				</view>
 			</view>
-			<view class="public_btn">马上预约</view>
+			<view class="public_btn" v-if="channelId==179||channelId==180||channelId==198" @tap="bookings">马上预约</view>
+			<view class="public_btn gray" v-else>无需预约</view>
 		</view>
+		<ys-comment v-if="comment_show" :id="id" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
+		<ys-share ref="share" :contentHeight="580" :shareList="shareList"></ys-share>
 	</view>
 </template>
 
@@ -86,23 +89,116 @@
 				is_show: true,
 				content: {},
 				venuesList: [],
+				
+				comment_show: false,
+				commentList: [],
+				page: 0,
+				isFabulous: false,
+				is_keep: false,
+				shareList : [{
+						type: 1,
+						icon: '/static/share_wechat.png',
+						text: '微信好友'
+					},
+					{
+						type: 2,
+						icon: '/static/share_moment.png',
+						text: '朋友圈'
+					},
+					{
+						type: 3,
+						icon: '/static/share_qq.png',
+						text: 'QQ好友'
+					},
+					{
+						type: 4,
+						icon: '/static/share_qqzone.png',
+						text: 'QQ空间'
+					}
+				],
+				channelId: '',
 			};
 		},
 		onLoad(e) {
 			this.id = e.id
+			this.channelId = e.channelId
 			this.getDetail()
 			this.getVenuesList()
+			this.getCommentList()
+			let isFabulous = uni.getStorageSync('fabulous'+this.id);
+			if(isFabulous){
+				this.isFabulous = true;
+			}
+			if(this.isLogin){
+				
+				this.homeRequest({
+					url: '/content/collectExit',
+					method: 'GET',
+					data: {cId: this.id},
+				}).then(res=>{
+					if(res.body=='true'){
+						this.is_keep = true;
+					}else{
+						this.is_keep = false;
+					}
+				})
+			}
 		},
 		methods: {
+			/**
+			 * 页面刷新
+			 */
+			refresh(){
+				console.log('刷新');
+				this.page = 0;
+				this.commentList = [];
+				this.getCommentList();
+			},
+			/**
+			 * 加载更多
+			 */
+			loadMore(){
+			    console.log('上拉加载');
+			    this.page += 10
+				this.getCommentList();
+			},
+			close(){
+				this.comment_show = false
+			},
+			share(){
+				// #ifdef MP-WEIXIN
+				wx.showShareMenu();
+				// #endif
+				// #ifdef H5
+				this.$refs.share.toggleMask();	
+				// #endif
+			},
+			getCommentList(){
+				let params = {
+					contentId: this.id, 
+					checked: 1, 
+					first: this.page, 
+					count: 10,
+				}
+				this.indexRequest({url:'/comment/list.jspx',data:params}).then(res=>{
+					var content = res.data.body;
+					this.commentList = this.commentList.concat(content);
+				})
+			},
 			indexChange(e){
 				this.nowIndex = e.detail.current
 			},
 			getDetail(){
 				let params = {
 					format: 0,
-					contentId: this.id
 				}
-				this.indexRequest({url:'/bookings/content',data:params}).then(res=>{
+				if(this.channelId==179){
+					params.contentId = this.id
+				}else{
+					params.id = this.id
+				}
+				let url = this.channelId==179?'/bookings/content':this.channelId==180?'/content/get.jspx':'/content/get.jspx'
+				this.indexRequest({url:url,data:params}).then(res=>{
 					var content = res.data.body;
 					this.content = content;
 					uni.setNavigationBarTitle({
@@ -110,16 +206,51 @@
 					})
 				})
 			},
+			bookings(){
+				if(!this.isLogin){
+					uni.showModal({
+						title: '提示',
+						content: '您还没有登录，无法预定，确定先登录吗？',
+						success: (res) => {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: '/pages/login/login'
+								})
+							} else if (res.cancel) {
+							}
+						}
+					});
+				}else{
+					if(this.channelId==179){
+						this.homeRequest({
+							url:'/bookings/check_group',
+							method: 'GET',
+						}).then(res=>{
+							console.log(res);
+							if(res.code==200){
+								uni.navigateTo({
+									url: './venues-booking?id='+this.id+'&&channelId='+this.channelId
+								})
+							}else{
+								this.toast(res.message,'none',1500)
+							}
+						});
+					}else{
+						uni.navigateTo({
+							url: './venues-booking?id='+this.id+'&&channelId='+this.channelId
+						})
+					}
+				}
+			},
 			getVenuesList(){
 				let params = {
-					count:5,
-					channelIds: '117',
+					count:4,
+					channelIds: this.channelId,
 					sort:4
 				}
 				this.indexRequest({url:'/content/list.jspx',data:params}).then(res=>{
 					console.log(res);
 					let array = res.data.body
-					array.shift()
 					this.venuesList = array
 				})
 			},
@@ -134,8 +265,60 @@
 			},
 			todetail(id){
 				uni.redirectTo({
-					url: '/pages/cate/venues-detail?id='+id
+					url: '/pages/cate/venues-detail?id='+id+'&&channelId'+this.channelId
 				})
+			},
+			btnFabulous: function() {
+				if(this.isFabulous){
+					this.indexRequest({url:'/content/down',data:{contentId: this.id}}).then(res=>{
+						if(res.data.code==200){
+							this.isFabulous = false;
+							uni.removeStorageSync('fabulous'+this.id);
+							this.toast('取消点赞成功！')
+						}
+					})
+				}else{
+					this.indexRequest({url:'/content/up',data:{contentId: this.id}}).then(res=>{
+						if(res.data.code==200){
+							this.isFabulous = true;
+							uni.setStorageSync('fabulous'+this.id, true);
+							this.toast('点赞成功！')
+						}
+					})
+				}
+			},
+			collection(){
+				if(!this.isLogin){
+					uni.showModal({
+						title: "提示",
+						content: "您还未登录，确定先登录吗？",
+						showCancel: true,
+						confirmText: "确定",
+						success: (res)=>{
+							if (res.confirm) {
+								uni.navigateTo({
+									url: '/pages/login/login?is_thing='+true
+								})
+							} else if (res.cancel) {
+							}
+						}
+					})
+				}else{
+					this.homeRequest({
+						url: '/content/collect',
+						method: 'GET',
+						data: {id: this.id,operate: this.is_keep?0:1},
+					}).then(res=>{
+						if(res.code==200){
+							if(this.is_keep){
+								this.toast('取消收藏成功！')
+							}else{
+								this.toast('收藏成功！')
+							}
+							this.is_keep = !this.is_keep
+						}
+					})
+				}
 			},
 		},
 	}
@@ -149,7 +332,6 @@ page{
 	width: 100%;
 	overflow: auto;
 	box-sizing: border-box;
-	padding-bottom: 150rpx;
 	.venues_box{
 		margin-top: 20rpx;
 		width: 100%;
@@ -217,5 +399,11 @@ page{
 			margin-left: 6rpx;
 		}
 	}
+}
+.dz_red{
+	color: rgb(223,20,20);
+}
+.gray{
+	background: #ccc !important;
 }
 </style>

@@ -10,7 +10,7 @@
 		<!-- #endif -->
 		<view class="search_box">
 			<view class="search_box_input">
-				<image class="search_img" src="../../static/icon/search.png" mode=""></image>
+				<image class="search_img" src="/static/icon/search.png" mode=""></image>
 				<input type="text" class="search_box_input_wri" placeholder="请输入关键词搜索"/>
 			</view>
 		</view>
@@ -21,18 +21,18 @@
 		</swiper>
 		<!-- 分类轮播 -->
 		<view class="news" style="padding: 0;">
-			<ys-menu-list class="z_index" :size="116" :list="cate_list" @select="cateSelect"></ys-menu-list>
+			<ys-menu-list class="z_index" :size="104" :list="cate_list" @select="cateSelect"></ys-menu-list>
 		</view>
 		
 		<!-- 文旅资讯 -->
 		<view class="news">
 			<view class="news_title">
-				<image class="news_title_img" src="../../static/home/wlzx.png" mode=""></image>
+				<image class="news_title_img" src="/static/home/wlzx.png" mode=""></image>
 				<view class="news_title_txt">文旅资讯</view>
 			</view>
 			<view class="news_content">
 				<view class="zx_news">
-					<view class="zx_news_li" v-for="(item,index) in newsList" :key="index">
+					<view class="zx_news_li" v-for="(item,index) in newsList" :key="index" @tap="navigateTo('/pages/cate/information-detail?id='+item.id)">
 						<view class="zx_news_li_content">
 							<view class="zx_news_li_content_title">{{item.title}}</view>
 							<view class="zx_news_li_content_body">{{item.description}}</view>
@@ -48,12 +48,12 @@
 		<!-- 精彩推荐 -->
 		<view class="news">
 			<view class="news_title">
-				<image class="news_title_img" src="../../static/home/jctj.png" mode=""></image>
+				<image class="news_title_img" src="/static/home/jctj.png" mode=""></image>
 				<view class="news_title_txt">精彩推荐</view>
 			</view>
 			<view class="news_content">
 				<view class="tj_news">
-					<view class="tj_news_li" v-for="(item,index) in recommendList" :key="index">
+					<view class="tj_news_li" v-for="(item,index) in recommendList" :key="index" @tap="todetail(index,item.id)">
 						<view class="tj_news_li_img">
 							<image class="tjimgs" :src="item.titleImg" mode=""></image>
 						</view>
@@ -66,12 +66,12 @@
 		<!-- 文旅服务 -->
 		<view class="news">
 			<view class="news_title">
-				<image class="news_title_img" src="../../static/home/wlfw.png" mode=""></image>
+				<image class="news_title_img" src="/static/home/wlfw.png" mode=""></image>
 				<view class="news_title_txt">文旅服务</view>
 			</view>
 			<view class="news_content">
 				<view class="fw_news">
-					<view class="fw_news_li" v-for="(item,index) in activityList" :key="index">
+					<view class="fw_news_li" v-for="(item,index) in activityList" :key="index" @tap="gopage(item.id,index)">
 						<view class="fw_news_li_img">
 							<image class="fwimgs" :src="item.titleImg" mode=""></image>
 						</view>
@@ -136,11 +136,13 @@
 					title: '用户社团',
 					img: require('../../static/banner/yhst.png'),
 					bac: 'linear-gradient(141deg, #FDD945 0%, #FCB909 100%);',
-				},{
+				},
+				{
 					title: '数字资源',
 					img: require('../../static/banner/szzy.png'),
 					bac: 'linear-gradient(146deg, #E64F36 0%, #DF1C29 100%);',
-				},{
+				},
+				{
 					title: '数字文化馆',
 					img: require('../../static/banner/szwhg.png'),
 					bac: 'linear-gradient(138deg, #6CD6FE 0%, #33A0F8 100%);',
@@ -163,6 +165,35 @@
 					this.navigateTo('/pages/cate/art-list')
 				}else if(data.index==0&&data.key==7){
 					this.navigateTo('/pages/cate/scenic-list')
+				}else if(data.index==1&&data.key==2){
+					this.navigateTo('/pages/cate/digit-resource')
+					// this.navigateTo('/pages/cate/digital-cultural')
+				}else if(data.index==0&&data.key==6){
+					this.navigateTo('/pages/cate/nonlegacy')
+				}else if(data.index==0&&data.key==5){
+					this.navigateTo('/pages/cate/nettrain-list')
+				}else if(data.index==0&&data.key==3){
+					this.navigateTo('/pages/cate/volunteers-list')
+				}else if(data.index==0&&data.key==0){
+					this.navigateTo('/pages/cate/information-choose')
+				}else if(data.index==1&&data.key==1){
+					this.navigateTo('/pages/cate/organization-list')
+				}else if(data.index==1&&data.key==3){
+					this.navigateTo('/pages/cate/digital-cultural')
+				}
+			},
+			todetail(index,id){
+				if(index==0||index==1){
+					this.navigateTo('/pages/cate/scenic-spot?id='+id)
+				}else{
+					this.navigateTo('/pages/cate/nonlegacy-detail?id='+id)
+				}
+			},
+			gopage(id,index){
+				if(index==0||index==1){
+					this.navigateTo('/pages/cate/active-detail?id='+id)
+				}else{
+					this.navigateTo('/pages/cate/venues-detail?id='+id)
 				}
 			},
 			getList(){
@@ -184,7 +215,7 @@
 					this.activityList = this.activityList.concat(res.data.body);
 				})
 				
-				this.indexRequest({url:'/content/list.jspx',data:{channelIds:'108', count:2, orderBy:4}}).then(res=>{
+				this.indexRequest({url:'/content/list.jspx',data:{channelIds:'110', count:2, orderBy:4}}).then(res=>{
 					this.newsList = res.data.body;
 				})
 			},
@@ -195,10 +226,14 @@
 <style lang="scss">
 .content{
 	width: 100%;
+	height: auto;
 	background: #F2F5FA;
 	box-sizing: border-box;
 	/* #ifdef H5 */
 	padding-bottom: 150rpx;
+	/* #endif */
+	/* #ifdef MP-WEIXIN */
+	padding-bottom: 30rpx;
 	/* #endif */
 	.search_box{
 		width: 100%;

@@ -12,7 +12,8 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
+	@import '@/common/index.scss';
 	/*每个页面公共css */
 	/*取消滚动条*/
 	scroll-view ::-webkit-scrollbar {

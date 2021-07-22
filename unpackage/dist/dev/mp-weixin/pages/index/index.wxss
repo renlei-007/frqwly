@@ -26,8 +26,10 @@
 /* 文章场景相关 */
 .content {
   width: 100%;
+  height: auto;
   background: #F2F5FA;
   box-sizing: border-box;
+  padding-bottom: 30rpx;
 }
 .content .search_box {
   width: 100%;
@@ -79,12 +81,21 @@
   text-align: center;
   color: #fff;
 }
+.content .banner_box .swiper-recommend .img {
+  width: 100%;
+  height: 100%;
+}
+.content .banner_box .swiper-recommend .img .swiper_img {
+  width: 100%;
+  height: 100%;
+}
 .content .news {
   width: 690rpx;
   margin: 30rpx auto 0;
   box-sizing: border-box;
   padding: 0 30rpx;
   background-color: #FFFFFF;
+  border-radius: 16rpx;
 }
 .content .news_title {
   width: 100%;

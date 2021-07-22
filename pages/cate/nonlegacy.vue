@@ -1,7 +1,7 @@
 <template>
-	<view class="heritage-choose content">
+	<view class="nonlegacy content">
 		<view class="chooseway">
-			<image src="" mode=""></image>
+			<image src="/static/nonlegacy.png" mode="" @tap="gopage('/pages/cate/nonlegacy-list')"></image>
 			<image src="" mode=""></image>
 		</view>
 	</view>
@@ -13,19 +13,32 @@
 			return {
 				
 			};
-		}
+		},
+		methods: {
+			gopage(url){
+				uni.navigateTo({
+					url: url
+				})
+			},
+		},
 	}
 </script>
 
 <style lang="scss">
-.heritage-choose{
+.nonlegacy{
 	width: 100%;
 	height: 100%;
 }
 .chooseway{
+	width: 100%;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	text-align: center;
+	image{
+		width: 100%;
+		height: 280rpx;
+	}
 }
 </style>

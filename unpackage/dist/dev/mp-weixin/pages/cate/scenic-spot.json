@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "精品旅游",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "ys-bottom": "/components/base/ys-bottom",
+    "ys-comment": "/components/base/ys-comment"
+  }
+}

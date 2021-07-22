@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "ys-scroll": "/components/base/ys-scroll"
+  },
+  "component": true
+}

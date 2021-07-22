@@ -79,8 +79,8 @@
           justify-content: center;
 }
 .ys_scroll .no_data .no_data_icon {
-  width: 300rpx;
-  height: 285rpx;
+  width: 250rpx;
+  height: 210rpx;
   display: block;
 }
 .ys_scroll .no_data .text {

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "文化馆活动",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "ys-scroll": "/components/base/ys-scroll"
+  }
+}

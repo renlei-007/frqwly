@@ -58,7 +58,7 @@
         <view class="menu_list">
           <view class="menu_item" v-for="(item,key) in content" :key="key" :style="'width:'+(100/line_num)+'%;'" @tap="tapMenu(index,key)">
             <view class="icon_box" :style="'width: '+icon_size+'px;'">
-              <image :src="item.img" mode="aspectFill" class="icon" :style="'width: '+icon_size+'px;height:'+icon_size+'px;'"></image>
+              <image :src="item.img" mode="aspectFill" class="icon" style="width: 104rpx;height: 110rpx;"></image>
             </view>
             <view class="name">{{item.title}}</view>
           </view>

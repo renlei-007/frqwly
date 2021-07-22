@@ -1,5 +1,5 @@
 <template>
-	<view class="content">
+	<view class="contents">
 		<view :style="{height: tabHeight + 1 +'px'}">
 			<view :class="topFixed?'select-tab-fixed-top':'select-tab'" :style="{height: tabHeight+'px'}">
 				<view class="select-tab-item" :style="{width: itemWidth}" v-for="(item,index) in titleList" :key="index" @tap="showMenuClick(index)">

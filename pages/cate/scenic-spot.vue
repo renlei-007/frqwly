@@ -45,32 +45,8 @@
 			</view>
 		</view>
 		
-		<view class="public_bottom">
-			<view class="public_inp">
-				<image class="write" src="/static/write.png" mode=""></image>
-				<view class="public_inp_write">
-					<input type="text" v-model="comment" placeholder="说点什么吧..."/>
-				</view>
-			</view>
-			<view class="icon_area">
-				<view class="icon_item">
-					<image class="icon_img" src="/static/cate/pinglun.png" mode=""></image>
-					<text>评论</text>
-				</view>
-				<view class="icon_item" @tap="operate(1)">
-					<image class="icon_img" src="/static/cate/zhuanfa.png" mode=""></image>
-					<text>转发</text>
-				</view>
-				<view class="icon_item" @tap="operate(2)">
-					<image class="icon_img" src="/static/cate/dianzan.png" mode=""></image>
-					<text>点赞</text>
-				</view>
-				<view class="icon_item" @tap="operate(3)">
-					<image class="icon_img" src="/static/cate/shoucang.png" mode=""></image>
-					<text>收藏</text>
-				</view>
-			</view>
-		</view>
+		<ys-bottom :id="spotId" @show="is_show = true"></ys-bottom>
+		<ys-comment v-if="is_show" :id="spotId" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
 	</view>
 </template>
 
@@ -81,21 +57,52 @@
 				spotId: '',
 				content: {},
 				tourList: [],
-				comment: '',
-				isFabulous: false,//是否点赞
-				isKeep: false,//是否收藏
+				
+				commentList: [],
+				is_show: false,
+				page: 0,
 			};
 		},
 		onLoad(e) {
 			this.spotId = e.id
 			this.getDetail()
 			this.getTourList()
-			let isFabulous = uni.getStorageSync('fabulous'+this.spotId);
-			if(isFabulous){
-				this.isFabulous = true;
-			}
+			this.getCommentList()
 		},
 		methods: {
+			/**
+			 * 页面刷新
+			 */
+			refresh(){
+				console.log('刷新');
+				this.page = 0;
+				this.commentList = [];
+				this.getCommentList();
+			},
+			/**
+			 * 加载更多
+			 */
+			loadMore(){
+			    console.log('上拉加载');
+			    this.page += 10
+				this.getCommentList();
+			},
+			close(){
+				this.is_show = false
+			},
+			getCommentList(){
+				let params = {
+					contentId: this.id, 
+					checked: 1, 
+					first: this.page, 
+					count: 10,
+				}
+				this.indexRequest({url:'/comment/list.jspx',data:params}).then(res=>{
+					console.log(res);
+					var content = res.data.body;
+					this.commentList = this.commentList.concat(content);
+				})
+			},
 			getDetail(){
 				let params = {
 					format: 0,
@@ -170,6 +177,8 @@ page{
 	background-color: #FFFFFF;
 }
 .scenic-spot{
+	width: 100%;
+	height: auto;
 	box-sizing: border-box;
 	padding-bottom: 150rpx;
 	.spot_info{

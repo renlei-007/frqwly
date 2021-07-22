@@ -4,15 +4,16 @@ import rand from './random.js'
 import sign from './sign.js'
 import aes from './aes.js'
 
-const baseUrl = 'http://yuhuatestapi.culturalcloud.net'
+// const baseUrl = 'http://yuhuatestapi.culturalcloud.net'
+const baseUrl = 'http://192.168.2.149:8080/'
 var navigateTo_num = 0; //页面跳转次数,用于登录失效的跳转判断,防止多接口请求时跳转多个页面
 const img_upload_path = '/api/upload_new/image' //图片上传接口地址
-const img_upload_name = 'img' //图片上传名字
+const img_upload_name = 'uploadFile' //图片上传名字
 let globalData = {
 	appId:"1580387213331704",
 	appKey:"Sd6qkHm9o4LaVluYRX5pUFyNuiu2a8oi",
-	memberUrl: baseUrl + "/api/member",
-	url: baseUrl+"/api/front",
+	memberUrl: baseUrl + "api/member",
+	url: baseUrl+"api/front",
 	aesKey:"S9u978Q31NGPGc5H",
 	ivKey:"X83yESM9iShLxfwS",
 	https: 0,
@@ -21,8 +22,9 @@ let globalData = {
 class common {
 	constructor() {
 		//测试域名 https://sgydev.douhuomall.com 生产域名 https://shu.wiwipu.com
+		Vue.prototype.baseUrl = baseUrl
 		//Vue.prototype.domainName = 'https://sgydev.douhuomall.com'; //开发域名
-		Vue.prototype.domainName = 'http://yuhuatestapi.culturalcloud.net/api/front'; //域名
+		Vue.prototype.domainName = 'http://192.168.2.149:8080/api/front'; //域名
 		Vue.prototype.access_token = uni.getStorageSync('access_token') || '';
 		// Vue.prototype.theme = {
 		//   button_color: '#509919',
@@ -34,6 +36,8 @@ class common {
 			isLogin = true
 		}
 		Vue.prototype.isLogin = isLogin
+		Vue.prototype.isAttestation = false
+		Vue.prototype.isCertification = uni.getStorageSync('user_info').isCertification
 		this._init();
 	}
 	_init() {
@@ -44,7 +48,7 @@ class common {
 		this._getUser()
 		// this._getCfg(); //设置主题颜色
 		// this._setCurrentPages(); //执行前一个页面事件
-		// this._setUpload(); //图片上传
+		this._setUpload(); //图片上传
 		// this._setArraySlice() //数组裁剪
 		// this._setPreviewImage() //图片预览
 		// this._getRestTime(); //倒计时
@@ -211,9 +215,11 @@ class common {
 					method: 'GET',
 					success: (res) =>{
 						if(res.data.code == 201){
+							console.log(111111111);
 							resolve(res.data);
 						}else{
-							reject(res.message);
+							console.log(res);
+							reject(res.data);
 						}
 					},
 					fail: (res)=>{
@@ -411,32 +417,28 @@ class common {
 		}
 	}
 	_setUpload() {
-		Vue.prototype.upload = (path, data) => {
-			let request_url = Vue.prototype.domainName + img_upload_path;
-			data.access_token = uni.getStorageSync('access_token')
-			//获取微信小程序信息
-			// #ifdef MP-WEIXIN
-			const accountInfo = uni.getAccountInfoSync();
-			data.appid = accountInfo.miniProgram.appId
-			// #endif
-			// #ifndef MP-WEIXIN
-			data.appid = 'wx3ba5d834d90853f1'
-			// #endif
+		Vue.prototype.upload = (path) => {
+			let request_url = Vue.prototype.baseUrl + 'api/member/upload/o_upload';
+			let sessionKey = uni.getStorageSync('sessionKey');
 			return new Promise((resolve, reject) => {
 				uni.uploadFile({
 					url: request_url, //仅为示例，非真实的接口地址
 					filePath: path,
 					name: img_upload_name,
-					formData: data,
+					formData: {
+						siteIds: 1,
+						appId: globalData.appId,
+						sessionKey: sessionKey
+					},
 					success: (res) => {
 						console.log(res);
 						let data = JSON.parse(res.data)
-						if (data.error_code == 0) {
-							resolve(data.data)
+						if (data.code == 200) {
+							resolve(data)
 						} else {
 							reject()
 							uni.showToast({
-								title: data.error_msg,
+								title: data.message,
 								icon: 'none'
 							})
 						}

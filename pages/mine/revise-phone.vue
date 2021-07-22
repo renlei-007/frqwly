@@ -100,6 +100,10 @@
 				}}).then(res=>{
 					if(res.code==200){
 						this.toast('修改成功！')
+						let params = uni.getStorageSync('user_info')
+						uni.removeStorageSync('user_info')
+						params.authPhone = this.phonenumber
+						uni.setStorageSync('user_info',params)
 						setTimeout(()=>{
 							uni.navigateBack({
 								delta:1

@@ -164,10 +164,298 @@
             
         }
         ,{
-            "path" : "pages/cate/heritage-choose",
+            "path" : "pages/cate/nonlegacy",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "非遗保护",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/digit-resource",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "数字资源",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/mooc",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "慕课",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/cultural-encyclopedia",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "文化百科",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/nonlegacy-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "非遗",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/nonlegacy-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/nettrain-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "网上培训",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/nettrain-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/volunteers-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/information-choose",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "文旅体资讯",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/information-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "文旅体资讯",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/organization-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "用户社团",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/mine/myvenues",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的场馆",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/mine/myorganization",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的社团",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/digital-cultural",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "数字文化馆",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/digital-cultural-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "资讯",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/digital-active-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "文化馆活动",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/digital-active-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/digital-order-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "文化馆预约",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/policy-document",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/information-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/active-signin",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "活动报名",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/active-signin-result",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "预约结果",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/active-code",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "二维码",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/mine/my-message",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "消息",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/mine/myactive-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的活动-预约详情",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/net-library",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "电子图书",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/venues-booking",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "提交信息",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/mine/creat-organization",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "创建社团",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/mine/check-team",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "审核社团",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/mooc-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/cultural-encyclopedia-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/map/map-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "地图详情",
                 "enablePullDownRefresh": false
             }
             

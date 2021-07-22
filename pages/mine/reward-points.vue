@@ -103,7 +103,7 @@
 			 */
 			refresh(){
 				console.log('刷新');
-				this.page = 1;
+				this.page = 0;
 				this.pointList = [];
 				this.getList(this.page);
 				setTimeout(()=>{
@@ -115,7 +115,7 @@
 			 */
 			loadMore(){
 			    console.log('上拉加载');
-			    this.page++
+			    this.page += 10
 				this.getList(this.page);
 			},
 			getList(){

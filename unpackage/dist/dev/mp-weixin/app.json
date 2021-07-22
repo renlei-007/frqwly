@@ -3,7 +3,59 @@
     "pages/index/index",
     "pages/mine/mine",
     "pages/login/login",
-    "pages/map/map"
+    "pages/map/map",
+    "pages/mine/setting",
+    "pages/mine/revise-phone",
+    "pages/mine/attestation",
+    "pages/mine/feedback",
+    "pages/mine/aboutme",
+    "pages/mine/myactive",
+    "pages/cate/active-detail",
+    "pages/mine/reward-points",
+    "pages/cate/live-detail",
+    "pages/cate/art-expert",
+    "pages/cate/scenic-spot",
+    "pages/mine/comment-list",
+    "pages/cate/scenic-list",
+    "pages/cate/venues-list",
+    "pages/cate/venues-detail",
+    "pages/cate/active-list",
+    "pages/cate/art-list",
+    "pages/cate/live-list",
+    "pages/cate/volunteers-list",
+    "pages/cate/nonlegacy",
+    "pages/cate/digit-resource",
+    "pages/cate/mooc",
+    "pages/cate/cultural-encyclopedia",
+    "pages/cate/nonlegacy-list",
+    "pages/cate/nonlegacy-detail",
+    "pages/cate/nettrain-list",
+    "pages/cate/nettrain-detail",
+    "pages/cate/volunteers-detail",
+    "pages/cate/information-choose",
+    "pages/cate/information-list",
+    "pages/cate/organization-list",
+    "pages/mine/myvenues",
+    "pages/mine/myorganization",
+    "pages/cate/digital-cultural",
+    "pages/cate/digital-cultural-list",
+    "pages/cate/digital-active-list",
+    "pages/cate/digital-active-detail",
+    "pages/cate/digital-order-list",
+    "pages/cate/policy-document",
+    "pages/cate/information-detail",
+    "pages/cate/active-signin",
+    "pages/cate/active-signin-result",
+    "pages/cate/active-code",
+    "pages/mine/my-message",
+    "pages/mine/myactive-detail",
+    "pages/cate/net-library",
+    "pages/cate/venues-booking",
+    "pages/mine/creat-organization",
+    "pages/mine/check-team",
+    "pages/cate/mooc-detail",
+    "pages/cate/cultural-encyclopedia-detail",
+    "pages/map/map-detail"
   ],
   "subPackages": [],
   "window": {
@@ -14,7 +66,7 @@
   },
   "tabBar": {
     "color": "#aaa",
-    "selectedColor": "#b92121",
+    "selectedColor": "#4B44A2",
     "borderStyle": "black",
     "backgroundColor": "#fff",
     "list": [
@@ -38,6 +90,11 @@
       }
     ]
   },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "需要计算距离"
+    }
+  },
   "usingComponents": {},
-  "sitemapLocation": "sitemap7.json"
+  "sitemapLocation": "sitemap71.json"
 }

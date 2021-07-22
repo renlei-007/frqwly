@@ -1,31 +1,30 @@
 <template>
 	<view class="content mine">
-		<ys-top-bar title="个人中心"></ys-top-bar>
 		<view class="user_box">
 			<view class="user_box_b">
 				<view class="user_info_box">
 					<view class="user_img">
-						<image :src="is_login?user.userImg:'../../static/user.png'" mode=""></image>
+						<image :src="is_Login?user.userImg:'/static/user.png'" mode=""></image>
 					</view>
 					<view class="user_name_box">
-						<view class="user_name">{{is_login?user.username:'微信用户'}}</view>
-						<view class="attestation">{{is_login&&user.isCertification?'实名认证：已认证':'实名认证：未认证'}}</view>
+						<view class="user_name" @tap="toLogin">{{is_Login?user.username:'点击登录'}}</view>
+						<view class="attestation" v-if="is_Login">{{user.isCertification?'实名认证：已认证':'实名认证：未认证'}}</view>
 					</view>
 				</view>
-				<view class="sign_box" @tap="signIn">
+				<view class="sign_box" @tap="signIn" v-if="is_Login">
 					<view class="sign_box_icon">
-						<image src="../../static/sign.png" class="sign_box_icon_img" mode=""></image>
+						<image src="/static/sign.png" class="sign_box_icon_img" mode=""></image>
 					</view>
-					<view class="sign_box_text">连续签到{{is_login?user.signTimes:0}}天</view>
+					<view class="sign_box_text">连续签到{{is_Login?user.signTimes:0}}天</view>
 				</view>
 			</view>
 		</view>
 		<view class="datas_box">
 			<view class="datas_box_item" @tap="todetail(0)">
-				<view class="datas_box_item_num">{{is_login?user.score:0}}</view>
+				<view class="datas_box_item_num">{{score}}</view>
 				<view class="datas_box_item_name">积分</view>
 			</view>
-			<view class="datas_box_item">
+			<view class="datas_box_item" @tap="todetail(1)">
 				<view class="datas_box_item_num">{{messageCount}}</view>
 				<view class="datas_box_item_name">消息</view>
 			</view>
@@ -49,12 +48,12 @@
 				</view>
 			</view>
 		</view>
-		<view class="log_out" @tap="logout">退出登录</view>
+		<view class="log_out" v-if="is_Login" @tap="logout">退出登录</view>
 		
 		<view class="mask" v-if="is_sign" @tap="is_sign = false">
 			<view class="mask_content">
 				<view class="point">积分明细</view>
-				<image class="mask_img" src="../../static/money.png" mode=""></image>
+				<image class="mask_img" src="/static/money.png" mode=""></image>
 				<view class="get_point">签到得积分</view>
 				<view class="continue">你累计签到<text style="color: #FF8E19;">11</text>天，请继续保持！</view>
 				<view class="sign_btn" @tap.stop="toSign">签到</view>
@@ -67,11 +66,13 @@
 </template>
 
 <script>
+	import Vue from 'vue'
 	export default {
 		data() {
 			return {
 				is_sign: false,
 				user: {},
+				score: 0,
 				messageCount: 0,
 				commentCount: 0,
 				function_menu: [
@@ -113,70 +114,97 @@
 						src: require('../../static/active-icon/wdst.png'),
 						title: '我的社团',
 					},
-					{
-						src: require('../../static/active-icon/mkxx.png'),
-						title: '慕课学习',
-					},
 				],
-				is_login: true,
+				is_Login: false,
 			};
 		},
 		onLoad() {
-			if(uni.getStorageSync('user_info')){
-				this.user = uni.getStorageSync('user_info')
+			this.is_Login = this.isLogin
+			if(this.is_Login){
+				// this.user = uni.getStorageSync('user_info')
 				this.getMessageNumber()
-			}
-			if(JSON.stringify(this.user)=='{}'){
-				this.is_login = false
-			}else{
-				this.is_login = true
 			}
 		},
 		methods: {
 			goPage(val,index){
-				if(val=='function'){
-					switch (index){
-						case 1:
-							uni.navigateTo({
-								url: './attestation'
-							})
-							break
-						case 2:
-							uni.navigateTo({
-								url: './revise-phone'
-							})
-							break
-						case 3: 
-							uni.navigateTo({
-								url: './setting'
-							})
-							break
-						case 4:
-							uni.navigateTo({
-								url: './feedback'
-							})
-							break
-						case 5:
-							uni.navigateTo({
-								url: './aboutme'
-							})
-							break
+				if(this.is_Login){
+					if(val=='function'){
+						switch (index){
+							case 1:
+								uni.navigateTo({
+									url: './attestation'
+								})
+								break
+							case 2:
+								uni.navigateTo({
+									url: './revise-phone'
+								})
+								break
+							case 3: 
+								uni.navigateTo({
+									url: './setting'
+								})
+								break
+							case 4:
+								uni.navigateTo({
+									url: './feedback'
+								})
+								break
+							case 5:
+								uni.navigateTo({
+									url: './aboutme'
+								})
+								break
+						}
 					}
-				}
-				if(val=='active'){
-					switch (index){
-						case 0:
-							uni.navigateTo({
-								url: './myactive'
-							})
-							break
+					if(val=='active'){
+						switch (index){
+							case 0:
+								uni.navigateTo({
+									url: './myactive'
+								})
+								break
+							case 1:
+								uni.navigateTo({
+									url: './myvenues'
+								})
+								break
+							case 2:
+								uni.navigateTo({
+									url: './myorganization'
+								})
+								break
+						}
 					}
+				}else{
+					uni.showModal({
+						title: '提示',
+						content: '您还没有登录，无法查看或设置，确认要先登录吗？',
+						success: (res) => {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: '/pages/login/login'
+								})
+							} else if (res.cancel) {
+							}
+						}
+					});
 				}
+			},
+			toLogin(){
+				uni.navigateTo({
+					url: '/pages/login/login'
+				})
 			},
 			todetail(index){
 				if(index==0){
 					uni.navigateTo({
 						url: './reward-points'
+					})
+				}
+				if(index==1){
+					uni.navigateTo({
+						url: './my-message'
 					})
 				}
 				if(index==2){
@@ -186,6 +214,17 @@
 				}
 			},
 			getMessageNumber(){
+				let username = uni.getStorageSync('user_info').username
+				this.homeRequest({
+					url: '/user/get',
+					method: 'GET',
+					data: {username:username},
+				}).then(res=>{
+					console.log(res);
+					this.user = res.body
+					this.score = res.body.score
+				})
+				
 				this.homeRequest({
 					url: '/message/count',
 					method: 'GET',
@@ -222,6 +261,7 @@
 				})
 			},
 			logout(){
+				Vue.prototype.isLogin = false
 				uni.showModal({
 					title: '退出',
 					content: '确定要退出登录吗?',
@@ -242,10 +282,14 @@
 <style lang="scss" scoped>
 .content {
 	width: 100%;
+	height: auto;
 	background: #F2F5FA;
 	box-sizing: border-box;
 	/* #ifdef H5 */
 	padding-bottom: 150rpx;
+	/* #endif */
+	/* #ifdef MP-WEIXIN */
+	padding-bottom: 30rpx;
 	/* #endif */
 	.user_box {
 		width: 100%;
@@ -346,7 +390,7 @@
 		display: flex;
 		border-radius: 20rpx;
 		&_item {
-			width: 25%;
+			width: 33.33%;
 			display: flex;
 			flex-direction: column;
 			align-items: center;

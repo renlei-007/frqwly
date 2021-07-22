@@ -1,0 +1,1 @@
+<view class="nonlegacy content"><view class="chooseway"><image src="/static/nonlegacy.png" mode data-event-opts="{{[['tap',[['gopage',['/pages/cate/nonlegacy-list']]]]]}}" bindtap="__e"></image><image src mode></image></view></view>

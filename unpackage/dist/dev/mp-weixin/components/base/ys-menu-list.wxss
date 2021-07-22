@@ -26,8 +26,8 @@
 /* 文章场景相关 */
 .ys_menu_list {
   width: 690rpx;
-  margin: 30rpx auto 0;
   background-color: #FFFFFF;
+  border-radius: 16rpx;
 }
 .ys_menu_list .menu_box {
   width: 100%;
@@ -86,7 +86,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin-top: 20rpx;
+  margin-top: -20rpx;
 }
 .ys_menu_list .points_box {
   height: 5rpx;

@@ -9,20 +9,24 @@
 				</view>
 			</ys-scroll>
 		</view>
-		<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
-			<view class="scenic_box" style="box-sizing: border-box;padding: 0 30rpx;">
-				<view class="actives_point" v-for="(item,index) in activeList" :key="index">
-					<image class="actives_point_img" :src="item.titleImg" mode="" @tap="todetail(item.id)"></image>
-					<view class="actives_point_info">
-						<view class="actives_point_info_name">{{item.title}}</view>
-						<view class="actives_point_info_position">
-							<!-- <image src="/static/position.png" class="actives_point_info_position_icon" mode=""></image> -->
-							<view class="actives_point_info_position_txt">{{item.attr_address}}</view>
+		<view class="cate_box">
+			<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
+				<view class="scenic_box" style="box-sizing: border-box;padding: 0 30rpx;">
+					<view class="actives_point" v-for="(item,index) in activeList" :key="index">
+						<image class="actives_point_img" :src="item.titleImg" mode="" @tap="todetail(item.id)"></image>
+						<view class="actives_point_info" :class="{active_s:item.ticketingSetting.status==1}">
+							<view class="actives_point_info_name">{{item.title}}</view>
+							<view class="actives_point_info_position">
+								<!-- <image src="/static/position.png" class="actives_point_info_position_icon" mode=""></image> -->
+								<view class="actives_point_info_position_txt">{{item.attr_address}}</view>
+							</view>
+							<view class="actives_point_info_piao">余票{{item.ticketingSetting.num -item.ticketingSetting.currentNum}}</view>
+							<view class="is_coming" v-if="item.ticketingSetting.status==1">即将到来</view>
 						</view>
 					</view>
 				</view>
-			</view>
-		</ys-scroll>
+			</ys-scroll>			
+		</view>
 	</view>
 </template>
 
@@ -134,5 +138,18 @@ page{
 .active-list{
 	width: 100%;
 	height: 100%;
+}
+.is_coming{
+	position: absolute;
+	bottom: 20rpx;
+	right: 30rpx;
+	width: 120rpx;
+	height: 42rpx;
+	background: #FF3616;
+	border-radius: 10rpx;
+	text-align: center;
+	line-height: 42rpx;
+	font-size: 22rpx;
+	color: #FFFFFF;
 }
 </style>

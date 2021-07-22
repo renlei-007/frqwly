@@ -3,26 +3,28 @@
 		<view class="cutbox">
 			<ys-scroll :param="first_cate_param">
 				<view class="cutlist">
-					<view class="cutlist_item" :class="{'active':index==cutIndex}" v-for="(item,index) in cutList" :key="index" @tap="changeTab(index,item)">{{item}}
+					<view class="cutlist_item" :class="{'active':index==cutIndex}" v-for="(item,index) in cutList" :key="index" @tap="changeTab(index,item)">{{item.name}}
 						<view class="cate_line" v-if="cutIndex == index"></view>
 					</view>
 				</view>
 			</ys-scroll>
 		</view>
-		<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
-			<view class="scenic_box" style="box-sizing: border-box;padding: 0 30rpx;">
-				<view class="scenic_point" v-for="(item,index) in venuesList" :key="index">
-					<image class="scenic_point_img" :src="item.titleImg" mode="" @tap="todetail(item.id)"></image>
-					<view class="scenic_point_info">
-						<view class="scenic_point_info_name">{{item.stitle}}</view>
-						<view class="scenic_point_info_position">
-							<image src="/static/position.png" class="scenic_point_info_position_icon" mode=""></image>
-							<view class="scenic_point_info_position_txt">{{item.attr_address}}</view>
+		<view class="cate_box">
+			<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
+				<view class="scenic_box" style="box-sizing: border-box;padding: 0 30rpx;">
+					<view class="scenic_point" v-for="(item,index) in venuesList" :key="index">
+						<image class="scenic_point_img" :src="item.titleImg" mode="" @tap="todetail(item.id)"></image>
+						<view class="scenic_point_info">
+							<view class="scenic_point_info_name">{{item.stitle}}</view>
+							<view class="scenic_point_info_position">
+								<image src="/static/position.png" class="scenic_point_info_position_icon" mode=""></image>
+								<view class="scenic_point_info_position_txt">{{item.attr_address}}</view>
+							</view>
 						</view>
 					</view>
 				</view>
-			</view>
-		</ys-scroll>
+			</ys-scroll>
+		</view>
 	</view>
 </template>
 
@@ -30,7 +32,25 @@
 	export default {
 		data() {
 			return {
-				cutList: [],
+				cutList: [{
+					id: '198',
+					name: '剧场'
+				},{
+					id: '179',
+					name: '文化馆'
+				},{
+					id: '180',
+					name: '图书馆'
+				},{
+					id: '185',
+					name: '体育场馆'
+				},{
+					id: '183',
+					name: '镇街综合文化站'
+				},{
+					id: '184',
+					name: '和平馆'
+				},],
 				venuesList: [],
 				first_cate_param: {//一级分类滚动区域配置
 					scroll_y:false,
@@ -49,7 +69,7 @@
 			};
 		},
 		onLoad() {
-			this.getCateList()
+			// this.getCateList()
 			this.getList()
 		},
 		methods: {
@@ -76,11 +96,10 @@
 			changeTab(index,item){
 				if(this.cutIndex!=index){
 					this.cutIndex = index
-					this.type = item
 				}
-				if(index==0){
-					this.type = ''
-				}
+				// if(index==0){
+				// 	this.type = ''
+				// }
 				this.page = 0;
 				this.venuesList = [];
 				this.getList()
@@ -103,7 +122,7 @@
 			},
 			getList(){
 				let params={
-					channelIds: 117, count: 10, first: this.page, format:0, s_type: this.type,
+					channelIds: this.cutList[this.cutIndex].id, count: 10, first: this.page, format:0, s_type: this.type,
 				}
 				this.indexRequest({url:'/content/list.jspx',data:params}).then(res=>{
 					if(res.data.body.length==0&&this.venuesList.length == 0){
@@ -120,7 +139,7 @@
 			},
 			todetail(id){
 				uni.navigateTo({
-					url: '/pages/cate/venues-detail?id='+id
+					url: '/pages/cate/venues-detail?id='+id+'&&channelId='+this.cutList[this.cutIndex].id
 				})
 			},
 		},

@@ -8,16 +8,16 @@
 			:menuList="menuList"
 			@result="result">
 		</sl-filter>
-		<ys-scroll v-if="!is_choose" :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
+		<ys-scroll v-if="!is_choose" :param="param" ref = "scroll" @refresh="refresh" @loadMore = "">
 			<view class="all_scroll">
-				<view class="allpoint_li" v-for="(item,index) in pointList" :key="index">
+				<view class="allpoint_li" v-for="(item,index) in pointList" :key="index" @tap="todetail(item)">
 					<view class="allpoint_li_img">
-						
+						<image :src="item.titleImg" mode=""></image>
 					</view>
 					<view class="allpoint_li_content">
-						<view class="allpoint_li_content_title">兰园生态农庄</view>
-						<view class="allpoint_li_content_txt">地址：浏阳市金桥村</view>
-						<view class="allpoint_li_content_txt">距离：4.07KM</view>
+						<view class="allpoint_li_content_title">{{item.title}}</view>
+						<view class="allpoint_li_content_txt">地址：{{item.attr_address}}</view>
+						<view class="allpoint_li_content_txt">距离：{{calDistance(item)}}</view>
 					</view>
 				</view>
 			</view>
@@ -37,14 +37,16 @@
 				</ys-scroll>
 			</view>
 			<view class="pt_list">
-				<ys-scroll :param="pt_param" @loadMore = "loadMorePoints" ref = "scroll">
-					<view v-for="(item,index) in catePointList" :key="index">
+				<ys-scroll :param="pt_param" @loadMore = "" ref = "scroll">
+					<view v-for="(item,index) in pointList" :key="index" @tap="todetail(item)">
 						<view class="pt_item">
-							<view class="pt_item_img"></view>
+							<view class="pt_item_img">
+								<image :src="item.titleImg" mode=""></image>
+							</view>
 							<view class="pt_item_info">
-								<view class="pt_item_info_title">兰园生态农庄</view>
-								<view class="pt_item_info_txt">地址：浏阳市金桥村</view>
-								<view class="pt_item_info_txt">电话：13808435591</view>
+								<view class="pt_item_info_title">{{item.title}}</view>
+								<view class="pt_item_info_txt">地址：{{item.attr_address}}</view>
+								<view class="pt_item_info_txt">电话：{{item.attr_phone}}</view>
 							</view>
 						</view>
 					</view>
@@ -84,35 +86,8 @@ export default {
 			  scroll_y:true,
 			  scroll_x:false
 			},//商品滚动区域配置
-			cateList: [{
-				title: '文化馆',
-			},{
-				title: '街道分馆',
-			},{
-				title: '文化广场',
-			},{
-				title: '体育场馆',
-			},{
-				title: '影剧院',
-			},{
-				title: '博物馆',
-			},{
-				title: '景点',
-			},{
-				title: '社区',
-			},{
-				title: '厕所',
-			},{
-				title: '餐饮',
-			},{
-				title: '住宿',
-			},{
-				title: '娱乐',
-			},{
-				title: '旅行社',
-			},{
-				title: '其他',
-			},],
+			cateList: [],
+			points: '27.46727283131032,112.16941164086553,28.876774200707032,113.8581604412483',
 			menuList: [{
 					'title': '类别',
 					'isSort': true,
@@ -144,16 +119,15 @@ export default {
 					]
 				}
 			],
+			type: '',
+			sort: '',
+			lat: '',
+			lng: '',
 		};
 	},
 	onLoad() {
-		for(let i=0;i<10;i++){
-			this.menuList[0].detailList.push({
-				'title': '兰园生态农庄',
-				'value': i
-			})
-		}
-		this.getList()
+		this.getCateList()
+		this.getCatePointList()
 	},
 	methods: {
 		/**
@@ -161,7 +135,7 @@ export default {
 		 */
 		refresh(){
 			console.log('刷新');
-			this.page = 1;
+			this.pages = 0;
 			this.pointList = [];
 			this.getList(this.page);
 			setTimeout(()=>{
@@ -170,34 +144,132 @@ export default {
 		},
 		loadMore(){
 		    console.log('上拉加载');
-		    this.page++
-			this.getList(this.page);
+		    this.pages += 15
+			this.getCatePointList();
 		},
 		result(val) {
 			console.log(val);
+			this.cateList.map((item,index)=>{
+				if(item.title==val.type){
+					this.cate_index = index
+				}
+			})
+			this.type = val.type;
+			console.log(this.type);
+			this.sort = val.sort;
 			this.is_choose = true
-			this.catePointList = []
+			this.pointList = []
 			this.pages = 0
 			this.loadMorePoints()
 		},
 		changeCate(index){
 			this.cate_index = index
-			this.catePointList = [];
+			this.pointList = [];
+			this.type = this.cateList[index].title
+			console.log(this.type);
+			if(index==0){
+				this.type = ''
+			}
 			this.pages = 0;
-			this.loadMorePoints();
+			this.getCatePointList();
+		},
+		getCateList(){
+			let params = {
+				channelId : 147,
+			}
+			let array = []
+			this.indexRequest({url:'/model/get',data:params}).then(res=>{
+				this.cateList = [{
+					title: '全部',
+				}]
+				res.data.body.map(item=>{
+					if(item.field=='type'){
+						array = item.optValue
+						array.map((k,v)=>{
+							this.cateList.push({title: k})
+							this.menuList[0].detailList.push({title: k, value: k});
+						});
+					}
+				})
+				// this.cutList = array
+			})
 		},
 		loadMorePoints(){
-			this.pages++
-			this.getCatePointList(this.pages);
-			this.$refs.scroll.setLoadStatus('loading')
-		},
-		getList(){
-			this.pointList.push({},{},{},{},{},{},{},{},{},{})
+			this.pages += 10
+			this.getCatePointList();
+			// this.$refs.scroll.setLoadStatus('loading')
 		},
 		getCatePointList(){
-			setTimeout(()=>{
-				this.catePointList.push({},{},{},{},{},{},{},{},{},{})
-			},500)
+			let params={
+				channelIds: 147,
+				count: 25,
+				points: this.points,
+				orderBy: this.sort
+			}
+			if(this.type){
+				params['type'] = this.type
+			}
+			params['orderBy'] = this.sort
+			let position = this.getLocation()
+			position.then(res=>{
+				console.log(res);
+				this.lat = res.latitude;
+				this.lng = res.longitude;
+				params['lat'] = this.lat;
+				params['lng'] = this.lng;
+				this.indexRequest({url:'/query/position',data:params}).then(res=>{
+					console.log(res);
+					if(res.data.body.data.length == 0){
+						this.$refs.scroll.setLoadStatus('no_data');
+					}else{
+						this.$refs.scroll.setLoadStatus('more');
+					}
+					this.pointList = res.data.body.data
+				})
+			})
+		},
+		calDistance(item){
+			if(item && item.position && this.lat){
+				return this.getDistance(this.lat, this.lng, item.position.lat, item.position.lng)+'KM';
+			}
+			return '';
+		},
+		getDistance(lat1,  lng1,  lat2,  lng2){
+			var radLat1 = lat1*Math.PI / 180.0;
+			var radLat2 = lat2*Math.PI / 180.0;
+			var a = radLat1 - radLat2;
+			var  b = lng1*Math.PI / 180.0 - lng2*Math.PI / 180.0;
+			var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) +
+			Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
+			s = s *6378.137 ;// EARTH_RADIUS;
+			s = Math.round(s * 10000) / 10000;
+			return s.toFixed(2);
+		},
+		getLocation(){
+			return new Promise((resolve, reject)=>{
+				uni.getLocation({
+					type: 'wgs84',
+					success: (res)=>{
+						console.log(res);
+						resolve(res);
+					},
+					fail:(res)=>{
+						console.log(res);
+						this.toast('获取地址失败','none')
+						//没有获取到位置，使用默认地址
+						resolve({
+							latitude : 28.141998,
+							longitude : 113.044478,
+						});
+					}
+				})
+			});
+		},
+		todetail(item){
+			uni.setStorageSync('maps',item)
+			uni.navigateTo({
+				url: './map-detail?type='+this.type+'&&sort='+this.sort
+			})
 		},
 	},
 }
@@ -208,6 +280,9 @@ export default {
 	width: 100%;
 	/* #ifdef H5 */
 	height: calc(100% - 90rpx);
+	/* #endif */
+	/* #ifdef MP-WEIXIN */
+	height: 100%;
 	/* #endif */
 	.all_scroll{
 		width: 100%;
@@ -226,9 +301,15 @@ export default {
 			&_img{
 				width: 200rpx;
 				height: 112rpx;
-				background: #E5E5E5;
 				border-radius: 8rpx;
 				margin-right: 30rpx;
+				background: url(../../static/default.png) no-repeat;
+				background-size: 400rpx 224rpx;
+				background-position: -100rpx -56rpx;
+				image{
+					width: 100%;
+					height: 100%;
+				}
 			}
 			&_content{
 				width: calc(100% - 230rpx);
@@ -301,9 +382,15 @@ export default {
 				&_img{
 					width: 150rpx;
 					height: 112rpx;
-					background: #E5E5E5;
 					border-radius: 8rpx;
 					margin-right: 30rpx;
+					background: url(../../static/default.png) no-repeat;
+					background-size: 300rpx 224rpx;
+					background-position: -75rpx -56rpx;
+					image{
+						width: 100%;
+						height: 100%;
+					}
 				}
 				&_info{
 					width: calc(100% - 180rpx);

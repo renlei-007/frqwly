@@ -33,7 +33,7 @@
 					scroll_y:true,
 					background:'#F2F5FA',
 					refresher:true,
-					no_more_text:'',
+					no_more_text:'没有更多数据了~',
 					refresher_style:'black'
 				},
 				page: 0,
@@ -49,7 +49,7 @@
 			refresh(){
 				console.log('刷新');
 				this.page = 0;
-				this.activeList = [];
+				this.liveList = [];
 				this.getList();
 				setTimeout(()=>{
 				    this.$refs.scroll.endRefresh()

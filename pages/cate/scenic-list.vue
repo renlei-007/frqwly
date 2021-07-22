@@ -1,19 +1,21 @@
 <template>
 	<view class="scenic-list content">
-		<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
-			<view class="scenic_box">
-				<view class="scenic_point" v-for="(item,index) in scenicList" :key="index">
-					<image class="scenic_point_img" :src="item.titleImg" mode="" @tap="todetail(item.id)"></image>
-					<view class="scenic_point_info">
-						<view class="scenic_point_info_name">{{item.stitle}}</view>
-						<view class="scenic_point_info_position">
-							<image src="/static/position.png" class="scenic_point_info_position_icon" mode=""></image>
-							<view class="scenic_point_info_position_txt">{{item.attr_address}}</view>
+		<view class="cate_box" style="height: 100%;">
+			<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
+				<view class="scenic_box">
+					<view class="scenic_point" v-for="(item,index) in scenicList" :key="index">
+						<image class="scenic_point_img" :src="item.titleImg" mode="" @tap="todetail(item.id)"></image>
+						<view class="scenic_point_info">
+							<view class="scenic_point_info_name">{{item.stitle}}</view>
+							<view class="scenic_point_info_position">
+								<image src="/static/position.png" class="scenic_point_info_position_icon" mode=""></image>
+								<view class="scenic_point_info_position_txt">{{item.attr_address}}</view>
+							</view>
 						</view>
 					</view>
 				</view>
-			</view>
-		</ys-scroll>
+			</ys-scroll>			
+		</view>
 	</view>
 </template>
 
@@ -26,7 +28,7 @@
 					scroll_y:true,
 					background:'#F2F5FA',
 					refresher:true,
-					no_more_text:'',
+					no_more_text:'没有更多了~',
 					refresher_style:'black'
 				},
 				page: 0,
