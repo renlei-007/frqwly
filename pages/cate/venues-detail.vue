@@ -75,7 +75,7 @@
 			<view class="public_btn" v-if="channelId==179||channelId==180||channelId==198" @tap="bookings">马上预约</view>
 			<view class="public_btn gray" v-else>无需预约</view>
 		</view>
-		<ys-comment v-if="comment_show" :id="id" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
+		<ys-comment v-if="comment_show" :ids="id" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
 		<ys-share ref="share" :contentHeight="580" :shareList="shareList"></ys-share>
 	</view>
 </template>

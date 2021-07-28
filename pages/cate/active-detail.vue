@@ -82,7 +82,7 @@
 			<view class="public_btn public_btn_g" v-if="ticketStatus==5">人数已满</view>
 			<view class="public_btn public_btn_g" v-if="status==6">报名次数已满</view>
 		</view>
-		<ys-comment v-if="comment_show" :id="id" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
+		<ys-comment v-if="comment_show" :ids="id" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
 		
 		<view class="mask" v-if="is_sign" @tap="is_sign = false">
 			<view class="mask_content">

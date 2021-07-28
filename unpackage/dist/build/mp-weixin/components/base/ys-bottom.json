@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "ys-share": "/components/base/ys-share"
+  },
+  "component": true
+}

@@ -25,23 +25,15 @@
 			</view>
 			<view class="video_info_detail">
 				<view class="video_info_detail_title">{{content.title}}</view>
-				<view class="video_info_detail_txt">课程分类：{{content.typeName}}</view>
-				<view class="video_info_detail_txt">课程章节：1</view>
-				<view class="video_info_detail_txt">课程时长：</view>
-				<view class="video_info_detail_txt">课程主讲：{{content.realname}}</view>
-				<view class="video_info_detail_txt">学习人数：{{content.views+1}}</view>
+				<view class="video_info_detail_txt">发布时间：{{content.releaseDate}}</view>
+				<view class="video_info_detail_txt">观看人数：{{content.views+1}}</view>
 			</view>
-			<!-- <view class="chapters">
-				<view class="chapters_tab">
-					<view class="chapters_tab_title active">章节</view>
+			<view class="tj_active">
+				<view class="tj_active_title">视频详情</view>
+				<view class="introduce">
+					<rich-text :nodes="content.txt"></rich-text>
 				</view>
-				<view class="chapters_info">
-					<view class="chapters_info_list" v-for="(item,Index) in 4" :key="Index" :class="{'actives':chapters==Index}" @tap="chapterChange(Index)">
-						<view class="chapters_info_list_title">VTS_01_1.MP4</view>
-						<view class="chapters_info_list_free">免费</view>
-					</view>
-				</view>
-			</view> -->
+			</view>
 		</view>
 		<view class="tj_active">
 			<view class="tj_active_title">相关推荐</view>
@@ -54,8 +46,8 @@
 				</view>
 			</view>
 		</view>
-		<ys-bottom :id="id" @show="is_show = true"></ys-bottom>
-		<ys-comment v-if="is_show" :id="id" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
+		<ys-bottom :ids="id" @show="is_show = true"></ys-bottom>
+		<ys-comment v-if="is_show" :ids="id" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
 	</view>
 </template>
 

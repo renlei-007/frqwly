@@ -1,5 +1,8 @@
 <template>
 	<view class="content feedback">
+		<view class="tit_box">
+			<input type="text" v-model="title" placeholder="请输入标题" />
+		</view>
 		<view class="feedback_box">
 			<textarea class="area_font" placeholder="请输入您要反馈的问题..." maxlength="500" v-model="feedback" />
 			<view class="limit">{{limit}}/500</view>
@@ -9,12 +12,12 @@
 			<view class="img_area">
 				<image class="feedback_img" v-for="(item,index) in imgList" :key="index" :src="item" mode=""></image>
 				<view class="img_hull" @tap="addImg">
-					<image class="add_img" src="../../static/photo.png" mode=""></image>
+					<image class="add_img" src="/static/photo.png" mode=""></image>
 					<view class="add_text">添加图片</view>
 				</view>
 			</view>
 		</view>
-		<view class="submit">提交</view>
+		<view class="submit" @tap="submit">提交</view>
 	</view>
 </template>
 
@@ -24,6 +27,7 @@
 			return {
 				feedback: '',
 				imgList: [],
+				title: '',
 			};
 		},
 		computed: {
@@ -41,11 +45,33 @@
 					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
 					sourceType: ['album','camera'], //从相册选择
 					success: function (res) {
-						console.log(res);
-						_this.imgList.push(res.tempFiles[0].path)
-						console.log(_this.imgList);
+						let url = res.tempFilePaths[0]
+						_this.upload(url).then(r=>{
+							_this.imgList.push(r.body.uploadPath)
+						})
 					}
 				});
+			},
+			submit(){
+				let params = {
+					ctgId: 1,
+					title: this.title,
+					imgPath: this.imgList.toString(),
+					content: this.feedback,
+				}
+				this.homeRequest({
+					url: '/guestbook/save',
+					method: 'POST',
+					data: params,
+				}).then(res=>{
+					console.log(res);
+					if(res.code==200){
+						this.toast('反馈成功！')
+						setTimeout(()=>{
+							uni.navigateBack()
+						},1000)
+					}
+				})
 			},
 		},
 	}
@@ -61,6 +87,18 @@ page{
 	width: 100%;
 	box-sizing: border-box;
 	padding-top: 30rpx;
+	.tit_box{
+		width: 690rpx;
+		box-sizing: border-box;
+		padding: 30rpx;
+		background-color: #F2F5FA;
+		border-radius: 16rpx;
+		margin: 0 auto;
+		font-size: 28rpx;
+		input{
+			line-height: 28rpx;
+		}
+	}
 	.feedback_box{
 		width: 690rpx;
 		height: 285rpx;
@@ -68,7 +106,7 @@ page{
 		padding: 30rpx;
 		background-color: #F2F5FA;
 		border-radius: 16rpx;
-		margin: 0 auto;
+		margin: 30rpx auto 0;
 		font-size: 28rpx;
 		.area_font{
 			width: 100%;

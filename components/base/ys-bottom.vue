@@ -31,7 +31,7 @@
 <script>
 	export default {
 		props: {
-			id: [String,Number],
+			ids: [String,Number],
 			ups: 0,
 		},
 		data() {
@@ -64,7 +64,7 @@
 			};
 		},
 		mounted() {
-			let isFabulous = uni.getStorageSync('fabulous'+this.id);
+			let isFabulous = uni.getStorageSync('fabulous'+this.ids);
 			if(isFabulous){
 				this.isFabulous = true;
 			}
@@ -72,7 +72,7 @@
 				this.homeRequest({
 					url: '/content/collectExit',
 					method: 'GET',
-					data: {cId: this.id},
+					data: {cId: this.ids},
 				}).then(res=>{
 					if(res.body=='true'){
 						this.is_keep = true;
@@ -96,18 +96,18 @@
 			},
 			btnFabulous: function() {
 				if(this.isFabulous){
-					this.indexRequest({url:'/content/down',data:{contentId: this.id}}).then(res=>{
+					this.indexRequest({url:'/content/down',data:{contentId: this.ids}}).then(res=>{
 						if(res.data.code==200){
 							this.isFabulous = false;
-							uni.removeStorageSync('fabulous'+this.id);
+							uni.removeStorageSync('fabulous'+this.ids);
 							this.toast('取消点赞成功！')
 						}
 					})
 				}else{
-					this.indexRequest({url:'/content/up',data:{contentId: this.id}}).then(res=>{
+					this.indexRequest({url:'/content/up',data:{contentId: this.ids}}).then(res=>{
 						if(res.data.code==200){
 							this.isFabulous = true;
-							uni.setStorageSync('fabulous'+this.id, true);
+							uni.setStorageSync('fabulous'+this.ids, true);
 							this.toast('点赞成功！')
 						}
 					})
@@ -133,7 +133,7 @@
 					this.homeRequest({
 						url: '/content/collect',
 						method: 'GET',
-						data: {id: this.id,operate: this.is_keep?0:1},
+						data: {id: this.ids,operate: this.is_keep?0:1},
 					}).then(res=>{
 						if(res.code==200){
 							if(this.is_keep){

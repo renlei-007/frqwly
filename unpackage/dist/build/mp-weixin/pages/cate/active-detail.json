@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "ys-comment": "/components/base/ys-comment",
+    "ys-share": "/components/base/ys-share"
+  }
+}

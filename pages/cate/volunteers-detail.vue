@@ -75,7 +75,7 @@
 				<view class="public_btn public_btn_g" v-if="status == 2||status == 3">已加入社团</view>
 			</block>
 		</view>
-		<ys-comment v-if="comment_show" :id="id" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
+		<ys-comment v-if="comment_show" :ids="id" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
 		<ys-share ref="share" :contentHeight="580" :shareList="shareList"></ys-share>
 	</view>
 </template>

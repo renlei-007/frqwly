@@ -96,7 +96,7 @@ var components
 try {
   components = {
     ysScroll: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 506))
+      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 541))
     }
   }
 } catch (e) {
@@ -185,6 +185,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -200,7 +204,7 @@ var _default =
         scroll_y: true,
         background: '#F2F5FA',
         refresher: true,
-        no_more_text: '',
+        no_more_text: '没有更多了~',
         refresher_style: 'black' },
 
       type: '',

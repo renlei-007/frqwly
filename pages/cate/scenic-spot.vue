@@ -45,8 +45,8 @@
 			</view>
 		</view>
 		
-		<ys-bottom :id="spotId" @show="is_show = true"></ys-bottom>
-		<ys-comment v-if="is_show" :id="spotId" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
+		<ys-bottom :ids="spotId" @show="is_show = true"></ys-bottom>
+		<ys-comment v-if="is_show" :ids="spotId" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
 	</view>
 </template>
 

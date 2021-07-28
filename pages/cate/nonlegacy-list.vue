@@ -39,6 +39,7 @@
 					no_more_text:'没有更多了~',
 					refresher_style:'black'
 				},
+				type: '',
 				page: 0,
 				nonlegacyList: [],
 			}
@@ -128,7 +129,6 @@
 	height: 100%;
 	.cultural_box{
 		width: 100%;
-		height: 100%;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;

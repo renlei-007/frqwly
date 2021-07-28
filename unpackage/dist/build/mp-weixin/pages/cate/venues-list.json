@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "场馆服务",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "ys-scroll": "/components/base/ys-scroll"
+  }
+}

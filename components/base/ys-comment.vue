@@ -16,10 +16,6 @@
 								<view class="comment_list_center_name">{{item.commenterRealname?item.commenterRealname:item.commenterUsername}}</view>
 								<view class="comment_list_center_detail">{{item.text}}</view>
 							</view>
-							<view class="comment_list_right">
-								<image src="/static/praise.png" mode=""></image>
-								<text>{{item.ups}}</text>
-							</view>
 						</view>
 					</ys-scroll>
 				</view>
@@ -47,7 +43,7 @@
 			};
 		},
 		props: {
-			id: [Array,String],
+			ids: [Array,String],
 			commentList: {
 				type: Array,
 				default: ()=>{
@@ -76,7 +72,7 @@
 			}
 		},
 		mounted() {
-			console.log(this.id);
+			console.log(this.ids);
 			if(this.commentList.length==0){
 				this.$refs.scroll.setLoadStatus('no_data');
 				console.log(222222222);
@@ -128,11 +124,11 @@
 						this.homeRequest({
 							url: '/comment/save',
 							method: 'GET',
-							data: {contentId: this.id, text: this.text},
+							data: {contentId: this.ids, text: this.text},
 						}).then(res=>{
 							console.log(res);
 							if(res.code==201){
-								this.toast('评论成功！')
+								this.toast('评论成功！等待审核中~')
 								this.refresh()
 							}else{
 								this.toast(res.message,'none')

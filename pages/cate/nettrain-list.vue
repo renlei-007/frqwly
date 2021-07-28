@@ -47,6 +47,7 @@
 				},
 				page: 0,
 				trainList: [],
+				type: '',
 			};
 		},
 		onLoad() {

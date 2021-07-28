@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "个人设置",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "ys-picker": "/components/base/ys-picker"
+  }
+}

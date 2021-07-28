@@ -75,7 +75,7 @@
 			<view class="public_btn public_btn_g" v-if='showStatus == 1'>即将开始</view>
 			<view class="public_btn public_btn_g" v-if='showStatus == 2'>已结束</view>
 		</view>
-		<ys-comment v-if="comment_show" :id="id" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
+		<ys-comment v-if="comment_show" :ids="id" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
 		<ys-share ref="share" :contentHeight="580" :shareList="shareList"></ys-share>
 	</view>
 </template>
@@ -144,6 +144,7 @@
 						this.is_keep = false;
 					}
 				})
+				this.getStatus()
 			}
 		},
 		methods: {
@@ -175,6 +176,17 @@
 				this.$refs.share.toggleMask();	
 				// #endif
 			},
+			getStatus(){
+				this.homeRequest({
+					url: '/train/status',
+					method: 'GET',
+					data: {contentId: this.id},
+				}).then(res=>{
+					if(res.code==200){
+						this.status = res.body.status
+					}
+				})
+			},
 			signUp(){
 				if(!this.isLogin){
 					uni.showModal({
@@ -199,6 +211,7 @@
 					}).then(res=>{
 						if(res.code==200){
 							this.toast('报名成功！')
+							this.getStatus()
 							this.getDetail()
 						}else{
 							this.toast(res.message,'none')
@@ -221,6 +234,7 @@
 							}).then(res=>{
 								if(res.code==200){
 									this.toast('取消成功！','none')
+									this.getStatus()
 									this.getDetail()
 								}else{
 									this.toast('取消失败','none')

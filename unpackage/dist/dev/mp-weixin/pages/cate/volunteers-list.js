@@ -96,7 +96,7 @@ var components
 try {
   components = {
     ysScroll: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 506))
+      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 541))
     }
   }
 } catch (e) {
@@ -120,6 +120,24 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var l0 = _vm.__map(_vm.teersList, function(item, index) {
+    var $orig = _vm.__get_orig(item)
+
+    var m0 = _vm.endDate(item)
+    return {
+      $orig: $orig,
+      m0: m0
+    }
+  })
+
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        l0: l0
+      }
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -154,6 +172,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
+//
 //
 //
 //
@@ -230,6 +251,13 @@ var _default =
           }
         }
       });
+    },
+    endDate: function endDate(item) {
+      if (item && item.registrationEnd) {
+        return item.registrationEnd.substring(0, 10);
+      } else {
+        return "长期";
+      }
     },
     todetail: function todetail(id) {
       uni.navigateTo({

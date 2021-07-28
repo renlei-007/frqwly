@@ -137,7 +137,7 @@ export default {
 			console.log('刷新');
 			this.pages = 0;
 			this.pointList = [];
-			this.getList(this.page);
+			this.getCatePointList()
 			setTimeout(()=>{
 			    this.$refs.scroll.endRefresh()
 			},800)

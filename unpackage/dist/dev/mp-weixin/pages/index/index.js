@@ -96,10 +96,10 @@ var components
 try {
   components = {
     ysTopBar: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-top-bar */ "components/base/ys-top-bar").then(__webpack_require__.bind(null, /*! @/components/base/ys-top-bar.vue */ 485))
+      return __webpack_require__.e(/*! import() | components/base/ys-top-bar */ "components/base/ys-top-bar").then(__webpack_require__.bind(null, /*! @/components/base/ys-top-bar.vue */ 520))
     },
     ysMenuList: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-menu-list */ "components/base/ys-menu-list").then(__webpack_require__.bind(null, /*! @/components/base/ys-menu-list.vue */ 492))
+      return __webpack_require__.e(/*! import() | components/base/ys-menu-list */ "components/base/ys-menu-list").then(__webpack_require__.bind(null, /*! @/components/base/ys-menu-list.vue */ 527))
     }
   }
 } catch (e) {

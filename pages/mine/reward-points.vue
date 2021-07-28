@@ -11,7 +11,7 @@
 				<view class="pointbody_top_title" :class="{active: Index==0}" @tap="indexChange(0)"><text>我的积分</text></view>
 				<view class="pointbody_top_title" :class="{active: Index==1}" @tap="indexChange(1)"><text>积分规则</text></view>
 			</view>
-			<view class="pointbody_content" v-if="Index==0">
+			<view class="pointbody_content" v-if="Index==0" style="height: 780rpx;">
 				<ys-scroll :param="param" style="height: 780rpx;" ref = "scroll" @refresh="refresh" @loadMore = "loadMore" class="ys_content">
 					<view class="ys_lines">
 						<view class="lines">
@@ -82,8 +82,60 @@
 				},{
 					type: '分享',
 					point: 2,
-					tips: '每日登录记一次',
-				},],
+					tips: '每日分享记一次',
+				},{
+					type: '连续签到1-5天',
+					point: 1,
+					tips: '每次签到加1分',
+				},{
+					type: '搜索行为',
+					point: 10,
+					tips: '不累计，仅1次',
+				},{
+					type: '用户每评论一次',
+					point: 5,
+					tips: '评论审核通过加分',
+				},{
+					type: '每收藏一条资源',
+					point: 1,
+					tips: '累计1天不超过20分',
+				},{
+					type: '浏览平台资源',
+					point: 1,
+					tips: '累计1天不超过20分',
+				},{
+					type: '观看直播',
+					point: 1,
+					tips: '累计1天不超过20分',
+				},{
+					type: '抽奖',
+					point: 0,
+					tips: '不限次数',
+				},{
+					type: '参加志愿活动',
+					point: 10,
+					tips: '累计1天不超过20分',
+				},{
+					type: '场馆预定',
+					point: 5,
+					tips: '累计1天不超过20分',
+				},{
+					type: '活动预定',
+					point: 5,
+					tips: '累计1天不超过20分',
+				},{
+					type: '培训',
+					point: 5,
+					tips: '累计1天不超过20分',
+				},{
+					type: '参加社团文化',
+					point: 5,
+					tips: '累计1天不超过20分',
+				},{
+					type: '编写旅游攻略',
+					point: 10,
+					tips: '累计1天不超过20分',
+				}],
 			};
 		},
 		onLoad() {

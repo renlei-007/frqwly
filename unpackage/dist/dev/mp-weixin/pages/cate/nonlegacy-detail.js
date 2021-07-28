@@ -96,10 +96,10 @@ var components
 try {
   components = {
     ysBottom: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-bottom */ "components/base/ys-bottom").then(__webpack_require__.bind(null, /*! @/components/base/ys-bottom.vue */ 535))
+      return __webpack_require__.e(/*! import() | components/base/ys-bottom */ "components/base/ys-bottom").then(__webpack_require__.bind(null, /*! @/components/base/ys-bottom.vue */ 570))
     },
     ysComment: function() {
-      return Promise.all(/*! import() | components/base/ys-comment */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/base/ys-comment")]).then(__webpack_require__.bind(null, /*! @/components/base/ys-comment.vue */ 520))
+      return Promise.all(/*! import() | components/base/ys-comment */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/base/ys-comment")]).then(__webpack_require__.bind(null, /*! @/components/base/ys-comment.vue */ 555))
     }
   }
 } catch (e) {

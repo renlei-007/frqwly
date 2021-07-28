@@ -40,8 +40,8 @@
 				</view>
 			</view>
 		</view>
-		<ys-bottom :id="id" @show="is_show = true"></ys-bottom>
-		<ys-comment v-if="is_show" :id="id" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
+		<ys-bottom :ids="id" @show="is_show = true"></ys-bottom>
+		<ys-comment v-if="is_show" :ids="id" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
 	</view>
 </template>
 

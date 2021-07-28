@@ -1,32 +1,29 @@
 <template>
 	<view class="myvenues content">
-		<!-- <view class="cutbox">
-			<ys-scroll :param="first_cate_param">
-				<view class="cutlist">
-					<view class="cutlist_item" :class="{'active':index==cutIndex}" v-for="(item,index) in cutList" :key="index" @tap="changeTab(index,item)">{{item}}
-						<view class="cate_line" v-if="cutIndex == index"></view>
+		<ys-scroll :param="param" ref="scroll" @refresh="refresh" @loadMore = "loadMore" v-show="venuesList.length>0">
+			<view class="data_box">
+				<view class="data_list" v-for="(item,index) in venuesList" :key="index" @tap="toDetail(item.id)">
+					<view class="data_list_img">
+						<image class="data_list_img_url" :src="item.content.titleImg" mode="aspectFill"></image>
+						<text class="states" v-if="item.status == 0">审核中</text>
+						<text class="states" v-if="item.status == 1">审核通过</text>
+						<text class="states" v-if="item.status == 2">审核不通过</text>
+						<text class="states" v-if="item.status == 3">已使用</text>
+						<text class="states" v-if="item.status == 4">已取消</text>
+						<text class="states" v-if="item.status == 5">已过期</text>
+					</view>
+					<view class="data_list_info">
+						<view class="data_list_info_title">{{item.content.title}}</view>
+						<view class="data_list_info_text">预定时间:{{item.bookingDate}}</view>
+						<view class="data_list_info_text">场馆电话:{{item.content.attr_phone}}</view>
+						<view class="data_list_info_text">场馆地址：{{item.content.attr_address}}</view>
 					</view>
 				</view>
-			</ys-scroll>
-		</view> -->
-		<view class="cate_box" style="height: 100%;">
-			<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
-				<view class="venues_box">
-					<view class="venues_box_list" v-for="(item,index) in venuesList" :key="index">
-						<view class="venues_box_list_top">
-							<view class="venues_box_list_top_name">{{item.content.title}}</view>
-							<view class="venues_box_list_top_time">{{item.bookingDate}}</view>
-						</view>
-						<view class="venues_box_list_bot">
-							<view class="venues_box_list_bot_pos">
-								<image class="venues_box_list_bot_pos_icon" src="/static/position.png" mode=""></image>
-								<view class="venues_box_list_bot_pos_name">{{item.content.attr_address}}</view>
-							</view>
-							<!-- <view class="venues_box_list_bot_do">取消预约</view> -->
-						</view>
-					</view>
-				</view>
-			</ys-scroll>
+			</view>
+		</ys-scroll>
+		<view class="no_data" v-show="venuesList.length==0">
+			<image class="no_data_icon" src="/static/kong.png" mode=""></image>
+			<view class="no_data_text">空荡荡的。。。</view>
 		</view>
 	</view>
 </template>
@@ -35,12 +32,6 @@
 	export default {
 		data() {
 			return {
-				cutIndex: 0,
-				cutList: ['全部','已开始','未开始'],
-				first_cate_param: {//一级分类滚动区域配置
-					scroll_y:false,
-					scroll_x:true
-				},
 				param:{//滚动区域配置
 					scroll_y:true,
 					background:'#F2F5FA',
@@ -53,18 +44,31 @@
 				type: '',
 			};
 		},
-		onLoad() {
+		onShow() {
+			this.page = 0
+			this.venuesList = []
 			this.getList()
 		},
 		methods: {
-			changeTab(index,item){
-				if(this.cutIndex!=index){
-					this.cutIndex = index
-					this.type = item
-				}
-				if(index==0){
-					this.type = ''
-				}
+			/**
+			 * 页面刷新
+			 */
+			refresh(){
+				console.log('刷新');
+				this.page = 0;
+				this.venuesList = [];
+				this.getList();
+				setTimeout(()=>{
+				    this.$refs.scroll.endRefresh()
+				},800)
+			},
+			/**
+			 * 加载更多
+			 */
+			loadMore(){
+			    console.log('上拉加载');
+			    this.page += 10
+				this.getList();
 			},
 			getList(){
 				this.homeRequest({
@@ -85,6 +89,11 @@
 					}
 				})
 			},
+			toDetail(id){
+				uni.navigateTo({
+					url: './myvenues-detail?id='+id
+				})
+			}
 		}
 	}
 </script>
@@ -93,57 +102,66 @@
 .myvenues{
 	width: 100%;
 	height: 100%;
-	.venues_box{
-		width: 100%;
-		max-height: 100%;
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		&_list{
-			width: 690rpx;
-			box-sizing: border-box;
-			padding: 30rpx;
+	.data_box{
+		width: 690rpx;
+		margin: 0 auto;
+		.data_list{
+			width: 100%;
+			height: auto;
+			margin-top: 30rpx;
 			background-color: #FFFFFF;
-			margin: 30rpx auto 0;
-			&_top,&_bot{
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-			}
-			&_top_name{
-				font-size: 36rpx;
-				line-height: 36rpx;
-				color: #1B1C1E;
-			}
-			&_top_time{
-				font-size: 24rpx;
-				line-height: 36rpx;
-				color: #8B8B9C;
-			}
-			&_bot_pos{
-				display: flex;
-				&_icon{
-					width: 20rpx;
-					height: 24rpx;
-					margin-right: 16rpx;
+			&_img{
+				width: 100%;
+				height: 300rpx;
+				border-radius: 10rpx;
+				position: relative;
+				&_url{
+					width: 100%;
+					height: 100%;
 				}
-				&_name{
-					font-size: 24rpx;
-					line-height: 24rpx;
-					color: #8B8B9C;
+				.states{
+					height: 54rpx;
+					line-height: 54rpx;
+					box-sizing: border-box;
+					padding: 0 20rpx;
+					font-size: 26rpx;
+					position: absolute;
+					right: 10rpx;
+					bottom: 10rpx;
+					background-color: #b92121;
+					color: #FFFFFF;
 				}
 			}
-			&_bot_do{
-				margin-top: 20rpx;
-				width: 128rpx;
-				height: 44rpx;
-				border: 1px solid #6952E1;
-				border-radius: 28rpx;
-				text-align: center;
-				line-height: 44rpx;
-				font-size: 20rpx;
-				color: #6952E1;
+			&_info{
+				width: 100%;
+				box-sizing: border-box;
+				padding: 30rpx;
+				&_title{
+					font-size: 30rpx;
+					line-height: 50rpx;
+					color: #000010;
+				}
+				&_text{
+					color: #666;
+					font-size: 26rpx;
+					line-height: 46rpx;
+				}
 			}
+		}
+	}
+	.no_data{
+		width: 100%;
+		position: relative;
+		text-align: center;
+		&_icon{
+			width: 340rpx;
+			height: 270rpx;
+			margin: 244rpx auto 0;
+		}
+		&_text{
+			font-size: 32rpx;
+			color: #4192FA;
+			margin: 48rpx 0 0;
 		}
 	}
 }

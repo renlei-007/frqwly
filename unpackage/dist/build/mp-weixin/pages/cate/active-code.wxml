@@ -1,0 +1,1 @@
+<view class="active-code content"><image class="active_code_img" src="{{baseUrl+'/special/o_create_dimensioncode.jspx?content='+$root.m0}}" mode></image></view>

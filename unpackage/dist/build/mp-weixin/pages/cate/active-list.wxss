@@ -1,0 +1,1 @@
+page{background-color:#f2f5fa}.active-list{width:100%;height:100%}.is_coming{position:absolute;bottom:20rpx;right:30rpx;width:120rpx;height:42rpx;background:#ff3616;border-radius:10rpx;text-align:center;line-height:42rpx;font-size:22rpx;color:#fff}

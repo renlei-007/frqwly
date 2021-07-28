@@ -21,7 +21,11 @@
 								<view class="actives_point_info_position_txt">{{item.attr_address}}</view>
 							</view>
 							<view class="actives_point_info_piao">余票{{item.ticketingSetting.num -item.ticketingSetting.currentNum}}</view>
-							<view class="is_coming" v-if="item.ticketingSetting.status==1">即将到来</view>
+							<view class="is_coming" v-if='item.ticketingSetting.status == 0'>可预约</view>
+							<view class="is_coming" v-if='item.ticketingSetting.status == 1'>即将开始</view>
+							<view class="is_coming" v-if='item.ticketingSetting.status == 2'>已结束</view>
+							<view class="is_coming" v-if='item.ticketingSetting.status == 4'>直接前往</view>
+							<view class="is_coming" v-if='item.ticketingSetting.status == 5'>人数已满</view>
 						</view>
 					</view>
 				</view>
@@ -45,7 +49,7 @@
 					scroll_y:true,
 					background:'#F2F5FA',
 					refresher:true,
-					no_more_text:'',
+					no_more_text:'没有更多了~',
 					refresher_style:'black'
 				},
 				type: '',
@@ -139,11 +143,13 @@ page{
 	width: 100%;
 	height: 100%;
 }
+.actives_point_info{
+	padding-bottom: 70rpx !important;
+}
 .is_coming{
 	position: absolute;
 	bottom: 20rpx;
-	right: 30rpx;
-	width: 120rpx;
+	right: 10rpx;
 	height: 42rpx;
 	background: #FF3616;
 	border-radius: 10rpx;
@@ -151,5 +157,7 @@ page{
 	line-height: 42rpx;
 	font-size: 22rpx;
 	color: #FFFFFF;
+	box-sizing: border-box;
+	padding: 0 20rpx;
 }
 </style>

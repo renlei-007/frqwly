@@ -163,12 +163,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 var _default =
 {
   data: function data() {
     return {
       feedback: '',
-      imgList: [] };
+      imgList: [],
+      title: '' };
 
   },
   computed: {
@@ -186,11 +190,33 @@ var _default =
         sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album', 'camera'], //从相册选择
         success: function success(res) {
-          console.log(res);
-          _this.imgList.push(res.tempFiles[0].path);
-          console.log(_this.imgList);
+          var url = res.tempFilePaths[0];
+          _this.upload(url).then(function (r) {
+            _this.imgList.push(r.body.uploadPath);
+          });
         } });
 
+    },
+    submit: function submit() {var _this2 = this;
+      var params = {
+        ctgId: 1,
+        title: this.title,
+        imgPath: this.imgList.toString(),
+        content: this.feedback };
+
+      this.homeRequest({
+        url: '/guestbook/save',
+        method: 'POST',
+        data: params }).
+      then(function (res) {
+        console.log(res);
+        if (res.code == 200) {
+          _this2.toast('反馈成功！');
+          setTimeout(function () {
+            uni.navigateBack();
+          }, 1000);
+        }
+      });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

@@ -11,11 +11,11 @@
 		</view>
 		<view class="orthers">
 			<view class="wx_btn">微信快捷登录</view>
-			<view class="circle"></view>
+			<button class="circle" hover-class="none" open-type="getUserInfo" lang="zh_CN" @getuserinfo="goBindTel"></button>
 			<view class="action">
-				<text>找回密码</text>
+				<text @tap="toforget">找回密码</text>
 				<text class="space">|</text>
-				<text>注册账号</text>
+				<text @tap="toReg">注册账号</text>
 			</view>
 		</view>
 	</view>
@@ -40,6 +40,73 @@
 			this.is_thing = e.is_thing
 		},
 		methods: {
+			goBindTel(e){
+				let userInfo = e.detail.userInfo;
+				console.log(userInfo);
+				uni.login({
+					provider: 'weixin',
+					success: (loginRes) => {
+						console.log(loginRes)
+						this.doLogin(userInfo,loginRes.code)
+					},
+					fail: (err)=>{
+						console.log(err);
+					}
+				});
+			},
+			doLogin(userInfo, code){
+				let globalData = {
+					appId:"1580387213331704",
+					appKey:"Sd6qkHm9o4LaVluYRX5pUFyNuiu2a8oi",
+					aesKey:"S9u978Q31NGPGc5H",
+					ivKey:"X83yESM9iShLxfwS",
+				}
+				var nickName = userInfo.nickName;
+				var avatarUrl = userInfo.avatarUrl;
+				var gender = userInfo.gender; //性别 0：未知、1：男、2：女
+				var province = userInfo.province;
+				var city = userInfo.city;
+				var country = userInfo.country?userInfo.country:"";
+				var nonce_str = rand.getRand();//随机数
+				let postParams = [];
+				let shareCode = uni.getStorageSync('shareCode');
+				postParams[0]=["js_code", code];
+				postParams[1]=["grant_type","authorization_code"];
+				postParams[2]=["appId", globalData.appId];
+				postParams[3]=["nonce_str",nonce_str];
+				postParams[4]=["nickName",nickName];
+				postParams[5]=["avatarUrl",avatarUrl];
+				postParams[6]=["province",province];
+				postParams[7]=["city",city];
+				postParams[8]=["country",country];
+				postParams[9]=['shareCode', shareCode];
+				var signVal=sign.createSign(postParams, globalData.appKey);//签名
+				
+				this.request({
+					url:'api/front/user/weixinLogin.jspx',
+					data:{
+						js_code: code,
+						grant_type:'authorization_code',
+						appId: appId,
+						nonce_str:nonce_str,
+						nickName:nickName,
+						avatarUrl:avatarUrl,
+						province:province,
+						city:city,
+						country:country,
+						shareCode: shareCode,
+						sign:signVal
+					},
+					complete: (res)=>{
+						console.log(res);
+						if(res.code==200){
+							
+						}
+					}
+				})
+				
+				
+			},
 			login(){
 				let globalData = {
 					appId:"1580387213331704",
@@ -58,11 +125,11 @@
 				this.request({
 					url:'/user/login.jspx',
 					data:{
-					  username:this.userform.username,
-					  aesPassword: aesPassword,
-					  appId: globalData.appId,
-					  nonce_str:nonce_str,
-					  sign:signVal
+						username:this.userform.username,
+						aesPassword: aesPassword,
+						appId: globalData.appId,
+						nonce_str:nonce_str,
+						sign:signVal
 					},
 					complete: (res)=>{
 						console.log(res);
@@ -110,6 +177,16 @@
 				// uni.switchTab({
 				// 	url: '../index/index'
 				// })
+			},
+			toReg(){
+				uni.navigateTo({
+					url: './register'
+				})
+			},
+			toforget(){
+				uni.navigateTo({
+					url: './forget'
+				})
 			},
 		},
 	}

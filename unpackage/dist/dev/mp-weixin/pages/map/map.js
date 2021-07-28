@@ -96,10 +96,10 @@ var components
 try {
   components = {
     slFilter: function() {
-      return __webpack_require__.e(/*! import() | components/sl-filter/sl-filter */ "components/sl-filter/sl-filter").then(__webpack_require__.bind(null, /*! @/components/sl-filter/sl-filter.vue */ 499))
+      return __webpack_require__.e(/*! import() | components/sl-filter/sl-filter */ "components/sl-filter/sl-filter").then(__webpack_require__.bind(null, /*! @/components/sl-filter/sl-filter.vue */ 534))
     },
     ysScroll: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 506))
+      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 541))
     }
   }
 } catch (e) {
@@ -175,7 +175,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var slFilter = function slFilter() {__webpack_require__.e(/*! require.ensure | components/sl-filter/sl-filter */ "components/sl-filter/sl-filter").then((function () {return resolve(__webpack_require__(/*! @/components/sl-filter/sl-filter.vue */ 499));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var slFilter = function slFilter() {__webpack_require__.e(/*! require.ensure | components/sl-filter/sl-filter */ "components/sl-filter/sl-filter").then((function () {return resolve(__webpack_require__(/*! @/components/sl-filter/sl-filter.vue */ 534));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -314,7 +314,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log('刷新');
       this.pages = 0;
       this.pointList = [];
-      this.getList(this.page);
+      this.getCatePointList();
       setTimeout(function () {
         _this.$refs.scroll.endRefresh();
       }, 800);

@@ -12,7 +12,7 @@
 			<view class="input_box_item">
 				<view class="input_box_item_name">手机号码</view>
 				<view class="input_box_item_write">
-					<input type="text" class="inp" placeholder="请输入手机号码" disabled v-model="userInfo.phone || userInfo.authPhone" />
+					<input type="text" class="inp" placeholder="请输入手机号码" v-model="phone" />
 				</view>
 			</view>
 			<view class="input_box_item input_box_item_more" @tap="selected(0)" v-if="channelId!=198">
@@ -27,19 +27,19 @@
 					<input type="text" class="inp" placeholder="预定时段" disabled v-model="slot" />
 				</view>
 			</view>
-			<view class="input_box_item">
+			<view class="input_box_item" v-if="channelId!=198">
 				<view class="input_box_item_name">预订联系人</view>
 				<view class="input_box_item_write">
 					<input type="text" class="inp" placeholder="预订联系人" v-model="contacts" />
 				</view>
 			</view>
-			<view class="input_box_item">
+			<view class="input_box_item" v-if="channelId!=198">
 				<view class="input_box_item_name">使用者</view>
 				<view class="input_box_item_write">
 					<input type="text" class="inp" placeholder="请输入使用者" v-model="user" />
 				</view>
 			</view>
-			<view class="input_box_item">
+			<view class="input_box_item" v-if="channelId!=198">
 				<view class="input_box_item_name">预定用途</view>
 				<view class="input_box_item_write">
 					<input type="text" class="inp" placeholder="请输入预定用途" v-model="purpose" />
@@ -61,15 +61,20 @@
 					</view>
 				</view>
 			</view>
+			<view class="input_box_item" v-if="channelId==198">
+				<view class="input_box_item_name">最多选座</view>
+				<view class="input_box_item_write">
+					<input type="text" class="inp" disabled v-model="content.seatSetting.maxScheduled" />
+				</view>
+			</view>
 			<view class="input_box_items" style="border-bottom: none;" v-if="channelId==198">
 				<view class="input_box_item_name">选择座位</view>
 			</view>
-			<view class="choose_seat" v-if="channelId==198">
+			<view class="choose_seat" :style="{'height':height+'rpx',}" v-if="channelId==198">
 				<movable-area scale-area class="movable-area" :style="'height'+height+'rpx;'">
 					<movable-view
 						class="movable-view"
 						direction="all"
-						@scale="onScale"
 						out-of-bounds="true"
 						scale="true"
 						scale-min="1"
@@ -84,17 +89,21 @@
 									<image src="/static/seat_no.png" v-if="ite==2" mode=""></image>
 									<image src="/static/seat_choose.png" v-if="ite==3" mode="" @tap="chooseSet(index,ind)"></image>
 									<image src="" v-show="ite==-1" mode=""></image>
-									<text v-if="ite!=-1">{{maxScheduled[index][ind]}}</text>
 								</view>
 							</view>
 						</view>
 					</movable-view>
 				</movable-area>
+				<view class="choose_seat_hover">
+					<view class="choose_seat_hover_num" v-for="(item,index) in tipArray" :key="index">
+						<text v-show="notSeatArr.indexOf(index)==-1">{{item+1}}</text>
+					</view>
+				</view>
 			</view>
-			<view class="input_box_item" v-if="channelId==198">
+			<view class="input_box_item" style="height: auto;box-sizing: border-box;padding: 30rpx 0;" v-if="channelId==198">
 				<view class="input_box_item_name">选择座位</view>
-				<view class="input_box_item_choose">
-					<view class="input_box_item_choose_list" v-for="(item,index) in seatsList" :key="index"></view>
+				<view class="input_box_item_choose" style="width: calc(100% - 180rpx);">
+					<view class="input_box_item_choose_list" v-for="(item,index) in seatsList" :key="index">{{item.name}}</view>
 				</view>
 			</view>
 			<view class="cu-form-group">
@@ -140,6 +149,7 @@
 				seatArray: [],
 				maxTicket: 0,
 				seatsList: [],
+				chooseSets: [],
 				
 				rule:`
 					<div style="width:100%">
@@ -158,6 +168,9 @@
 				teamList: [],
 				memberList: [],
 				channelId: '',
+				notSeatArr: [],
+				tipArray: [],
+				height: '',
 			};
 		},
 		computed: {
@@ -176,16 +189,17 @@
 							is_reduce = true
 						}
 						array[index][ind] = index+1+'-'+(ind+1-num)
-						if(!is_reduce&&ind==(item.length-1)){
-							array[index][ind] = index+'-'+(ind+1-num)
-						}
 					})
+					if(!is_reduce&&ind==(item.length-1)){
+						array[index][ind] = index+'-'+(ind+1-num)
+					}
 				})
 				return array
+				
 			},
-			height(){
-				return this.seatArray.length*82
-			},
+			// height(){
+			// 	return this.seatArray.length*40+60
+			// },
 		},
 		onLoad(e) {
 			this.id = e.id
@@ -195,39 +209,54 @@
 				this.getTeam()
 			}
 			this.userInfo = uni.getStorageSync('user_info')
+			this.phone = this.userInfo.phone || this.userInfo.authPhone
 		},
 		methods: {
 			dblclick() {
 				console.log(111111111);
 				if (this.scale == 2) {
 					this.scale = 1;
-					console.log(222222222);
 				} else {
 					this.scale = 2;
-					console.log(333333333);
 				}
 			},
-			chooseSet(index,ind){
-				if(this.seatArray[index][ind]==0){
+			chooseSet(value,ind){
+				console.log(ind);
+				if(this.seatArray[value][ind]==0){
 					let num = 0
-					this.seatArray.map(item=>{
-						item.map(ite=>{
+					let colArr = []
+					this.seatArray.map((item,index)=>{
+						item.map((ite,e)=>{
 							if(ite==3){
 								num++
+							}
+							if(index==value&&ite==-1){
+								colArr.push(e)
 							}
 						})
 					})
 					if(num==this.maxTicket){
 						return
 					}
-					this.seatsList.push(index+'-'+ind)
-					this.$set(this.seatArray[index],ind,3)
+					let _val = ind+1
+					console.log(ind);
+					colArr.map(item=>{
+						if(ind>item){
+							console.log(_val);
+							_val--
+						}
+					})
+					this.seatsList.push({index:value+'-'+ind,name:this.tipArray[value]+1+'排'+(_val)+'座'})
+					this.$set(this.seatArray[value],ind,3)
+					console.log(this.notSeatArr);
 				}else{
-					// this.seatsList.splice()
-					this.$set(this.seatArray[index],ind,0)
+					this.seatsList.map((item,x)=>{
+						if(item.index==value+'-'+ind){
+							this.seatsList.splice(x,1)
+						}
+					})
+					this.$set(this.seatArray[value],ind,0)
 				}
-				// this.seatArray[index][ind] = this.seatArray[index][ind]==0?3:0
-				console.log(this.seatArray[index][ind]);
 			},
 			selected(val){//调起选择器组件
 				this.Index = val
@@ -302,7 +331,34 @@
 					this.phone = res.data.body.phone||res.data.body.authPhone
 					if(this.channelId==198){
 						this.seatArray = content.seatSetting.seatArray
+						this.height = content.seatSetting.seatArray.length*40+60
+						console.log(this.height);
 						this.maxTicket = content.seatSetting.maxScheduled
+						res.data.body.seatSetting.seatArray.map((item,index)=>{
+							this.tipArray.push(index)
+							let _num = 0
+							let is_reduce = false
+							item.map(ite=>{
+								if(ite!=-1){
+									is_reduce = true
+								}
+							})
+							if(!is_reduce){
+								this.notSeatArr.push(index)
+							}
+						})
+						this.notSeatArr.map((item,index)=>{
+							let val = 10000
+							this.tipArray.map((ite,ind)=>{
+								if(item==ite){
+									val = item
+									return
+								}
+								if(ind>val){
+									this.tipArray[ind] = this.tipArray[ind]-1
+								}
+							})
+						})
 					}
 					if(this.channelId!=198){
 						res.data.body.bookingDates.map((item,index)=>{
@@ -323,18 +379,27 @@
 				year = new Date().getFullYear()
 				day = this.date.split('.')
 				date = year+'-'+day[0]+'-'+day[1]
-				console.log(date);
-				let params = {
-					contentId: this.id,
-					bookingDate: date,
-					slot: this.slot,
-					phone: this.userInfo.authPhone||this.userInfo.phone,
-					contact: this.contacts,
-					userName: this.user,
-					purpose: this.purpose,
-					remark: this.remark,
-				}
+				console.log(this.date);
+				let params
 				let url,ids
+				if(this.channelId!=198){
+					if(!this.date){
+						this.toast('请选择时间!','none')
+						return
+					}
+					if(!this.slot){
+						this.toast('请选择时段!','none')
+						return
+					}
+					if(!this.phone){
+						this.toast('请输入号码！','none')
+						return
+					}
+					if(!this.contacts){
+						this.toast('请输入预定联系人！','none')
+						return
+					}
+				}
 				if(this.channelId == 179){
 					url = '/bookings/add_group'
 					let arr = []
@@ -344,9 +409,42 @@
 						}
 					})
 					ids = arr.toString()
-					params.ids = ids
+					params = {
+						contentId: this.id,
+						bookingDate: date,
+						slot: this.slot,
+						phone: this.userInfo.authPhone||this.userInfo.phone,
+						contact: this.contacts,
+						userName: this.user,
+						purpose: this.purpose,
+						remark: this.remark,
+						ids: ids
+					}
+				}else if(this.channelId==198){
+					url = '/theatre/add'
+					let arr = []
+					this.seatsList.map(item=>{
+						arr.push(item.index)
+					})
+					params = {
+						contentId: this.id,
+						phone: this.phone,
+						remark: this.remark,
+						seats: arr.toString()
+					}
+					
 				}else{
 					url = '/bookings/add'
+					params = {
+						contentId: this.id,
+						bookingDate: date,
+						slot: this.slot,
+						phone: this.userInfo.authPhone||this.userInfo.phone,
+						contact: this.contacts,
+						userName: this.user,
+						purpose: this.purpose,
+						remark: this.remark,
+					}
 				}
 				this.homeRequest({
 					url: url,
@@ -506,31 +604,49 @@ page{
 			width: 100%;
 			height: 600rpx;
 			box-sizing: border-box;
-			padding: 30rpx 0;
+			padding: 30rpx 0 30rpx 30rpx;
+			background-color: #ccc;
+			position: relative;
+			&_hover{
+				position: absolute;
+				left: -10rpx;
+				top: 29rpx;
+				color: #FFFFFF;
+				width: auto;
+				text-align: center;
+				&_num{
+					width: 50rpx;
+					height: 40rpx;
+					line-height: 40rpx;
+					font-size: 24rpx;
+				}
+			}
 			.movable-area{
-				width: 100%;
+				width: auto;
 				height: 100%;
-				overflow: hidden;
-				.seat_box{
-					width: 690rpx;
-					height: 500rpx;
-					&_row{
-						width: 100%;
-						height: 82rpx;
-						display: flex;
-						&_col{
-							min-width: 82rpx;
-							height: 82rpx;
-							box-sizing: border-box;
-							padding: 5rpx;
-							image{
-								width: 48rpx;
-								height: 48rpx;
-							}
-							text{
-								font-size: 24rpx;
-								display: block;
-								line-height: 24rpx;
+				overflow: auto;
+				.movable-view{
+					.seat_box{
+						width: 660rpx;
+						height: 500rpx;
+						&_row{
+							width: 100%;
+							height: 40rpx;
+							display: flex;
+							&_col{
+								min-width: 40rpx;
+								height: 40rpx;
+								box-sizing: border-box;
+								padding: 5rpx;
+								image{
+									width: 30rpx;
+									height: 30rpx;
+								}
+								text{
+									font-size: 24rpx;
+									display: block;
+									line-height: 24rpx;
+								}
 							}
 						}
 					}

@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "我的收藏",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "ys-scroll": "/components/base/ys-scroll",
+    "ys-swipe-action": "/components/base/ys-swipe-action"
+  }
+}

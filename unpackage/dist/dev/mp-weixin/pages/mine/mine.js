@@ -271,7 +271,12 @@ var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _i
 //
 //
 var _default = { data: function data() {return { is_sign: false, user: {}, score: 0, messageCount: 0, commentCount: 0, function_menu: [{ src: __webpack_require__(/*! ../../static/active-icon/wdsc.png */ 41), title: '我的收藏' }, { src: __webpack_require__(/*! ../../static/active-icon/smrz.png */ 42), title: '实名认证' }, { src: __webpack_require__(/*! ../../static/active-icon/xgsj.png */ 43), title: '修改手机' }, { src: __webpack_require__(/*! ../../static/active-icon/grsz.png */ 44), title: '个人设置' }, { src: __webpack_require__(/*! ../../static/active-icon/yjfk.png */ 45), title: '意见反馈' }, { src: __webpack_require__(/*! ../../static/active-icon/gywm.png */ 46), title: '关于我们' }], active_menu: [{ src: __webpack_require__(/*! ../../static/active-icon/wdhd.png */ 47), title: '我的活动' }, { src: __webpack_require__(/*! ../../static/active-icon/wdcg.png */ 48), title: '我的场馆' }, { src: __webpack_require__(/*! ../../static/active-icon/wdst.png */ 49), title: '我的社团' }], is_Login: false };}, onLoad: function onLoad() {this.is_Login = this.isLogin;if (this.is_Login) {// this.user = uni.getStorageSync('user_info')
-      this.getMessageNumber();}}, methods: { goPage: function goPage(val, index) {if (this.is_Login) {if (val == 'function') {switch (index) {case 1:uni.navigateTo({ url: './attestation' });break;
+      this.getMessageNumber();}}, methods: { goPage: function goPage(val, index) {if (this.is_Login) {if (val == 'function') {switch (index) {case 0:uni.navigateTo({ url: './my-collection' });break;
+            case 1:
+              uni.navigateTo({
+                url: './attestation' });
+
+              break;
             case 2:
               uni.navigateTo({
                 url: './revise-phone' });
@@ -329,11 +334,29 @@ var _default = { data: function data() {return { is_sign: false, user: {}, score
       }
     },
     toLogin: function toLogin() {
+      if (this.isLogin) {
+        return false;
+      }
       uni.navigateTo({
         url: '/pages/login/login' });
 
     },
     todetail: function todetail(index) {
+      if (!this.is_Login) {
+        uni.showModal({
+          title: '提示',
+          content: '您还没有登录，无法查看或设置，确认要先登录吗？',
+          success: function success(res) {
+            if (res.confirm) {
+              uni.navigateTo({
+                url: '/pages/login/login' });
+
+            } else if (res.cancel) {
+            }
+          } });
+
+        return;
+      }
       if (index == 0) {
         uni.navigateTo({
           url: './reward-points' });

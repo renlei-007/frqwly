@@ -180,8 +180,75 @@ var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _i
 //
 //
 //
-var _default = { data: function data() {return { userform: { username: '', password: '', is_thing: false } };}, onLoad: function onLoad(e) {this.is_thing = e.is_thing;}, methods: { login: function login() {var _this = this;var globalData = { appId: "1580387213331704", appKey: "Sd6qkHm9o4LaVluYRX5pUFyNuiu2a8oi", aesKey: "S9u978Q31NGPGc5H", ivKey: "X83yESM9iShLxfwS" };var nonce_str = _random.default.getRand(); //随机数
-      var postParams = [];var aesPassword = _aes.default.encrypt(this.userform.password, globalData.aesKey, globalData.ivKey);
+var _default = { data: function data() {return { userform: { username: '', password: '', is_thing: false } };}, onLoad: function onLoad(e) {this.is_thing = e.is_thing;}, methods: { goBindTel: function goBindTel(e) {var _this = this;var userInfo = e.detail.userInfo;console.log(userInfo);uni.login({ provider: 'weixin', success: function success(loginRes) {console.log(loginRes);_this.doLogin(userInfo, loginRes.code);},
+        fail: function fail(err) {
+          console.log(err);
+        } });
+
+    },
+    doLogin: function doLogin(userInfo, code) {
+      var globalData = {
+        appId: "1580387213331704",
+        appKey: "Sd6qkHm9o4LaVluYRX5pUFyNuiu2a8oi",
+        aesKey: "S9u978Q31NGPGc5H",
+        ivKey: "X83yESM9iShLxfwS" };
+
+      var nickName = userInfo.nickName;
+      var avatarUrl = userInfo.avatarUrl;
+      var gender = userInfo.gender; //性别 0：未知、1：男、2：女
+      var province = userInfo.province;
+      var city = userInfo.city;
+      var country = userInfo.country ? userInfo.country : "";
+      var nonce_str = _random.default.getRand(); //随机数
+      var postParams = [];
+      var shareCode = uni.getStorageSync('shareCode');
+      postParams[0] = ["js_code", code];
+      postParams[1] = ["grant_type", "authorization_code"];
+      postParams[2] = ["appId", globalData.appId];
+      postParams[3] = ["nonce_str", nonce_str];
+      postParams[4] = ["nickName", nickName];
+      postParams[5] = ["avatarUrl", avatarUrl];
+      postParams[6] = ["province", province];
+      postParams[7] = ["city", city];
+      postParams[8] = ["country", country];
+      postParams[9] = ['shareCode', shareCode];
+      var signVal = _sign.default.createSign(postParams, globalData.appKey); //签名
+
+      this.request({
+        url: 'api/front/user/weixinLogin.jspx',
+        data: {
+          js_code: code,
+          grant_type: 'authorization_code',
+          appId: appId,
+          nonce_str: nonce_str,
+          nickName: nickName,
+          avatarUrl: avatarUrl,
+          province: province,
+          city: city,
+          country: country,
+          shareCode: shareCode,
+          sign: signVal },
+
+        complete: function complete(res) {
+          console.log(res);
+          if (res.code == 200) {
+
+          }
+        } });
+
+
+
+    },
+    login: function login() {var _this2 = this;
+      var globalData = {
+        appId: "1580387213331704",
+        appKey: "Sd6qkHm9o4LaVluYRX5pUFyNuiu2a8oi",
+        aesKey: "S9u978Q31NGPGc5H",
+        ivKey: "X83yESM9iShLxfwS" };
+
+      var nonce_str = _random.default.getRand(); //随机数
+      var postParams = [];
+      var aesPassword = _aes.default.encrypt(this.userform.password, globalData.aesKey, globalData.ivKey);
       postParams[0] = ['username', this.userform.username];
       postParams[1] = ['aesPassword', aesPassword];
       postParams[2] = ["appId", globalData.appId];
@@ -207,7 +274,7 @@ var _default = { data: function data() {return { userform: { username: '', passw
           }
           if (res.code == 200) {
             console.log(2);
-            _this.getUser(_this.userform.username, res.body).then(function (user) {
+            _this2.getUser(_this2.userform.username, res.body).then(function (user) {
               console.log(11111111);
               uni.setStorageSync('sessionKey', res.body);
               console.log(user);
@@ -216,7 +283,7 @@ var _default = { data: function data() {return { userform: { username: '', passw
                 title: '登录成功' });
 
               _vue.default.prototype.isLogin = true;
-              if (_this.is_thing) {
+              if (_this2.is_thing) {
                 setTimeout(function () {
                   uni.navigateBack({
                     delta: 1 });
@@ -242,6 +309,16 @@ var _default = { data: function data() {return { userform: { username: '', passw
       // uni.switchTab({
       // 	url: '../index/index'
       // })
+    },
+    toReg: function toReg() {
+      uni.navigateTo({
+        url: './register' });
+
+    },
+    toforget: function toforget() {
+      uni.navigateTo({
+        url: './forget' });
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

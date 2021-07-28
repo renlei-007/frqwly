@@ -8,6 +8,9 @@
 						<view class="scenic_point_info">
 							<view class="scenic_point_info_name">{{item.stitle}}</view>
 							<view class="scenic_point_info_position">
+								<view class="scenic_point_info_position_txt" style="width: 100%;">截止时间:{{endDate(item)}}</view>
+							</view>
+							<view class="scenic_point_info_position">
 								<image src="/static/personcount.png" style="width: 24rpx;height: 24rpx;" class="scenic_point_info_position_icon" mode=""></image>
 								<view class="scenic_point_info_position_txt">人数:{{item.quota}}</view>
 							</view>
@@ -75,6 +78,13 @@
 						}
 					}
 				})
+			},
+			endDate(item){
+				if(item && item.registrationEnd){
+						return item.registrationEnd.substring(0,10);
+				}else{
+					return "长期";
+				}
 			},
 			todetail(id){
 				uni.navigateTo({

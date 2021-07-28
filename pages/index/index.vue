@@ -241,7 +241,7 @@
 		background: #956FEC;
 		border-radius: 0 0 10% 10%;
 		/* #ifdef MP-WEIXIN */
-		padding-top: 88rpx;
+		padding-top: 158rpx;
 		/* #endif */
 		
 		/* #ifndef MP-WEIXIN */

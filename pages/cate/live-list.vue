@@ -106,6 +106,9 @@
 		&_img{
 			width: 100%;
 			height: 386rpx;
+			background: url(../../static/default.png) no-repeat;
+			background-position: left top;
+			background-size: 100% 100%;
 			&_url{
 				width: 100%;
 				height: 100%;

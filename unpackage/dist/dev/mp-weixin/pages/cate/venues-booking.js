@@ -1,6 +1,6 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["pages/cate/venues-booking"],{
 
-/***/ 437:
+/***/ 440:
 /*!**************************************************************************!*\
   !*** D:/我的/qianduan-fr/main.js?{"page":"pages%2Fcate%2Fvenues-booking"} ***!
   \**************************************************************************/
@@ -10,13 +10,13 @@
 "use strict";
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ 4);
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _venuesBooking = _interopRequireDefault(__webpack_require__(/*! ./pages/cate/venues-booking.vue */ 438));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _venuesBooking = _interopRequireDefault(__webpack_require__(/*! ./pages/cate/venues-booking.vue */ 441));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_venuesBooking.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createPage"]))
 
 /***/ }),
 
-/***/ 438:
+/***/ 441:
 /*!*******************************************************!*\
   !*** D:/我的/qianduan-fr/pages/cate/venues-booking.vue ***!
   \*******************************************************/
@@ -25,10 +25,10 @@ createPage(_venuesBooking.default);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _venues_booking_vue_vue_type_template_id_37e24347___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./venues-booking.vue?vue&type=template&id=37e24347& */ 439);
-/* harmony import */ var _venues_booking_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./venues-booking.vue?vue&type=script&lang=js& */ 441);
+/* harmony import */ var _venues_booking_vue_vue_type_template_id_37e24347___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./venues-booking.vue?vue&type=template&id=37e24347& */ 442);
+/* harmony import */ var _venues_booking_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./venues-booking.vue?vue&type=script&lang=js& */ 444);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _venues_booking_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _venues_booking_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _venues_booking_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./venues-booking.vue?vue&type=style&index=0&lang=scss& */ 443);
+/* harmony import */ var _venues_booking_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./venues-booking.vue?vue&type=style&index=0&lang=scss& */ 446);
 /* harmony import */ var _E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js */ 10);
 
 var renderjs
@@ -57,7 +57,7 @@ component.options.__file = "pages/cate/venues-booking.vue"
 
 /***/ }),
 
-/***/ 439:
+/***/ 442:
 /*!**************************************************************************************!*\
   !*** D:/我的/qianduan-fr/pages/cate/venues-booking.vue?vue&type=template&id=37e24347& ***!
   \**************************************************************************************/
@@ -66,7 +66,7 @@ component.options.__file = "pages/cate/venues-booking.vue"
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_16_0_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_venues_booking_vue_vue_type_template_id_37e24347___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./venues-booking.vue?vue&type=template&id=37e24347& */ 440);
+/* harmony import */ var _E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_16_0_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_venues_booking_vue_vue_type_template_id_37e24347___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./venues-booking.vue?vue&type=template&id=37e24347& */ 443);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_16_0_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_venues_booking_vue_vue_type_template_id_37e24347___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_16_0_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_venues_booking_vue_vue_type_template_id_37e24347___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
@@ -79,7 +79,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 440:
+/***/ 443:
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/我的/qianduan-fr/pages/cate/venues-booking.vue?vue&type=template&id=37e24347& ***!
   \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -96,7 +96,7 @@ var components
 try {
   components = {
     ysPicker: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-picker */ "components/base/ys-picker").then(__webpack_require__.bind(null, /*! @/components/base/ys-picker.vue */ 513))
+      return __webpack_require__.e(/*! import() | components/base/ys-picker */ "components/base/ys-picker").then(__webpack_require__.bind(null, /*! @/components/base/ys-picker.vue */ 548))
     }
   }
 } catch (e) {
@@ -120,6 +120,19 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var l0 =
+    _vm.channelId == 198
+      ? _vm.__map(_vm.tipArray, function(item, index) {
+          var $orig = _vm.__get_orig(item)
+
+          var g0 = _vm.notSeatArr.indexOf(index)
+          return {
+            $orig: $orig,
+            g0: g0
+          }
+        })
+      : null
+
   if (!_vm._isMounted) {
     _vm.e0 = function($event, item) {
       var _temp = arguments[arguments.length - 1].currentTarget.dataset,
@@ -131,6 +144,15 @@ var render = function() {
       item.isCheck = !item.isCheck
     }
   }
+
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        l0: l0
+      }
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -140,7 +162,7 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ 441:
+/***/ 444:
 /*!********************************************************************************!*\
   !*** D:/我的/qianduan-fr/pages/cate/venues-booking.vue?vue&type=script&lang=js& ***!
   \********************************************************************************/
@@ -149,14 +171,14 @@ render._withStripped = true
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_venues_booking_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./venues-booking.vue?vue&type=script&lang=js& */ 442);
+/* harmony import */ var _E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_venues_booking_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./venues-booking.vue?vue&type=script&lang=js& */ 445);
 /* harmony import */ var _E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_venues_booking_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_venues_booking_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_venues_booking_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_venues_booking_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_venues_booking_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ 442:
+/***/ 445:
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/我的/qianduan-fr/pages/cate/venues-booking.vue?vue&type=script&lang=js& ***!
   \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -165,6 +187,15 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -306,6 +337,7 @@ var _default =
       seatArray: [],
       maxTicket: 0,
       seatsList: [],
+      chooseSets: [],
 
       rule: "\n\t\t\t\t<div style=\"width:100%\">\n\t\t\t\t  <h3>\u9884\u8BA2\u987B\u77E5</h3>\n\t\t\t\t\t1. \u5168\u5E74\u672A\u5165\u573A\u7968\u6570\u8FBE10\u5F20\uFF0C\u5C06\u88AB\u53D6\u6D88\u5F53\u5E74\u9884\u8BA2\u8D44\u683C\uFF1B<br>\n\t\t\t\t\t2. \u5982\u9700\u9000\u7968\uFF0C\u8BF7\u81F3\u201C\u6211\u7684-\u6211\u7684\u6D3B\u52A8\u201C\uFF0C\u9000\u7968\u622A\u6B62\u81F3\u6D3B\u52A8\u524D\u4E00\u5929\uFF08\u6D3B\u52A8\u5F53\u5929\u4E0D\u53EF\u9000\u7968\uFF09\uFF1B<br>\n\t\t\t\t\t3. \u5982\u56E0\u4E0D\u53EF\u63A7\u56E0\u7D20\u5BFC\u81F4\u6D3B\u52A8\u65E0\u6CD5\u8FDB\u884C\uFF0C\u4E3E\u529E\u65B9\u6709\u6743\u5EF6\u671F\u6216\u53D6\u6D88\u6D3B\u52A8\uFF0C\u5E76\u4EE5\u77ED\u4FE1\u65B9\u5F0F\u901A\u77E5\u8BA2\u7968\u4EBA\uFF1B<br>\n\t\t\t\t\t4. \u5982\u53C2\u52A0\u533A\u56FE\u4E66\u9986\u3001\u6587\u5316\u9986\u6D3B\u52A8\u7684\u5E02\u6C11\uFF0C\u7531\u4E8E\u505C\u8F66\u4F4D\u6709\u9650\uFF0C\u5EFA\u8BAE\u8BFB\u8005\u642D\u4E58\u516C\u5171\u4EA4\u901A\u524D\u5F80\uFF1B<br>\n\t\t\t\t\t5. \u6D3B\u52A8\u6700\u7EC8\u89E3\u91CA\u6743\u5F52\u4E3E\u529E\u65B9\u6240\u6709\u3002\n\t\t\t\t</div>\n\t\t\t",
 
@@ -323,7 +355,10 @@ var _default =
       dateIndex: 0,
       teamList: [],
       memberList: [],
-      channelId: '' };
+      channelId: '',
+      notSeatArr: [],
+      tipArray: [],
+      height: '' };
 
   },
   computed: {
@@ -342,17 +377,18 @@ var _default =
             is_reduce = true;
           }
           array[index][ind] = index + 1 + '-' + (ind + 1 - num);
-          if (!is_reduce && ind == item.length - 1) {
-            array[index][ind] = index + '-' + (ind + 1 - num);
-          }
         });
+        if (!is_reduce && ind == item.length - 1) {
+          array[index][ind] = index + '-' + (ind + 1 - num);
+        }
       });
       return array;
-    },
-    height: function height() {
-      return this.seatArray.length * 82;
-    } },
 
+    }
+    // height(){
+    // 	return this.seatArray.length*40+60
+    // },
+  },
   onLoad: function onLoad(e) {
     this.id = e.id;
     this.channelId = e.channelId;
@@ -361,39 +397,54 @@ var _default =
       this.getTeam();
     }
     this.userInfo = uni.getStorageSync('user_info');
+    this.phone = this.userInfo.phone || this.userInfo.authPhone;
   },
   methods: {
     dblclick: function dblclick() {
       console.log(111111111);
       if (this.scale == 2) {
         this.scale = 1;
-        console.log(222222222);
       } else {
         this.scale = 2;
-        console.log(333333333);
       }
     },
-    chooseSet: function chooseSet(index, ind) {
-      if (this.seatArray[index][ind] == 0) {
+    chooseSet: function chooseSet(value, ind) {var _this = this;
+      console.log(ind);
+      if (this.seatArray[value][ind] == 0) {
         var num = 0;
-        this.seatArray.map(function (item) {
-          item.map(function (ite) {
+        var colArr = [];
+        this.seatArray.map(function (item, index) {
+          item.map(function (ite, e) {
             if (ite == 3) {
               num++;
+            }
+            if (index == value && ite == -1) {
+              colArr.push(e);
             }
           });
         });
         if (num == this.maxTicket) {
           return;
         }
-        this.seatsList.push(index + '-' + ind);
-        this.$set(this.seatArray[index], ind, 3);
+        var _val = ind + 1;
+        console.log(ind);
+        colArr.map(function (item) {
+          if (ind > item) {
+            console.log(_val);
+            _val--;
+          }
+        });
+        this.seatsList.push({ index: value + '-' + ind, name: this.tipArray[value] + 1 + '排' + _val + '座' });
+        this.$set(this.seatArray[value], ind, 3);
+        console.log(this.notSeatArr);
       } else {
-        // this.seatsList.splice()
-        this.$set(this.seatArray[index], ind, 0);
+        this.seatsList.map(function (item, x) {
+          if (item.index == value + '-' + ind) {
+            _this.seatsList.splice(x, 1);
+          }
+        });
+        this.$set(this.seatArray[value], ind, 0);
       }
-      // this.seatArray[index][ind] = this.seatArray[index][ind]==0?3:0
-      console.log(this.seatArray[index][ind]);
     },
     selected: function selected(val) {//调起选择器组件
       this.Index = val;
@@ -449,7 +500,7 @@ var _default =
     getMember: function getMember(val) {
       this.memberList = this.teamList[val].userList;
     },
-    getDetail: function getDetail() {var _this = this;
+    getDetail: function getDetail() {var _this2 = this;
       var params = {
         format: 0
         // contentId: this.id
@@ -464,43 +515,79 @@ var _default =
       }
       this.indexRequest({ url: url, data: params }).then(function (res) {
         var content = res.data.body;
-        _this.content = content;
-        _this.phone = res.data.body.phone || res.data.body.authPhone;
-        if (_this.channelId == 198) {
-          _this.seatArray = content.seatSetting.seatArray;
-          _this.maxTicket = content.seatSetting.maxScheduled;
+        _this2.content = content;
+        _this2.phone = res.data.body.phone || res.data.body.authPhone;
+        if (_this2.channelId == 198) {
+          _this2.seatArray = content.seatSetting.seatArray;
+          _this2.height = content.seatSetting.seatArray.length * 40 + 60;
+          console.log(_this2.height);
+          _this2.maxTicket = content.seatSetting.maxScheduled;
+          res.data.body.seatSetting.seatArray.map(function (item, index) {
+            _this2.tipArray.push(index);
+            var _num = 0;
+            var is_reduce = false;
+            item.map(function (ite) {
+              if (ite != -1) {
+                is_reduce = true;
+              }
+            });
+            if (!is_reduce) {
+              _this2.notSeatArr.push(index);
+            }
+          });
+          _this2.notSeatArr.map(function (item, index) {
+            var val = 10000;
+            _this2.tipArray.map(function (ite, ind) {
+              if (item == ite) {
+                val = item;
+                return;
+              }
+              if (ind > val) {
+                _this2.tipArray[ind] = _this2.tipArray[ind] - 1;
+              }
+            });
+          });
         }
-        if (_this.channelId != 198) {
+        if (_this2.channelId != 198) {
           res.data.body.bookingDates.map(function (item, index) {
             var canBooking = false;
             item.slots.map(function (ite, ind) {
               if (ite.canBooking && !ite.isBooking && !canBooking && !ite.isFull) {
-                _this.dateList.push(item.showDate + '(' + item.week + ')');
+                _this2.dateList.push(item.showDate + '(' + item.week + ')');
                 canBooking = true;
-                _this.bookingDates.push(item);
+                _this2.bookingDates.push(item);
               }
             });
           });
         }
       });
     },
-    submit: function submit() {var _this2 = this;
+    submit: function submit() {var _this3 = this;
       var date, year, month, day;
       year = new Date().getFullYear();
       day = this.date.split('.');
       date = year + '-' + day[0] + '-' + day[1];
-      console.log(date);
-      var params = {
-        contentId: this.id,
-        bookingDate: date,
-        slot: this.slot,
-        phone: this.userInfo.authPhone || this.userInfo.phone,
-        contact: this.contacts,
-        userName: this.user,
-        purpose: this.purpose,
-        remark: this.remark };
-
+      console.log(this.date);
+      var params;
       var url, ids;
+      if (this.channelId != 198) {
+        if (!this.date) {
+          this.toast('请选择时间!', 'none');
+          return;
+        }
+        if (!this.slot) {
+          this.toast('请选择时段!', 'none');
+          return;
+        }
+        if (!this.phone) {
+          this.toast('请输入号码！', 'none');
+          return;
+        }
+        if (!this.contacts) {
+          this.toast('请输入预定联系人！', 'none');
+          return;
+        }
+      }
       if (this.channelId == 179) {
         url = '/bookings/add_group';
         var arr = [];
@@ -510,9 +597,42 @@ var _default =
           }
         });
         ids = arr.toString();
-        params.ids = ids;
+        params = {
+          contentId: this.id,
+          bookingDate: date,
+          slot: this.slot,
+          phone: this.userInfo.authPhone || this.userInfo.phone,
+          contact: this.contacts,
+          userName: this.user,
+          purpose: this.purpose,
+          remark: this.remark,
+          ids: ids };
+
+      } else if (this.channelId == 198) {
+        url = '/theatre/add';
+        var _arr2 = [];
+        this.seatsList.map(function (item) {
+          _arr2.push(item.index);
+        });
+        params = {
+          contentId: this.id,
+          phone: this.phone,
+          remark: this.remark,
+          seats: _arr2.toString() };
+
+
       } else {
         url = '/bookings/add';
+        params = {
+          contentId: this.id,
+          bookingDate: date,
+          slot: this.slot,
+          phone: this.userInfo.authPhone || this.userInfo.phone,
+          contact: this.contacts,
+          userName: this.user,
+          purpose: this.purpose,
+          remark: this.remark };
+
       }
       this.homeRequest({
         url: url,
@@ -521,7 +641,7 @@ var _default =
       then(function (res) {
         console.log(res);
         if (res.code == 200) {
-          _this2.toast('预约成功');
+          _this3.toast('预约成功');
           setTimeout(function () {
             uni.navigateBack({
               delta: 3 });
@@ -530,7 +650,7 @@ var _default =
         }
       });
     },
-    getTeam: function getTeam() {var _this3 = this;
+    getTeam: function getTeam() {var _this4 = this;
       this.homeRequest({
         url: '/bookings/check_group',
         method: 'GET',
@@ -542,14 +662,14 @@ var _default =
             ite.isCheck = false;
           });
         });
-        _this3.teamList = res.body;
+        _this4.teamList = res.body;
       });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 
-/***/ 443:
+/***/ 446:
 /*!*****************************************************************************************!*\
   !*** D:/我的/qianduan-fr/pages/cate/venues-booking.vue?vue&type=style&index=0&lang=scss& ***!
   \*****************************************************************************************/
@@ -558,14 +678,14 @@ var _default =
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_venues_booking_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./venues-booking.vue?vue&type=style&index=0&lang=scss& */ 444);
+/* harmony import */ var _E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_venues_booking_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./venues-booking.vue?vue&type=style&index=0&lang=scss& */ 447);
 /* harmony import */ var _E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_venues_booking_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_venues_booking_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_venues_booking_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_venues_booking_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_E_hbx_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_venues_booking_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ 444:
+/***/ 447:
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/我的/qianduan-fr/pages/cate/venues-booking.vue?vue&type=style&index=0&lang=scss& ***!
   \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -578,5 +698,5 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ })
 
-},[[437,"common/runtime","common/vendor"]]]);
+},[[440,"common/runtime","common/vendor"]]]);
 //# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/cate/venues-booking.js.map

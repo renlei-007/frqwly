@@ -96,7 +96,7 @@ var components
 try {
   components = {
     ysScroll: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 506))
+      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 541))
     }
   }
 } catch (e) {
@@ -153,10 +153,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
 //
 //
 //
@@ -190,12 +187,6 @@ var _default =
 {
   data: function data() {
     return {
-      cutIndex: 0,
-      cutList: ['全部', '已开始', '未开始'],
-      first_cate_param: { //一级分类滚动区域配置
-        scroll_y: false,
-        scroll_x: true },
-
       param: { //滚动区域配置
         scroll_y: true,
         background: '#F2F5FA',
@@ -208,38 +199,57 @@ var _default =
       type: '' };
 
   },
-  onLoad: function onLoad() {
+  onShow: function onShow() {
+    this.page = 0;
+    this.venuesList = [];
     this.getList();
   },
   methods: {
-    changeTab: function changeTab(index, item) {
-      if (this.cutIndex != index) {
-        this.cutIndex = index;
-        this.type = item;
-      }
-      if (index == 0) {
-        this.type = '';
-      }
+    /**
+              * 页面刷新
+              */
+    refresh: function refresh() {var _this = this;
+      console.log('刷新');
+      this.page = 0;
+      this.venuesList = [];
+      this.getList();
+      setTimeout(function () {
+        _this.$refs.scroll.endRefresh();
+      }, 800);
     },
-    getList: function getList() {var _this = this;
+    /**
+        * 加载更多
+        */
+    loadMore: function loadMore() {
+      console.log('上拉加载');
+      this.page += 10;
+      this.getList();
+    },
+    getList: function getList() {var _this2 = this;
       this.homeRequest({
         url: '/bookings/list',
         method: 'GET',
         data: { first: this.page, count: 10 } }).
       then(function (res) {
         console.log(res);
-        if (res.body.length == 0 && _this.venuesList.length == 0) {
-          _this.$refs.scroll.setLoadStatus('no_data');
+        if (res.body.length == 0 && _this2.venuesList.length == 0) {
+          _this2.$refs.scroll.setLoadStatus('no_data');
         } else {
-          _this.venuesList = _this.venuesList.concat(res.body);
+          _this2.venuesList = _this2.venuesList.concat(res.body);
           if (res.body.length < 10) {
-            _this.$refs.scroll.setLoadStatus('no_more');
+            _this2.$refs.scroll.setLoadStatus('no_more');
           } else {
-            _this.$refs.scroll.setLoadStatus('more');
+            _this2.$refs.scroll.setLoadStatus('more');
           }
         }
       });
+    },
+    toDetail: function toDetail(id) {
+      uni.navigateTo({
+        url: './myvenues-detail?id=' + id });
+
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

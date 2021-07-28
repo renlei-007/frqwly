@@ -319,7 +319,7 @@ class common {
 	_setRequest() {
 		Vue.prototype.request = (obj) => {
 			let {
-				url = "",
+					url = "",
 					method = 'POST',
 					data = {},
 					is_token = false,
@@ -328,47 +328,7 @@ class common {
 					complete
 			} = obj;
 			const reg = new RegExp("^http");
-			const is_domainName = url.match(reg);
-			let request_url = url
-			if (!is_domainName) {
-				request_url = Vue.prototype.domainName + request_url;
-			}
-			if (is_token) {
-				data.access_token = uni.getStorageSync('access_token') || '';
-				// if (!data.access_token && navigateTo_num == 0) {
-				// 	console.log(url, is_token);
-				// 	navigateTo_num++
-				// 	uni.showToast({
-				// 		title: '请先登录~',
-				// 		icon: 'none'
-				// 	})
-				// 	setTimeout(() => {
-				// 		uni.navigateTo({
-				// 			url: '/pages/login/login',
-				// 			success: () => {
-				// 				navigateTo_num = 0;
-				// 			}
-				// 		})
-				// 	}, 500)
-				// 	return false
-				// }
-			}
-			//获取微信小程序信息
-			// #ifdef MP-WEIXIN
-			// const accountInfo = uni.getAccountInfoSync();
-			// data.appid = accountInfo.miniProgram.appId
-			// let extConfig = wx.getExtConfigSync ? wx.getExtConfigSync() : {};
-			// data.appid = extConfig.appid
-			// //data.appid = 'wx3ba5d834d90853f1'
-			// console.log("==============extConfig===============")
-			// console.log(extConfig)
-			// #endif
-			// #ifndef MP-WEIXIN
-
-			//data.appid = 'wx3ba5d834d90853f1'
-			//data.appid = 'wxa43f3a32be41f1c2'
-			// #endif
-			console.log(data.appid)
+			let request_url = Vue.prototype.baseUrl+url
 
 
 			uni.request({
@@ -378,39 +338,19 @@ class common {
 				header: {
 					'content-type': 'application/x-www-form-urlencoded'
 				},
-				success: res => {},
-				fail: () => {},
+				success: res => {
+					console.log(res);
+				},
+				fail: () => {
+					fail && fail()
+				},
 				complete: (res) => {
+					console.log(res);
 					uni.hideLoading()
-					if (res.statusCode == 500 || res.statusCode == 502 || res.statusCode == 404 ||
-						res.errMsg ==
-						"request:fail") {
-						fail && fail(res)
-					} else if (res.statusCode == 200) {
-						if (this.isset(res.data)) {
-							if (res.data.error_code == 401) {
-								uni.showToast({
-									title: '登录已过期',
-									icon: 'none',
-									mask: true
-								})
-								uni.clearStorageSync();
-								if (navigateTo_num == 0) {
-									navigateTo_num++;
-									uni.navigateTo({
-										url: '/pages/login/login',
-										success: () => {
-											navigateTo_num = 0;
-										}
-									})
-								}
-							} else {
-								if (res.data.error_code == 0) {
-									success && success(res.data)
-								}
-								complete && complete(res.data)
-							}
-						}
+					if(res.statusCode==200){
+						complete && complete(res.data)
+					}else{
+						return false
 					}
 				}
 			});

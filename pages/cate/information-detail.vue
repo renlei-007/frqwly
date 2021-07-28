@@ -6,14 +6,14 @@
 			<view v-if="show_news" class="information_mess_time">{{content.releaseDate?content.releaseDate.slice(0,10):''}}</view>
 			<view v-else class="information_mess_time">阅读：{{content.views}}</view>
 		</view>
-		<view class="video_box" v-if="content.mediaPath.length>0">
+		<view class="video_box" v-if="content.mediaPath&&content.mediaPath.length>0">
 			<video class="video" :src="content.mediaPath" controls object-fit="fill"></video>
 		</view>
 		<view class="information_content">
 			<rich-text :nodes="content.txt"></rich-text>
 		</view>
-		<ys-bottom v-if="show_news" :id="id" @show="is_show = true"></ys-bottom>
-		<ys-comment v-if="is_show" :id="id" :commentList="commentList" @share="share" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
+		<ys-bottom v-if="show_news" :ids="id" @show="is_show = true"></ys-bottom>
+		<ys-comment v-if="is_show" :ids="id" :commentList="commentList" @share="share" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
 	</view>
 </template>
 
@@ -40,8 +40,15 @@
 			}
 			this.getDetail()
 			this.getCommentList()
+			
 		},
 		methods: {
+			getHeight(){
+				let query = uni.createSelectorQuery().in(this)
+				query.select('.information_content').boundingClientRect(data => {
+					console.log(data);
+				}).exec()
+			},
 			/**
 			 * 页面刷新
 			 */
@@ -83,15 +90,19 @@
 					this.commentList = this.commentList.concat(content);
 				})
 			},
-			getDetail(){
+			async getDetail(){
 				let params = {
 					format: 0,
 					id: this.id
 				}
 				this.indexRequest({url:'/content/get.jspx',data:params}).then(res=>{
 					console.log(res);
+					res.data.body.txt = res.data.body.txt.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ')
 					var content = res.data.body;
 					this.content = content;
+					this.$nextTick(()=>{
+						this.getHeight()
+					})
 					uni.setNavigationBarTitle({
 						title: content.title
 					})
@@ -144,6 +155,13 @@ page{
 		width: 100%;
 		box-sizing: border-box;
 		padding: 30rpx;
+		p{
+			width: 100%;
+			image{
+				max-width: 100% !important;
+				height: auto;
+			}
+		}
 	}
 }
 </style>

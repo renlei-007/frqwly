@@ -55,7 +55,11 @@
     "pages/mine/check-team",
     "pages/cate/mooc-detail",
     "pages/cate/cultural-encyclopedia-detail",
-    "pages/map/map-detail"
+    "pages/map/map-detail",
+    "pages/mine/my-collection",
+    "pages/mine/myvenues-detail",
+    "pages/login/register",
+    "pages/login/forget"
   ],
   "subPackages": [],
   "window": {
@@ -96,5 +100,5 @@
     }
   },
   "usingComponents": {},
-  "sitemapLocation": "sitemap71.json"
+  "sitemapLocation": "sitemap10.json"
 }

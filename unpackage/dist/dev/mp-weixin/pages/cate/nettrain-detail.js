@@ -96,10 +96,10 @@ var components
 try {
   components = {
     ysComment: function() {
-      return Promise.all(/*! import() | components/base/ys-comment */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/base/ys-comment")]).then(__webpack_require__.bind(null, /*! @/components/base/ys-comment.vue */ 520))
+      return Promise.all(/*! import() | components/base/ys-comment */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/base/ys-comment")]).then(__webpack_require__.bind(null, /*! @/components/base/ys-comment.vue */ 555))
     },
     ysShare: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-share */ "components/base/ys-share").then(__webpack_require__.bind(null, /*! @/components/base/ys-share.vue */ 528))
+      return __webpack_require__.e(/*! import() | components/base/ys-share */ "components/base/ys-share").then(__webpack_require__.bind(null, /*! @/components/base/ys-share.vue */ 563))
     }
   }
 } catch (e) {
@@ -307,6 +307,7 @@ var _default =
           _this.is_keep = false;
         }
       });
+      this.getStatus();
     }
   },
   methods: {
@@ -338,7 +339,18 @@ var _default =
 
 
     },
-    signUp: function signUp() {var _this2 = this;
+    getStatus: function getStatus() {var _this2 = this;
+      this.homeRequest({
+        url: '/train/status',
+        method: 'GET',
+        data: { contentId: this.id } }).
+      then(function (res) {
+        if (res.code == 200) {
+          _this2.status = res.body.status;
+        }
+      });
+    },
+    signUp: function signUp() {var _this3 = this;
       if (!this.isLogin) {
         uni.showModal({
           title: "提示",
@@ -361,15 +373,16 @@ var _default =
           data: { contentId: this.id } }).
         then(function (res) {
           if (res.code == 200) {
-            _this2.toast('报名成功！');
-            _this2.getDetail();
+            _this3.toast('报名成功！');
+            _this3.getStatus();
+            _this3.getDetail();
           } else {
-            _this2.toast(res.message, 'none');
+            _this3.toast(res.message, 'none');
           }
         });
       }
     },
-    signOut: function signOut() {var _this3 = this;
+    signOut: function signOut() {var _this4 = this;
       uni.showModal({
         title: "提示",
         content: "确定要取消吗？",
@@ -377,16 +390,17 @@ var _default =
         confirmText: "确定",
         success: function success(res) {
           if (res.confirm) {
-            _this3.homeRequest({
+            _this4.homeRequest({
               url: '/train/cancel',
               method: 'GET',
-              data: { contentId: _this3.id } }).
+              data: { contentId: _this4.id } }).
             then(function (res) {
               if (res.code == 200) {
-                _this3.toast('取消成功！', 'none');
-                _this3.getDetail();
+                _this4.toast('取消成功！', 'none');
+                _this4.getStatus();
+                _this4.getDetail();
               } else {
-                _this3.toast('取消失败', 'none');
+                _this4.toast('取消失败', 'none');
               }
             });
           } else if (res.cancel) {
@@ -394,7 +408,7 @@ var _default =
         } });
 
     },
-    getCommentList: function getCommentList() {var _this4 = this;
+    getCommentList: function getCommentList() {var _this5 = this;
       var params = {
         contentId: this.id,
         checked: 1,
@@ -403,10 +417,10 @@ var _default =
 
       this.indexRequest({ url: '/comment/list.jspx', data: params }).then(function (res) {
         var content = res.data.body;
-        _this4.commentList = _this4.commentList.concat(content);
+        _this5.commentList = _this5.commentList.concat(content);
       });
     },
-    getDetail: function getDetail() {var _this5 = this;
+    getDetail: function getDetail() {var _this6 = this;
       console.log(this.isLogin);
       var params = {
         format: 0,
@@ -414,23 +428,23 @@ var _default =
 
       this.indexRequest({ url: '/content/get.jspx', data: params }).then(function (res) {
         var content = res.data.body;
-        _this5.content = content;
+        _this6.content = content;
         uni.setNavigationBarTitle({
           title: content.title });
 
         if (content.registrationStart) {
-          var date = new Date(),start = _this5.transformTime(content.registrationStart),end = _this5.transformTime(content.registrationEnd);
+          var date = new Date(),start = _this6.transformTime(content.registrationStart),end = _this6.transformTime(content.registrationEnd);
           if (start > date.getTime()) {
-            _this5.showStatus = 1;
+            _this6.showStatus = 1;
           } else if (end < date.getTime()) {
-            _this5.showStatus = 2;
+            _this6.showStatus = 2;
           } else {
-            _this5.showStatus = 3;
+            _this6.showStatus = 3;
           }
         }
       });
     },
-    getNettrainList: function getNettrainList() {var _this6 = this;
+    getNettrainList: function getNettrainList() {var _this7 = this;
       var params = {
         count: 5,
         channelIds: '133',
@@ -441,9 +455,9 @@ var _default =
         if (res.data.body.length > 4) {
           var array = res.data.body;
           array.shift();
-          _this6.trainList = array;
+          _this7.trainList = array;
         } else {
-          _this6.trainList = res.data.body;
+          _this7.trainList = res.data.body;
         }
       });
     },
@@ -461,26 +475,26 @@ var _default =
       //uni.showToast({ title: time, duration: 2000 }); 
       return new Date(time);
     },
-    btnFabulous: function btnFabulous() {var _this7 = this;
+    btnFabulous: function btnFabulous() {var _this8 = this;
       if (this.isFabulous) {
         this.indexRequest({ url: '/content/down', data: { contentId: this.id } }).then(function (res) {
           if (res.data.code == 200) {
-            _this7.isFabulous = false;
-            uni.removeStorageSync('fabulous' + _this7.id);
-            _this7.toast('取消点赞成功！');
+            _this8.isFabulous = false;
+            uni.removeStorageSync('fabulous' + _this8.id);
+            _this8.toast('取消点赞成功！');
           }
         });
       } else {
         this.indexRequest({ url: '/content/up', data: { contentId: this.id } }).then(function (res) {
           if (res.data.code == 200) {
-            _this7.isFabulous = true;
-            uni.setStorageSync('fabulous' + _this7.id, true);
-            _this7.toast('点赞成功！');
+            _this8.isFabulous = true;
+            uni.setStorageSync('fabulous' + _this8.id, true);
+            _this8.toast('点赞成功！');
           }
         });
       }
     },
-    collection: function collection() {var _this8 = this;
+    collection: function collection() {var _this9 = this;
       if (!this.isLogin) {
         uni.showModal({
           title: "提示",
@@ -503,12 +517,12 @@ var _default =
           data: { id: this.id, operate: this.is_keep ? 0 : 1 } }).
         then(function (res) {
           if (res.code == 200) {
-            if (_this8.is_keep) {
-              _this8.toast('取消收藏成功！');
+            if (_this9.is_keep) {
+              _this9.toast('取消收藏成功！');
             } else {
-              _this8.toast('收藏成功！');
+              _this9.toast('收藏成功！');
             }
-            _this8.is_keep = !_this8.is_keep;
+            _this9.is_keep = !_this9.is_keep;
           }
         });
       }

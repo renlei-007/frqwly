@@ -130,6 +130,11 @@
 				if(this.is_Login){
 					if(val=='function'){
 						switch (index){
+							case 0:
+								uni.navigateTo({
+									url: './my-collection'
+								})
+								break
 							case 1:
 								uni.navigateTo({
 									url: './attestation'
@@ -192,11 +197,29 @@
 				}
 			},
 			toLogin(){
+				if(this.isLogin){
+					return false
+				}
 				uni.navigateTo({
 					url: '/pages/login/login'
 				})
 			},
 			todetail(index){
+				if(!this.is_Login){
+					uni.showModal({
+						title: '提示',
+						content: '您还没有登录，无法查看或设置，确认要先登录吗？',
+						success: (res) => {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: '/pages/login/login'
+								})
+							} else if (res.cancel) {
+							}
+						}
+					});
+					return
+				}
 				if(index==0){
 					uni.navigateTo({
 						url: './reward-points'

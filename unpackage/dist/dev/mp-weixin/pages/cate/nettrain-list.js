@@ -96,7 +96,7 @@ var components
 try {
   components = {
     ysScroll: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 506))
+      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 541))
     }
   }
 } catch (e) {
@@ -201,7 +201,8 @@ var _default =
         refresher_style: 'black' },
 
       page: 0,
-      trainList: [] };
+      trainList: [],
+      type: '' };
 
   },
   onLoad: function onLoad() {

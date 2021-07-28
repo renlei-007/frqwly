@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "电子图书",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "ys-scroll": "/components/base/ys-scroll"
+  }
+}

@@ -34,6 +34,18 @@ page {
   box-sizing: border-box;
   padding-top: 30rpx;
 }
+.content .tit_box {
+  width: 690rpx;
+  box-sizing: border-box;
+  padding: 30rpx;
+  background-color: #F2F5FA;
+  border-radius: 16rpx;
+  margin: 0 auto;
+  font-size: 28rpx;
+}
+.content .tit_box input {
+  line-height: 28rpx;
+}
 .content .feedback_box {
   width: 690rpx;
   height: 285rpx;
@@ -41,7 +53,7 @@ page {
   padding: 30rpx;
   background-color: #F2F5FA;
   border-radius: 16rpx;
-  margin: 0 auto;
+  margin: 30rpx auto 0;
   font-size: 28rpx;
 }
 .content .feedback_box .area_font {

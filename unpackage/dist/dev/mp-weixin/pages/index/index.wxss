@@ -36,7 +36,7 @@
   height: 220rpx;
   background: #956FEC;
   border-radius: 0 0 10% 10%;
-  padding-top: 88rpx;
+  padding-top: 158rpx;
 }
 .content .search_box_input {
   width: 690rpx;

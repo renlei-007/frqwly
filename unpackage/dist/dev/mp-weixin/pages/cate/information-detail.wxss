@@ -72,4 +72,11 @@ page {
   box-sizing: border-box;
   padding: 30rpx;
 }
+.information-detail .information_content ._p {
+  width: 100%;
+}
+.information-detail .information_content ._p image {
+  max-width: 100% !important;
+  height: auto;
+}
 

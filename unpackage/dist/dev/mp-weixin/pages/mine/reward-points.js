@@ -96,7 +96,7 @@ var components
 try {
   components = {
     ysScroll: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 506))
+      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 541))
     }
   }
 } catch (e) {
@@ -237,7 +237,59 @@ var _default =
       {
         type: '分享',
         point: 2,
-        tips: '每日登录记一次' }] };
+        tips: '每日分享记一次' },
+      {
+        type: '连续签到1-5天',
+        point: 1,
+        tips: '每次签到加1分' },
+      {
+        type: '搜索行为',
+        point: 10,
+        tips: '不累计，仅1次' },
+      {
+        type: '用户每评论一次',
+        point: 5,
+        tips: '评论审核通过加分' },
+      {
+        type: '每收藏一条资源',
+        point: 1,
+        tips: '累计1天不超过20分' },
+      {
+        type: '浏览平台资源',
+        point: 1,
+        tips: '累计1天不超过20分' },
+      {
+        type: '观看直播',
+        point: 1,
+        tips: '累计1天不超过20分' },
+      {
+        type: '抽奖',
+        point: 0,
+        tips: '不限次数' },
+      {
+        type: '参加志愿活动',
+        point: 10,
+        tips: '累计1天不超过20分' },
+      {
+        type: '场馆预定',
+        point: 5,
+        tips: '累计1天不超过20分' },
+      {
+        type: '活动预定',
+        point: 5,
+        tips: '累计1天不超过20分' },
+      {
+        type: '培训',
+        point: 5,
+        tips: '累计1天不超过20分' },
+      {
+        type: '参加社团文化',
+        point: 5,
+        tips: '累计1天不超过20分' },
+      {
+        type: '编写旅游攻略',
+        point: 10,
+        tips: '累计1天不超过20分' }] };
 
 
   },

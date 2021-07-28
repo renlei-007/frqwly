@@ -1,0 +1,7 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "ys-top-bar": "/components/base/ys-top-bar",
+    "ys-menu-list": "/components/base/ys-menu-list"
+  }
+}
