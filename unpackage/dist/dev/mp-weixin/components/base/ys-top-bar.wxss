@@ -34,7 +34,7 @@
   z-index: 997;
   left: 0;
   box-sizing: border-box;
-  background: #956FEC;
+  background: #6851E2;
   color: #fff;
 }
 .ys_top_bar .wx_custom_box, .ys_top_bar .wx_search_box {

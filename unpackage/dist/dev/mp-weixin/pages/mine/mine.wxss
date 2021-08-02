@@ -36,7 +36,7 @@
   height: 240rpx;
   box-sizing: border-box;
   padding: 0 35rpx;
-  background-color: #956FEC;
+  background-color: #6851E2;
   border-radius: 0 0 10% 10%;
   padding-top: 88rpx;
 }

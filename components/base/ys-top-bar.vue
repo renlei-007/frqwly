@@ -77,7 +77,7 @@
         z-index: 997;
         left: 0;
         box-sizing: border-box;
-		background: #956FEC;
+		background: #6851E2;
 		color: #fff;
       }
       &_custom_box,&_search_box{

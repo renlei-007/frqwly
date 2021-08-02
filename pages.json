@@ -496,6 +496,60 @@
             }
             
         }
+        ,{
+            "path" : "pages/mine/communication",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "互动交流",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/mine/my-train",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的培训",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/mine/my-train-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的培训-报名详情",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/index/search",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "搜索",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/mine/my-theatre",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的剧场",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/mine/my-theatre-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"easycom": {
 		"autoscan": true,
@@ -506,7 +560,7 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#956FEC",
+		"navigationBarBackgroundColor": "#6851E2",
 		"backgroundColor": "#F8F8F8"
 	},
 	"tabBar": {

@@ -4,7 +4,7 @@
 			<view class="user_box_b">
 				<view class="user_info_box">
 					<view class="user_img">
-						<image :src="is_Login?user.userImg:'/static/user.png'" mode=""></image>
+						<image :src="is_Login&&user.userImg?user.userImg:'/static/user.png'" mode=""></image>
 					</view>
 					<view class="user_name_box">
 						<view class="user_name" @tap="toLogin">{{is_Login?user.username:'点击登录'}}</view>
@@ -44,7 +44,7 @@
 				<image mode="" :src="item.src" class="icon"></image>
 				<view class="name_area">
 					<text>{{item.title}}</text>
-					<text class="contents" v-if="index == 4">400-117-3773</text>
+					<!-- <text class="contents" v-if="index == 4">400-117-3773</text> -->
 				</view>
 			</view>
 		</view>
@@ -79,6 +79,18 @@
 					{
 						src: require('../../static/active-icon/wdsc.png'),
 						title: '我的收藏',
+					},
+					{
+						src: require('../../static/active-icon/wdsc.png'),
+						title: '我的剧场',
+					},
+					{
+						src: require('../../static/active-icon/wdsc.png'),
+						title: '我的培训',
+					},
+					{
+						src: require('../../static/active-icon/wdsc.png'),
+						title: '互动交流',
 					},
 					{
 						src: require('../../static/active-icon/smrz.png'),
@@ -137,25 +149,40 @@
 								break
 							case 1:
 								uni.navigateTo({
-									url: './attestation'
+									url: './my-theatre'
 								})
 								break
 							case 2:
 								uni.navigateTo({
-									url: './revise-phone'
+									url: './my-train'
 								})
 								break
-							case 3: 
+							case 3:
 								uni.navigateTo({
-									url: './setting'
+									url: './communication'
 								})
 								break
 							case 4:
 								uni.navigateTo({
-									url: './feedback'
+									url: './attestation'
 								})
 								break
 							case 5:
+								uni.navigateTo({
+									url: './revise-phone'
+								})
+								break
+							case 6: 
+								uni.navigateTo({
+									url: './setting'
+								})
+								break
+							case 7:
+								uni.navigateTo({
+									url: './feedback'
+								})
+								break
+							case 8:
 								uni.navigateTo({
 									url: './aboutme'
 								})
@@ -269,7 +296,6 @@
 				this.is_sign = true
 			},
 			toSign(){
-				console.log(111111);
 				this.homeRequest({
 					url: '/signin',
 					method: 'POST',
@@ -319,7 +345,7 @@
 		height: 240rpx;
 		box-sizing: border-box;
 		padding: 0 35rpx;
-		background-color: #956FEC;
+		background-color: #6851E2;
 		border-radius: 0 0 10% 10%;
 		/* #ifdef MP-WEIXIN */
 		padding-top: 88rpx;

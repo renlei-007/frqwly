@@ -75,14 +75,21 @@
 					<movable-view
 						class="movable-view"
 						direction="all"
-						out-of-bounds="true"
+						:out-of-bounds="true"
 						scale="true"
+						:x="x"
+						:y="y"
 						scale-min="1"
 						scale-max="4"
 						:scale-value="scale"
 						@dbclick="dblclick"
 					>
-						<view class="seat_box" :style="'height'+height+'rpx;'">
+						<view class="choose_seat_hover">
+							<view class="choose_seat_hover_num" v-for="(item,index) in tipArray" :key="index">
+								<text v-show="notSeatArr.indexOf(index)==-1">{{item+1}}</text>
+							</view>
+						</view>
+						<view class="seat_box" :style="{'height':height+'rpx',}">
 							<view class="seat_box_row" v-for="(item,index) in seatArray" :key="index">
 								<view class="seat_box_row_col" v-for="(ite,ind) in item" :key="ind">
 									<image src="/static/seat_can.png" v-if="ite==0" mode="" @tap="chooseSet(index,ind)"></image>
@@ -94,11 +101,6 @@
 						</view>
 					</movable-view>
 				</movable-area>
-				<view class="choose_seat_hover">
-					<view class="choose_seat_hover_num" v-for="(item,index) in tipArray" :key="index">
-						<text v-show="notSeatArr.indexOf(index)==-1">{{item+1}}</text>
-					</view>
-				</view>
 			</view>
 			<view class="input_box_item" style="height: auto;box-sizing: border-box;padding: 30rpx 0;" v-if="channelId==198">
 				<view class="input_box_item_name">选择座位</view>
@@ -146,6 +148,8 @@
 				remark: '',
 				
 				scale: 1,
+				x: 200,
+				y: 200,
 				seatArray: [],
 				maxTicket: 0,
 				seatsList: [],
@@ -604,28 +608,29 @@ page{
 			width: 100%;
 			height: 600rpx;
 			box-sizing: border-box;
-			padding: 30rpx 0 30rpx 30rpx;
+			padding: 30rpx 0;
 			background-color: #ccc;
-			position: relative;
-			&_hover{
-				position: absolute;
-				left: -10rpx;
-				top: 29rpx;
-				color: #FFFFFF;
-				width: auto;
-				text-align: center;
-				&_num{
-					width: 50rpx;
-					height: 40rpx;
-					line-height: 40rpx;
-					font-size: 24rpx;
-				}
-			}
+			overflow: auto;
 			.movable-area{
-				width: auto;
-				height: 100%;
+				width: 200%;
+				height: 200%;
 				overflow: auto;
+				margin-left: -200px;
+				margin-top: -200px;
 				.movable-view{
+					display: flex;
+					position: relative;
+					.choose_seat_hover{
+						color: #FFFFFF;
+						width: auto;
+						text-align: center;
+						&_num{
+							width: 50rpx;
+							height: 40rpx;
+							line-height: 40rpx;
+							font-size: 24rpx;
+						}
+					}
 					.seat_box{
 						width: 660rpx;
 						height: 500rpx;
