@@ -164,15 +164,17 @@ page{
 		box-sizing: border-box;
 		padding-top: 30rpx;
 		&_box{
-			width: 296rpx;
-			height: 240rpx;
+			width: 306rpx;
+			height: 250rpx;
 			color: #1B1C1E;
 			font-size: 24rpx;
 			&_img{
-				width: 296rpx;
-				height: 168rpx;
+				width: 100%;
+				height: 178rpx;
 				background-color: #E5E5E5;
 				border: 8rpx;
+				background: url(@/static/default.png) no-repeat center center;
+				background-size: 200% 200%;
 				image{
 					width: 100%;
 					height: 100%;

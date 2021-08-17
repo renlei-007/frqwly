@@ -18,7 +18,7 @@
 							<view class="cultural_box_point_box_name">{{item.title}}</view>
 							<view class="cultural_box_point_box_time">
 								<image src="/static/first_time.png" class="times" mode=""></image>
-								<text>2020-08-14 </text>
+								<text>{{item.registrationStart}} </text>
 							</view>
 						</view>
 					</view>
@@ -42,7 +42,7 @@
 					scroll_y:true,
 					background:'#F2F5FA',
 					refresher:true,
-					no_more_text:'',
+					no_more_text:'没有更多了~',
 					refresher_style:'black'
 				},
 				page: 0,
@@ -89,7 +89,7 @@
 			},
 			getList(){
 				let params={
-					channelIds: 133, count: 10, first: this.page, format:0, s_category: this.type,
+					channelIds: 133, count: 10, first: this.page, format:0, s_category_like: this.type,
 				}
 				this.indexRequest({url:'/content/list.jspx',data:params}).then(res=>{
 					if(res.data.body.length==0&&this.trainList.length == 0){
@@ -135,13 +135,11 @@
 	height: 100%;
 	.cultural_box{
 		width: 100%;
-		max-height: 100%;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
 		&_point{
 			width: 328rpx;
-			height: 320rpx;
 			background: #FFFFFF;
 			border-radius: 8rpx;
 			margin-top: 30rpx;
@@ -155,25 +153,24 @@
 			}
 			&_box{
 				width: 100%;
-				height: 132rpx;
 				box-sizing: border-box;
-				padding: 30rpx 30rpx 0;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap;
+				padding: 20rpx 30rpx 20rpx 15rpx;
 				&_name{
 					font-size: 28rpx;
-					line-height: 28rpx;
+					line-height: 40rpx;
 					color: #1B1C1E;
-					line-height: 28rpx;
+					width: 100%;
+					// overflow: hidden;
+					// text-overflow: ellipsis;
+					// white-space: nowrap;
 				}
 				&_time{
 					display: flex;
-					margin-top: 16rpx;
+					margin-top: 10rpx;
 					.times{
 						width: 24rpx;
 						height: 24rpx;
-						margin-right: 6rpx;
+						margin-right: 10rpx;
 					}
 					text{
 						font-size: 24rpx;

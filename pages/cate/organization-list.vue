@@ -1,7 +1,7 @@
 <template>
 	<view class="organization-list content">
 		<view class="cutbox">
-			<ys-scroll :param="first_cate_param">
+			<ys-scroll :param="first_cate_param" :scrollLeft="scrollLefts">
 				<view class="cutlist">
 					<view class="cutlist_item" :class="{'active':index==cutIndex}" v-for="(item,index) in cutList" :key="index" @tap="changeTab(index,item)">{{item}}
 						<view class="cate_line" v-if="cutIndex == index"></view>
@@ -41,10 +41,18 @@
 					refresher_style:'black'
 				},
 				page: 0,
+				scrollLefts: 0,
 				organizeList: [],
 			};
 		},
-		onLoad() {
+		onLoad(e) {
+			if(e.type){
+				this.type = e.type
+				this.$nextTick(()=>{
+					console.log(11111111);
+					this.scrollLefts = 500
+				})
+			}
 			this.getCateList()
 			this.getList()
 		},
@@ -98,11 +106,16 @@
 					})
 					array.unshift('全部')
 					this.cutList = array
+					this.cutList.map((item,index)=>{
+						if(item==this.type){
+							this.cutIndex = index
+						}
+					})
 				})
 			},
 			getList(){
 				let params={
-					channelIds: 142, count: 10, first: this.page, format:0, s_type: this.type,
+					channelIds: 142, count: 10, first: this.page, format:0, s_type_like: this.type,
 				}
 				this.indexRequest({url:'/content/list.jspx',data:params}).then(res=>{
 					if(res.data.body.length==0&&this.organizeList.length == 0){

@@ -1,15 +1,6 @@
 <template>
 	<view class="cultural-encyclopedia content">
-		<view class="cutbox">
-			<ys-scroll :param="first_cate_param">
-				<view class="cutlist">
-					<view class="cutlist_item" :class="{'active':index==cutIndex}" v-for="(item,index) in cutList" :key="index" @tap="changeTab(index,item)">{{item}}
-						<view class="cate_line" v-if="cutIndex == index"></view>
-					</view>
-				</view>
-			</ys-scroll>
-		</view>
-		<view class="cate_box">
+		<view class="cate_box" style="height: 100%;">
 			<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
 				<view class="cultural_box" style="box-sizing: border-box;padding: 0 30rpx;">
 					<view class="cultural_box_point" v-for="(item,index) in culturalList" :key="index" @tap="todetail(item.id)">
@@ -41,6 +32,7 @@
 				},
 				page: 0,
 				culturalList: [],
+				type: '',
 			};
 		},
 		onLoad() {

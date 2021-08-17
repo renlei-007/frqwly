@@ -56,6 +56,7 @@
 					refresher_style:'black'
 				},
 				moocList: [],
+				type: '',
 			};
 		},
 		onLoad() {

@@ -4,7 +4,7 @@ import rand from './random.js'
 import sign from './sign.js'
 import aes from './aes.js'
 
-// const baseUrl = 'http://yuhuatestapi.culturalcloud.net'
+// const baseUrl = 'https://furong.culturalcloud.net/'
 const baseUrl = 'http://192.168.2.149:8080/'
 var navigateTo_num = 0; //页面跳转次数,用于登录失效的跳转判断,防止多接口请求时跳转多个页面
 const img_upload_path = '/api/upload_new/image' //图片上传接口地址
@@ -134,6 +134,25 @@ class common {
 			setTimeout(() => {
 				uni.hideToast()
 			}, time)
+		}
+		/**
+		 * @param {Object} html
+		 * 富文本重置样式
+		 */
+		Vue.prototype.formatRichText = function(html) {
+			let newContent = html.replace(/<img[^>]*>/gi, function(match, capture) {
+			match = match.replace(/style="[^"]+"/gi, '').replace(/style='[^']+'/gi, '');
+			match = match.replace(/width="[^"]+"/gi, '').replace(/width='[^']+'/gi, '');
+			match = match.replace(/height="[^"]+"/gi, '').replace(/height='[^']+'/gi, '');
+			return match;
+			});
+			newContent = newContent.replace(/style="[^"]+"/gi, function(match, capture) {
+			match = match.replace(/width:[^;]+;/gi, 'max-width:100%;').replace(/width:[^;]+;/gi, 'max-width:100%;');
+			return match;
+			});
+			newContent = newContent.replace(/<br[^>]*\/>/gi, '');
+			newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;height:auto;display:block;margin:10px 0;"');
+			return newContent;
 		}
 		Date.prototype.format = function(fmt) {
 			var o = {
@@ -302,6 +321,37 @@ class common {
 				uni.request({
 					url: globalData.memberUrl+url,
 					data: _data,
+					header: {
+						'content-type': 'application/x-www-form-urlencoded'
+					},
+					method: method,
+					success: (res) => {
+						resolve(res.data);
+					}
+				})
+			})
+		}
+		Vue.prototype.adminGet = (obj) => {
+			let {
+				url = '',
+				method = 'GET',
+				data = {}
+			} = obj
+			let sessionKey = uni.getStorageSync('sessionKey');
+			var nonce_str = rand.getRand();//随机数
+			let postParams = [];
+			data['appId'] = globalData.appId;
+			data['nonce_str'] = nonce_str;
+			data['sessionKey'] = sessionKey;
+			for(var i in data){
+				postParams.push([i, data[i]]);
+			}
+			var signVal=sign.createSign(postParams, globalData.appKey);//签名
+			data['sign'] = signVal;
+			return new Promise(resolve=>{
+				uni.request({
+					url: baseUrl+'/api/admin'+ url,
+					data: data,
 					header: {
 						'content-type': 'application/x-www-form-urlencoded'
 					},

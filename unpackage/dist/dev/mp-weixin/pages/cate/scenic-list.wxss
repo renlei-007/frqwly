@@ -28,9 +28,231 @@ page {
   background-color: #F2F5FA;
 }
 .scenic-list {
+  height: 100%;
+}
+.cate_box {
+  height: 100%;
+}
+.cate_box .scenic_boxs {
+  width: 328rpx;
+}
+.cate_box .scenic_boxs .scenic_point {
+  width: 328rpx;
+  height: auto;
+  background: #FFFFFF;
+  border-radius: 8rpx;
+  margin-top: 30rpx;
+}
+.cate_box .scenic_boxs .scenic_point_img {
+  width: 328rpx;
+  height: 188rpx;
+}
+.cate_box .scenic_boxs .scenic_point .stars {
+  position: absolute;
+  font-size: 32rpx;
+  color: red;
+  left: 0;
+  bottom: 6rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  width: 100%;
+  height: 60rpx;
+  line-height: 60rpx;
+  box-sizing: border-box;
+  padding-left: 10rpx;
+  color: #ffa500;
+  background: rgba(0, 0, 0, 0.5);
+}
+.cate_box .scenic_boxs .scenic_point_info {
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  padding: 20rpx;
+}
+.cate_box .scenic_boxs .scenic_point_info_name {
+  width: 100%;
+  font-size: 28rpx;
+  font-weight: 500;
+  line-height: 28rpx;
+  color: #1B1C1E;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cate_box .scenic_boxs .scenic_point_info_position {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  margin-top: 20rpx;
+}
+.cate_box .scenic_boxs .scenic_point_info_position_icon {
+  width: 21rpx;
+  height: 25rpx;
+  margin-right: 8rpx;
+}
+.cate_box .scenic_boxs .scenic_point_info_position_txt {
+  width: calc(100% - 40rpx);
+  font-size: 24rpx;
+  font-weight: 400;
+  line-height: 24rpx;
+  color: #8B8B9C;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cate_box .scenic_boxs .actives_point {
+  width: 328rpx;
+  background: #FFFFFF;
+  border-radius: 8rpx;
+  margin-top: 30rpx;
+  position: relative;
+}
+.cate_box .scenic_boxs .actives_point_img {
+  width: 328rpx;
+  height: 188rpx;
+}
+.cate_box .scenic_boxs .actives_point_info {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20rpx;
+}
+.cate_box .scenic_boxs .actives_point_info_name {
+  width: 100%;
+  font-size: 28rpx;
+  font-weight: 500;
+  line-height: 40rpx;
+  color: #1B1C1E;
+}
+.cate_box .scenic_boxs .actives_point_info_mess {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  margin-top: 20rpx;
+}
+.cate_box .scenic_boxs .actives_point_info_mess_label {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+.cate_box .scenic_boxs .actives_point_info_mess_label_item {
+  height: 34rpx;
+  background: #ffd9d9;
+  border-radius: 8rpx;
+  box-sizing: border-box;
+  padding: 0 12rpx;
+  line-height: 34rpx;
+  font-size: 18rpx;
+  font-weight: 400;
+  color: #FF6868;
+  margin-right: 32rpx;
+}
+.cate_box .scenic_boxs .actives_point_info_mess_view {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 24rpx;
+  color: #8B8B9C;
+}
+.cate_box .scenic_boxs .actives_point_info_position {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  margin-top: 16rpx;
+}
+.cate_box .scenic_boxs .actives_point_info_position_icon {
+  width: 21rpx;
+  height: 25rpx;
+  margin-right: 8rpx;
+  display: inline-block;
+}
+.cate_box .scenic_boxs .actives_point_info_position_txt {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAiCAYAAABMfblJAAADY0lEQVRYR72XTUhUURTH/+cNlA0NFH1QRouUiBYFgS7KgqiF9AUFlcsUStAonLnXaZMy4CZ8985UVhpUSrVxEbUoi6JWFYG66GMRhRNBuShqUYY64DtxB2dQZ96bl45dmMW8+z//3zvvnnvefQQfQwixB0A1gEoAawCsJKJFk6FDAJ45jnMvHo/3FbIjN0E4HF5kWVaYiCSApYWMJueHmfk2M1+Px+Mf8sXkBUop9wG4BmCVT1COjJmvaK1PzpzIAUopLwA4PVvQjLiB8fHxvR0dHd8z16cBpZQ3ANQVCZa2Yeb3juNUJRKJn+Z/FiiEOEVEF4sJy3gx8yut9dYssKmpaXUgEPhERAvnAzjpeVwpdT2doZSyF8DReYQZ6+9KqZUUjUZLHcf56gdWUVEB8ystLU3Lh4eH0d/fj8HBQT/hZj0PkRDiLBG1eUWUlJSgtrYW5eXleWVDQ0Po6enB2NiYJ5iZbxngCyLa5qVsaGhAWVmZp5mBdnV1Fcr0DUkpkwDWuSnNI6ypqSlklJ7v7e3FwMCAl/aHAf4BEHRT+ckuE5tMJtHZ2el5cwb4C0DITdXW1gazhn7G6OgoWltbXaXM/MsA3wPYUAygKZqWlhave3tngE8B7PpPj7TPVGkPER37H0XDzJdNhqZZm6btOvwUjp+CYeYjJsPlAL4RkevL2BRNXV2d6140sO7u7kIbPzUxMbEk00tfAkh3c69h9mRlZWVOayuw9zKWD5RS+9PASCRy0rKsS4WAc5knosO2bd9JA2Ox2IKRkZEvAFbMxdQtlpnfaq03m/nsukkpzwA4Nx9AIqq2bfvxNGBjY+PiYDD4cS4HJ5ebfaSUMsfM9JhWmUKIaiJ6VKwsmXnUcZz1iUQi+77N2QpCiKtEVF8MKDM3aa3NKTA7coD19fXBUCj0iog2zQXKzPe11gdmeuTd7JFIZK1lWebcMKuqZeaXoVBodywWyzkCuHaX5ubmKmZ+/q9ZMvPrQCCwo729/Xe+WFegEUspdzJz35QPF08+MyeJaKtS6pub0BNogoQQ2wE8JKLFXjRmNpVYpbX+7KUrCJxsfVssy3oCYFk+M7NmqVTq4NRviFlnmAmMRqMbHMe5C2DjDLPzSqmw37X2leFUMyllhJlPEFGKiLRt2zf9wozuL2mhUiZPIYhVAAAAAElFTkSuQmCC) no-repeat;
+  background-size: 21rpx 25rpx;
+  background-position: 0 9rpx;
+  text-indent: 1rem;
+  font-size: 24rpx;
+  font-weight: 400;
+  line-height: 40rpx;
+  color: #8B8B9C;
+}
+.cate_box .scenic_boxs .actives_point_info_piao {
+  box-sizing: border-box;
+  padding: 0 20rpx;
+  height: 44rpx;
+  font-size: 22rpx;
+  line-height: 44rpx;
+  color: #FF5212;
+  background: rgba(112, 112, 112, 0.7);
+  border-radius: 24px 0px 0px 24px;
+  position: absolute;
+  top: 30rpx;
+  right: 0;
+}
+.cate_box .scenic_boxs .actives_point .active_s {
+  padding-bottom: 60rpx;
+}
+.cate_box .scenic_boxs .actives_point:nth-child(1) {
+  width: 100%;
+}
+.cate_box .scenic_boxs .actives_point:nth-child(1) .actives_point_img {
+  width: 100%;
+  height: 386rpx;
+}
+.lineBox {
   width: 100%;
   height: 100%;
-  box-sizing: border-box;
-  padding: 0 30rpx;
+  background-color: #FFFFFF;
+  border-radius: 8rpx;
+  overflow: auto;
+}
+.lineBox_one {
+  width: 686rpx;
+  min-height: 286rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  background-color: rgba(255, 186, 186, 0.35);
+  margin: 30rpx auto 0;
+  position: relative;
+}
+.lineBox_one .point {
+  position: absolute;
+}
+.lineBox_one_img {
+  width: 100%;
+}
+.lineBox_one_left {
+  width: 156rpx;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  position: relative;
+  background-color: #FE6E8B;
+}
+.lineBox_one_left .flag {
+  width: 48rpx;
+  height: 48rpx;
+  position: absolute;
+  top: 60rpx;
+  left: 6rpx;
+}
+.lineBox_one_left_title {
+  width: 108rpx;
+  font-size: 22rpx;
+  font-weight: bold;
+  line-height: 32rpx;
+  color: #FFFFFF;
+  position: absolute;
+  top: 66rpx;
+  left: 40rpx;
+  text-align: center;
 }
 

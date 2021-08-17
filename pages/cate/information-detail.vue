@@ -97,8 +97,8 @@
 				}
 				this.indexRequest({url:'/content/get.jspx',data:params}).then(res=>{
 					console.log(res);
-					res.data.body.txt = res.data.body.txt.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ')
 					var content = res.data.body;
+					content.txt = this.formatRichText(content.txt)
 					this.content = content;
 					this.$nextTick(()=>{
 						this.getHeight()

@@ -8,11 +8,11 @@
 				<view class="major_box_name">{{content.title}}</view>
 				<view class="major_box_text">
 					<image src="/static/first_time.png" mode="" style="width: 28rpx;height: 28rpx;"></image>
-					<text>{{content.registrationStart}}至{{content.registrationEnd}}</text>
+					<text>{{content.registrationStart.slice(0,10)}}至{{content.registrationEnd.slice(0,10)}}</text>
 				</view>
 				<view class="major_box_text">
 					<image src="/static/second_time.png" mode="" style="width: 28rpx;height: 28rpx;"></image>
-					<text>{{content.attr_startTime}}至{{content.attr_endTime}}</text>
+					<text>{{content.attr_startTime.slice(0,10)}}至{{content.attr_endTime.slice(0,10)}}</text>
 				</view>
 				<view class="major_box_text">
 					<image src="/static/position.png" mode="" style="width: 28rpx;height: 34rpx;"></image>
@@ -265,6 +265,7 @@
 				}
 				this.indexRequest({url:'/content/get.jspx',data:params}).then(res=>{
 					var content = res.data.body;
+					content.txt = this.formatRichText(content.txt)
 					this.content = content;
 					uni.setNavigationBarTitle({
 						title: content.title

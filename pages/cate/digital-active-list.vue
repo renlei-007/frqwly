@@ -11,7 +11,12 @@
 								<image class="act_list_content_info_posi_icon" src="/static/position.png" mode=""></image>
 								<text>{{item.attr_address}}</text>
 							</view>
-							<view class="act_list_content_info_status" v-if="item.ticketingSetting.status==1">即将到来</view>
+							<!-- <view class="act_list_content_info_status" v-if="item.ticketingSetting.status==1">即将到来</view> -->
+							<view class="act_list_content_info_status" v-if='item.ticketingSetting.status == 0'>可预约</view>
+							<view class="act_list_content_info_status" v-if='item.ticketingSetting.status == 1'>即将开始</view>
+							<view class="act_list_content_info_status" v-if='item.ticketingSetting.status == 2'>已结束</view>
+							<view class="act_list_content_info_status" v-if='item.ticketingSetting.status == 4'>直接前往</view>
+							<view class="act_list_content_info_status" v-if='item.ticketingSetting.status == 5'>人数已满</view>
 						</view>
 					</view>
 				</view>

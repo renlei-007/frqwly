@@ -1,0 +1,1 @@
+<view class="fymap content"><web-view src="https://furong.culturalcloud.net/heritageMap_h5.html" data-event-opts="{{[['message',[['message2',['$event']]]]]}}" bindmessage="__e"></web-view></view>

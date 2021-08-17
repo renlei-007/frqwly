@@ -110,6 +110,7 @@
 				}
 				this.indexRequest({url:'/content/get.jspx',data:params}).then(res=>{
 					var content = res.data.body;
+					content.txt = this.formatRichText(content.txt)
 					this.content = content;
 					uni.setNavigationBarTitle({
 						title: content.title
@@ -119,13 +120,12 @@
 			getNonlegacyList(){
 				let params = {
 					count:5,
-					channelIds: '125',
+					channelIds: '175',
 					sort:4
 				}
 				this.indexRequest({url:'/content/list.jspx',data:params}).then(res=>{
 					console.log(res);
 					let array = res.data.body
-					array.shift()
 					this.nonlegacyList = array
 				})
 			},
@@ -166,6 +166,8 @@ page{
 			font-weight: 400;
 			color: #1B1C1E;
 			margin: 16rpx auto 0;
+			box-sizing: border-box;
+			padding-bottom: 15rpx;
 			&_name{
 				font-size: 36rpx;
 				font-weight: 500;

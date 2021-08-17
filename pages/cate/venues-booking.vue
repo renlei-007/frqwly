@@ -240,6 +240,7 @@
 						})
 					})
 					if(num==this.maxTicket){
+						this.toast('最多可预定'+this.maxTicket+'张！','none')
 						return
 					}
 					let _val = ind+1
@@ -463,6 +464,8 @@
 								delta: 3
 							})
 						},1000)
+					}else{
+						this.toast(res.message,'none')
 					}
 				})
 			},
@@ -473,12 +476,16 @@
 					data: {},
 				}).then(res=>{
 					console.log(res);
-					res.body.map(item=>{
-						item.userList.map(ite=>{
-							ite.isCheck = false
+					if(res.code==200){
+						res.body.map(item=>{
+							item.userList.map(ite=>{
+								ite.isCheck = false
+							})
 						})
-					})
-					this.teamList = res.body
+						this.teamList = res.body
+					}else{
+						this.toast(res.message,'none')
+					}
 				});
 			},
 		},

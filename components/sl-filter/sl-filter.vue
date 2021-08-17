@@ -111,6 +111,7 @@
 			}
 			this.statusList = arr;
 			this.titleList = titleArr;
+			console.log(this.titleList);
 			this.tempTitleObj = r;
 		},
 		// #endif
@@ -145,6 +146,7 @@
 			}
 			this.statusList = arr;
 			this.titleList = titleArr;
+			console.log(this.titleList);
 			this.tempTitleObj = r;
 		},
 		// #endif

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "填写信息",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "ys-picker": "/components/base/ys-picker"
+  }
+}

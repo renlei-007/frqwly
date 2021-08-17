@@ -27,4 +27,23 @@
 		height:0;
 		color:transparent;
 	}
+	/*
+		全局公共样式和字体图标
+	*/
+	@font-face {
+		font-family: iconfont;
+		font-weight: normal;
+		font-style: normal;
+		src: url('./static/iconfont.ttf') format('truetype');
+	}
+	.iconfont {
+		font-family: "iconfont" !important;
+		font-size: 16px;
+		font-style: normal;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+	.icon-saoma:before {
+	  content: "\e66a";
+	}
 </style>

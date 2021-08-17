@@ -122,6 +122,8 @@
 		onLoad(e) {
 			this.id = e.id
 			this.channelIds = e.channelIds
+		},
+		onShow() {
 			this.getDetail()
 			this.getTeersList()
 			
@@ -218,6 +220,7 @@
 				}
 				this.indexRequest({url:'/content/get.jspx',data:params}).then(res=>{
 					var content = res.data.body;
+					content.txt = this.formatRichText(content.txt)
 					this.content = content;
 					uni.setNavigationBarTitle({
 						title: content.title
@@ -279,6 +282,10 @@
 					})
 				}
 				if(this.channelIds==127){
+					uni.navigateTo({
+						url: './volunteers-booking?id='+this.id
+					})
+					return
 					this.homeRequest({
 						url: '/volunteer/add',
 						method: 'GET',

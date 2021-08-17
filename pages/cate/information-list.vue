@@ -3,37 +3,37 @@
 		<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
 			<view class="news_box">
 				<view class="news_list" v-for="(item,index) in newsList" :key="index" @tap="todetail(item.id)">
-					<view class="news_list_left">
-						<view class="news_list_left_title">{{item.title}}</view>
-						<view class="news_list_left_info">{{item.description}}</view>
-						<view class="news_list_left_content">
-							<view class="news_list_left_content_from">
-								<image src="/static/resource.png" style="width: 28rpx;height: 28rpx;" mode=""></image>
-								<view class="news_list_left_content_from_name">{{item.origin}}</view>
+					<block v-if="item.titleImg">
+						<view class="news_list_left">
+							<view class="news_list_left_title">{{item.title}}</view>
+							<view class="news_list_left_info">{{item.description}}</view>
+							<view class="news_list_left_content">
+								<view class="news_list_left_content_from">
+									<image src="/static/resource.png" style="width: 28rpx;height: 28rpx;" mode=""></image>
+									<view class="news_list_left_content_from_name">{{item.origin}}</view>
+								</view>
+								<view class="news_list_left_content_time">{{item.releaseDate.slice(0,10)}}</view>
 							</view>
-							<view class="news_list_left_content_time">{{item.releaseDate.slice(0,10)}}</view>
 						</view>
-					</view>
-					<image class="news_list_img" :src="item.titleImg" mode=""></image>
+						<image class="news_list_img" :src="item.titleImg" mode=""></image>
+					</block>
+					
+					<block v-else>
+						<view class="news_list_left" style="width: 100%;">
+							<view class="news_list_left_title">{{item.title}}</view>
+							<view class="news_list_left_info">{{item.description}}</view>
+							<view class="news_list_left_content">
+								<view class="news_list_left_content_from">
+									<image src="/static/resource.png" style="width: 28rpx;height: 28rpx;" mode=""></image>
+									<view class="news_list_left_content_from_name">{{item.origin}}</view>
+								</view>
+								<view class="news_list_left_content_time">{{item.releaseDate.slice(0,10)}}</view>
+							</view>
+						</view>
+					</block>
 				</view>
 			</view>
-		</ys-scroll>	
-		<!-- <view class="cate_box">
-			<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
-				<view class="scenic_box">
-					<view class="scenic_point" v-for="(item,index) in newsList" :key="index">
-						<image class="scenic_point_img" :src="item.titleImg" mode="" @tap="todetail(item.id)"></image>
-						<view class="scenic_point_info">
-							<view class="scenic_point_info_name">{{item.stitle}}</view>
-							<view class="scenic_point_info_position">
-								<image src="/static/personcount.png" style="width: 24rpx;height: 24rpx;" class="scenic_point_info_position_icon" mode=""></image>
-								<view class="scenic_point_info_position_txt">人数:{{item.quota}}</view>
-							</view>
-						</view>
-					</view>
-				</view>
-			</ys-scroll>			
-		</view> -->
+		</ys-scroll>
 	</view>
 </template>
 

@@ -12,6 +12,7 @@
 			<view class="info">
 				<view>预订时间：{{record.createTime}}</view>
 				<view>预订座位：{{record.seatName}}</view>
+				<view>订单编号：{{record.orderNo}}</view>
 				<view>联系人：{{record.user.authName}}</view>
 				<view>使用者：{{record.realname}}</view>
 				<view>使用者电话：{{record.phone}}</view>
@@ -37,6 +38,7 @@
 				verifyImg:'/static/verify_img.png',
 				record: {
 					status: '',
+					orderNo: '',
 					content: {
 						title: '',
 					},
@@ -57,10 +59,9 @@
 			this.getDetail()
 		},
 		methods: {
-			qrcodeCotent(item){
+			qrcodeCotent(){
 				let params={
-					type : 1,
-					value: item.orderNo
+					value: this.record.orderNo
 				}
 				return encodeURIComponent(JSON.stringify(params));
 			},

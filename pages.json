@@ -21,6 +21,7 @@
             "style" : {
                 "navigationBarTitleText": "登录",
                 "enablePullDownRefresh": false
+				// "navigationBarBackgroundColor":"#02ac64"
             }
             
         } ,{
@@ -546,6 +547,67 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/mine/writeoff",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "核销",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/mine/my-volunteer",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "志愿活动",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/volunteers-booking",
+            "style" : {
+                "navigationBarTitleText": "填写信息",
+                "enablePullDownRefresh": false
+            }
+        }
+        ,{
+            "path" : "pages/mine/my-volunteer-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "志愿活动详情",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/digital-cultural-centre",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "数字文化馆",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/all-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/cate/fymap",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "非遗地图",
                 "enablePullDownRefresh": false
             }
             

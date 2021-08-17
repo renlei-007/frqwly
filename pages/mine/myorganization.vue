@@ -9,32 +9,34 @@
 				</view>
 			</ys-scroll>
 		</view>
-		<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore" style="height: calc(100% - 188rpx);">
-			<view class="org_box" v-if="cutIndex==0">
-				<view class="org_box_list" v-for="(item,index) in orgList" :key="index">
-					<view class="org_box_list_left">
-						<view class="org_box_list_left_name">{{item.group.content.title}}</view>
-						<view class="org_box_list_left_person">
-							<image class="org_box_list_left_person_icon" src="/static/personcount.png" mode=""></image>
-							<text>人数：{{item.group.memberCount}}人</text>
+		<view style="height: calc(100% - 188rpx);">
+			<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
+				<view class="org_box" v-if="cutIndex==0">
+					<view class="org_box_list" v-for="(item,index) in orgList" :key="index">
+						<view class="org_box_list_left">
+							<view class="org_box_list_left_name">{{item.group.content.title}}</view>
+							<view class="org_box_list_left_person">
+								<image class="org_box_list_left_person_icon" src="/static/personcount.png" mode=""></image>
+								<text>人数：{{item.group.memberCount}}人</text>
+							</view>
 						</view>
+						<view class="org_box_list_right" @tap="lookup(item.group.id)">点击查看</view>
 					</view>
-					<view class="org_box_list_right" @tap="lookup(item.group.id)">点击查看</view>
 				</view>
-			</view>
-			<view class="org_box" v-else>
-				<view class="org_box_list" v-for="(item,index) in teamList" :key="index">
-					<view class="org_box_list_left">
-						<view class="org_box_list_left_name">{{item.content.title}}</view>
-						<view class="org_box_list_left_person">
-							<image class="org_box_list_left_person_icon" src="/static/personcount.png" mode=""></image>
-							<text>人数：{{item.memberCount}}人</text>
+				<view class="org_box" v-else>
+					<view class="org_box_list" v-for="(item,index) in teamList" :key="index">
+						<view class="org_box_list_left">
+							<view class="org_box_list_left_name">{{item.content.title}}</view>
+							<view class="org_box_list_left_person">
+								<image class="org_box_list_left_person_icon" src="/static/personcount.png" mode=""></image>
+								<text>人数：{{item.memberCount}}人</text>
+							</view>
 						</view>
+						<view class="org_box_list_right" @tap="examine(item.id)">查看审核</view>
 					</view>
-					<view class="org_box_list_right" @tap="examine(item.id)">查看审核</view>
 				</view>
-			</view>
-		</ys-scroll>
+			</ys-scroll>
+		</view>
 		<view class="creat" @tap="creatTeam">创建社团</view>
 	</view>
 </template>
@@ -139,7 +141,6 @@
 .myorganization{
 	width: 100%;
 	height: 100%;
-	overflow: auto;
 	.org_box{
 		width: 100%;
 		box-sizing: border-box;

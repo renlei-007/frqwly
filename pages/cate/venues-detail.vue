@@ -1,9 +1,9 @@
 <template>
 	<view class="venues-detail content">
 		<view class="main_img">
-			<image class="indeximg" :src="content.titleImg" mode=""></image>
+			<image class="indeximg" :src="content.titleImg" mode="aspectFill"></image>
 		</view>
-		<view class="venues_box">
+		<view class="venues_box" style="box-sizing: border-box;padding-bottom: 20rpx;">
 			<view class="venues_title">{{content.stitle}}</view>
 			<view class="venues_info">
 				<view class="venues_info_title">类别：</view>
@@ -24,7 +24,23 @@
 			</view>
 			<view class="venues_info">
 				<view class="venues_info_title">容纳：</view>
-				<view class="venues_info_name">{{content.attr_capacity}}</view>
+				<view class="venues_info_name">{{content.attr_number}}</view>
+			</view>
+			<view class="venues_info" v-if="channelId==198">
+				<view class="venues_info_title">预定开始时间：</view>
+				<view class="venues_info_name">{{content.seatSetting.registrationTime[0]}}</view>
+			</view>
+			<view class="venues_info" v-if="channelId==198">
+				<view class="venues_info_title">预定结束时间：</view>
+				<view class="venues_info_name">{{content.seatSetting.registrationTime[1]}}</view>
+			</view>
+			<view class="venues_info" v-if="channelId==198">
+				<view class="venues_info_title">演出开始时间：</view>
+				<view class="venues_info_name">{{content.seatSetting.time[0]}}</view>
+			</view>
+			<view class="venues_info" v-if="channelId==198">
+				<view class="venues_info_title">演出结束时间：</view>
+				<view class="venues_info_name">{{content.seatSetting.time[1]}}</view>
 			</view>
 			<view class="venues_infos">
 				<text>设备：</text>{{content.attr_equipment}}
@@ -87,7 +103,12 @@
 				nowIndex: 0,
 				id: '',
 				is_show: true,
-				content: {},
+				content: {
+					seatSetting: {
+						registrationTime: [],
+						time: [],
+					},
+				},
 				venuesList: [],
 				
 				comment_show: false,
@@ -200,6 +221,7 @@
 				let url = this.channelId==179?'/bookings/content':this.channelId==180?'/content/get.jspx':'/content/get.jspx'
 				this.indexRequest({url:url,data:params}).then(res=>{
 					var content = res.data.body;
+					content.txt = this.formatRichText(content.txt)
 					this.content = content;
 					uni.setNavigationBarTitle({
 						title: content.title

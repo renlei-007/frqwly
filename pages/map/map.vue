@@ -123,10 +123,27 @@ export default {
 			sort: '',
 			lat: '',
 			lng: '',
+			mapTitle: '',
 		};
 	},
 	onLoad() {
 		this.getCateList()
+		
+	},
+	onShow() {
+		if(uni.getStorageSync('mapTitle')){
+			this.mapTitle = uni.getStorageSync('mapTitle')
+			console.log(this.mapTitle);
+			uni.removeStorageSync('mapTitle')
+			this.type = this.mapTitle
+			this.$refs.slFilter.titleList = [{
+				title: this.type,
+				key: 'type'
+			},{
+				title: '方式',
+				key: 'sort'
+			},]
+		}
 		this.getCatePointList()
 	},
 	methods: {

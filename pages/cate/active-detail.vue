@@ -15,12 +15,12 @@
 			</view>
 			<view class="active_mess">
 				<image class="info_icon" src="/static/position.png" style="height: 34rpx;" mode=""></image>
-				<text class="info_text">{{content.attr_address || ''}}</text>
+				<text class="info_text">{{content.attr_address || '暂无'}}</text>
 				<view class="address_btns" @tap="openMap(content)" v-if="content.position">查看地图</view>
 			</view>
 			<view class="active_mess">
 				<image class="info_icon" src="/static/phone.png" mode=""></image>
-				<text class="info_text">{{content.attr_phone || ''}}</text>
+				<text class="info_text">{{content.attr_phone || '暂无'}}</text>
 			</view>
 			<view class="active_mess">
 				<image class="info_icon" src="/static/yupiao.png" mode=""></image>
@@ -272,6 +272,7 @@
 				this.indexRequest({url:'/content/get.jspx',data:params}).then(res=>{
 					console.log(res);
 					var content = res.data.body;
+					content.txt = this.formatRichText(content.txt)
 					this.content = content;
 					// this.status = res.data.body.status;
 					this.ticketStatus = res.data.body.ticketingSetting.status

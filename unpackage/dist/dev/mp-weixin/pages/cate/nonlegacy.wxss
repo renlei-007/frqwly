@@ -42,9 +42,12 @@
   -webkit-justify-content: center;
           justify-content: center;
   text-align: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
 }
 .chooseway image {
-  width: 100%;
-  height: 280rpx;
+  width: 690rpx;
+  height: 226rpx;
 }
 

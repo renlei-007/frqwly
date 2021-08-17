@@ -37,9 +37,16 @@
 					refresher_style:'black'
 				},
 				page: 0,
+				type: '',
 			};
 		},
-		onLoad() {
+		onLoad(e) {
+			if(e.type){
+				this.type = e.type
+				uni.setNavigationBarTitle({
+					title: e.type
+				})
+			}
 			this.getList()
 		},
 		methods: {
@@ -65,10 +72,11 @@
 			},
 			getList(){
 				let params={
-					channelIds: 113, count: 10, first: this.page, format:0, s_category: '', orderBy: 4,
+					channelIds: 113, count: 10, first: this.page, format:0, s_category_like: this.type?this.type:'', orderBy: 4,
 				}
 				this.indexRequest({url:'/content/list.jspx',data:params}).then(res=>{
 					if(res.data.body.length==0&&this.liveList.length == 0){
+						console.log(111111);
 						this.$refs.scroll.setLoadStatus('no_data');
 					}else{
 						this.liveList = this.liveList.concat(res.data.body)
@@ -97,7 +105,6 @@
 }
 .live{
 	width: 690rpx;
-	height: 100%;
 	margin: 0 auto;
 	&_list{
 		margin: 30rpx auto 0;

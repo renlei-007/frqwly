@@ -60,7 +60,7 @@
 					scroll_y:true,
 					background:'#F2F5FA',
 					refresher:true,
-					no_more_text:'',
+					no_more_text:'没有更多了~',
 					refresher_style:'black'
 				},
 				cutIndex: 0,
@@ -68,7 +68,20 @@
 				page: 0,
 			};
 		},
-		onLoad() {
+		onLoad(e) {
+			if(e.title){
+				switch (e.title) {
+					case '文化馆':
+						this.cutIndex = 1
+						break
+					case '图书馆':
+						this.cutIndex = 2
+						break
+					case '体育馆':
+						this.cutIndex = 3
+						break
+				}
+			}
 			// this.getCateList()
 			this.getList()
 		},

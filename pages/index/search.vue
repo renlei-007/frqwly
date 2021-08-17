@@ -1,6 +1,6 @@
 <template>
 	<view class="search content">
-			<zy-search :h-list="list" ref="zysearch" :is-focus="true" :is-block="false" :show-want="true" @search="doSearch"></zy-search>
+		<zy-search :h-list="list" ref="zysearch" :is-focus="true" :is-block="false" :show-want="true" @search="doSearch"></zy-search>
 		<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore" style="overflow: auto;" :style="{'height':`calc(100% - ${heights*2}rpx)`}">
 			<view class="search_list">
 				<view class="search_list_cell" v-for="(item,index) in result" :key="index"></view>
@@ -28,7 +28,7 @@
 					no_more_text:'没有更多了~',
 					refresher_style:'black'
 				},
-				heights: 0,
+				heights: 45,
 			};
 		},
 		onShow() {
@@ -62,6 +62,7 @@
 				const query = uni.createSelectorQuery().in(this);
 				let height = 0
 				query.select('#zy-search').boundingClientRect(data => {
+					console.log(data);
 					height = Math.ceil(data.height)
 					this.heights = height
 				}).exec();

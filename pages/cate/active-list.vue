@@ -3,7 +3,7 @@
 		<view class="cutbox">
 			<ys-scroll :param="first_cate_param">
 				<view class="cutlist">
-					<view class="cutlist_item" :class="{'active':index==cutIndex}" v-for="(item,index) in cutList" :key="index" @tap="changeTab(index,item)">{{item}}
+					<view class="cutlist_item" :class="{'active':index==cutIndex}" v-for="(item,index) in cutList" :key="index" @tap="changeTab(index,item)">{{cutText(item)}}
 						<view class="cate_line" v-if="cutIndex == index"></view>
 					</view>
 				</view>
@@ -56,11 +56,21 @@
 				page: 0,
 			};
 		},
-		onLoad() {
+		onLoad(e) {
+			if(e.type){
+				this.type = e.type
+			}
 			this.getCateList()
 			this.getList()
 		},
 		methods: {
+			cutText(item){
+				if(item.indexOf('活动')!==-1){
+					return item.slice(0,item.indexOf('活动'))
+				}else{
+					return item
+				}
+			},
 			/**
 			 * 页面刷新
 			 */
@@ -107,6 +117,11 @@
 					})
 					array.unshift('全部')
 					this.cutList = array
+					this.cutList.map((item,index)=>{
+						if(item==this.type){
+							this.cutIndex = index
+						}
+					})
 				})
 			},
 			getList(){

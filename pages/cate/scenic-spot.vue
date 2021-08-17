@@ -1,16 +1,22 @@
 <template>
 	<view class="scenic-spot content">
 		<view class="spot_info">
-			<!-- <view class="spot_info_img"></view> -->
-			<swiper class="spot_info_img" circular  indicator-dots="true" indicator-active-color="rgba(255,153,51,1)">
+			<!-- <view class="spot_info_img">
+				<video v-if="content.attr_videopath" :src="content.attr_videopath" controls></video>
+				<image v-else class="swiper_img" mode="" :src="content.titleImg"></image>
+			</view> -->
+			<swiper class="spot_info_img" circular autoplay="autoplay" indicator-dots="true" indicator-active-color="rgba(255,153,51,1)">
+				<swiper-item class="swiper-item" v-if="content.attr_videopath">
+					<video id="myVideo" :src="content.attr_videopath" :controls="false" object-fit="fill" class="video-box"></video>
+				</swiper-item>
 				<swiper-item  class="swiper-recommend" v-for="(item, index) in content.picArr"  :key="index">
 					<image class="swiper_img" :src="item.picPaths" mode="widthFix"></image>
-				</swiper-item>
+				</swiper-item> 
 			</swiper>
-			<view class="spot_info_title">{{content.stitle}}</view>
+			<view class="spot_info_title">{{content.title}}</view>
 			<view class="spot_info_line">
 				<image src="/static/first_time.png" mode=""></image>
-				<text>{{content.attr_open}}</text>
+				<text>{{content.attr_open?content.attr_open:'暂无'}}</text>
 			</view>
 			<view class="spot_info_line">
 				<image src="/static/position.png" style="width: 26rpx;" mode=""></image>
@@ -19,7 +25,7 @@
 			</view>
 			<view class="spot_info_line">
 				<image src="/static/phone.png" style="width: 28rpx;height: 28rpx;" mode=""></image>
-				<text>{{content.attr_phone}}</text>
+				<text>{{content.attr_phone?content.attr_phone:'暂无'}}</text>
 			</view>
 		</view>
 		<view class="blank"></view>
@@ -61,10 +67,12 @@
 				commentList: [],
 				is_show: false,
 				page: 0,
+				channelIds: '',
 			};
 		},
 		onLoad(e) {
 			this.spotId = e.id
+			this.channelIds = e.channelIds
 			this.getDetail()
 			this.getTourList()
 			this.getCommentList()
@@ -110,6 +118,7 @@
 				}
 				this.indexRequest({url:'/content/get.jspx',data:params}).then(res=>{
 					var content = res.data.body;
+					content.txt = this.formatRichText(content.txt)
 					this.content = content;
 					uni.setNavigationBarTitle({
 						title: content.title
@@ -118,14 +127,14 @@
 			},
 			getTourList(){
 				let params = {
-					count:5,
-					channelIds: '135',
-					sort:4
+					count:4,
+					channelIds: this.channelIds,
+					orderBy: 9,
+					format:0,
 				}
 				this.indexRequest({url:'/content/list.jspx',data:params}).then(res=>{
 					console.log(res);
 					let array = res.data.body
-					array.shift()
 					this.tourList = array
 				})
 			},
@@ -188,8 +197,12 @@ page{
 		margin: 0 auto;
 		&_img{
 			width: 100%;
-			height: 292rpx;
+			height: 322rpx;
 			background-color: #E5E5E5;
+			video{
+				width: 100%;
+				height: 100%;
+			}
 			.swiper_img{
 				width: 100%;
 				height: 100%;
@@ -198,8 +211,9 @@ page{
 		&_title{
 			font-size: 40rpx;
 			font-weight: 500;
-			line-height: 104rpx;
+			line-height: 64rpx;
 			color: #1B1C1E;
+			margin: 20rpx 0;
 		}
 		&_line{
 			font-size: 32rpx;
@@ -270,5 +284,9 @@ page{
 			color: #8B8B9C;
 		}
 	}
+}
+.video-box{
+	width: 100%;
+	height: 100%;
 }
 </style>

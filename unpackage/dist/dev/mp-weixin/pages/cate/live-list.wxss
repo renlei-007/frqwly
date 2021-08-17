@@ -31,7 +31,6 @@
 }
 .live {
   width: 690rpx;
-  height: 100%;
   margin: 0 auto;
 }
 .live_list {

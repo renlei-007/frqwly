@@ -145,6 +145,7 @@
 				this.indexRequest({url:'/content/get.jspx',data:params}).then(res=>{
 					console.log(res);
 					var content = res.data.body;
+					content.txt = this.formatRichText(content.txt)
 					this.content = content;
 					uni.setNavigationBarTitle({
 						title: content.title

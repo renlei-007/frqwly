@@ -53,6 +53,8 @@ page {
   font-weight: 400;
   color: #1B1C1E;
   margin: 16rpx auto 0;
+  box-sizing: border-box;
+  padding-bottom: 15rpx;
 }
 .nonlegacy-detail .major_box_name {
   font-size: 36rpx;

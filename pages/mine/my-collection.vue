@@ -92,54 +92,63 @@
 				})
 			},
 			bindClick(index,id){
-				let params = {
-					id: id,
-					operate: 0
-				}
-				this.homeRequest({
-					url: '/content/collect',
-					method: 'GET',
-					data: params,
-				}).then(res=>{
-					if(res.code==200){
-						this.toast('取消成功！','none')
-						this.refresh()
+				uni.showModal({
+					title: '提示',
+					content: '确定要取消该收藏吗？',
+					success: (res) => {
+						if (res.confirm) {
+							let params = {
+								id: id,
+								operate: 0
+							}
+							this.homeRequest({
+								url: '/content/collect',
+								method: 'GET',
+								data: params,
+							}).then(res=>{
+								if(res.code==200){
+									this.toast('取消成功！','none')
+									this.refresh()
+								}
+							})
+						} else if (res.cancel) {
+						}
 					}
-				})
+				});
 			},
 			navToDetailPage(item){
-				switch(item.channelName){
+				switch(item.modelName){
 					case '艺术欣赏':
 						this.navigateTo('/pages/cate/art-expert?id='+item.id)
 						break
-					case '景点攻略':
-						this.navigateTo('/pages/cate/scenic-spot?id='+item.id)
+					case '旅游景点':
+						this.navigateTo('/pages/cate/scenic-spot?id='+item.id+'&&channelIds='+item.channelId)
 						break
-					case '文旅咨询':
-						this.navigateTo('/pages/cate/information-detail?id='+item.id)
+					case '新闻':
+						this.navigateTo('/pages/cate/information-detail?id='+item.id+'&&channelIds='+item.channelId)
 						break
-					case '非遗':
+					case '非遗名录':
 						this.navigateTo('/pages/cate/nonlegacy-detail?id='+item.id)
 						break
-					case '直播点播':
+					case '直播':
 						this.navigateTo('/pages/cate/live-detail?id='+item.id)
 						break
-					case '志愿者服务':
+					case '志愿服务':
 						this.navigateTo('/pages/cate/volunteers-detail?id='+item.id)
 						break
-					case '活动报名':
+					case '活动预定':
 						this.navigateTo('/pages/cate/active-detail?id='+item.id)
 						break
-					case '网上培训':
+					case '培训':
 						this.navigateTo('/pages/cate/nettrain-detail?id='+item.id)
 						break
-					case '文体社团':
+					case '群组':
 						this.navigateTo('/pages/cate/volunteers-detail?id='+item.id+'&&channelIds='+item.channelId)
 						break
-					case '体育场馆':
+					case '场馆预定':
 						this.navigateTo('/pages/cate/venues-detail?id='+item.id+'&&channelIds='+item.channelId)
 						break
-					case '慕课':
+					case '课程':
 						this.navigateTo('/pages/cate/mooc-detail?id='+item.id)
 						break
 					case '文化百科':
@@ -202,7 +211,7 @@ page{
 }
 .uni-list-cell::after {
 	position: absolute;
-  z-index: 3;
+	z-index: 3;
 	right: 0;
 	bottom: 0;
 	left: 30upx;
@@ -212,7 +221,7 @@ page{
 	transform: scaleY(.5);
 	background-color: #c8c7cc;
 }
-.uni-list .uni-list-cell:last-child::after {
+.uni-list .uni-list-cell:nth-last-child(1)::after {
 	height: 0upx;
 }
 .uni-media-list{

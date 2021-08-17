@@ -37,7 +37,7 @@
 export default {
 	name: 'ys-scroll',
 	props: {
-		scrollLeft: '',
+		scrollLeft: 0,
 		param: {
 			type: Object,
 			default: () => {}

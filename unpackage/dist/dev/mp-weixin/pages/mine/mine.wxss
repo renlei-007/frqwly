@@ -38,7 +38,16 @@
   padding: 0 35rpx;
   background-color: #6851E2;
   border-radius: 0 0 10% 10%;
-  padding-top: 88rpx;
+  position: relative;
+  z-index: 1;
+  padding-top: 40rpx;
+}
+.content .user_box .bac_img.data-v-dcbcfe34 {
+  position: absolute;
+  width: 336rpx;
+  height: 325rpx;
+  bottom: -80rpx;
+  right: 44rpx;
 }
 .content .user_box_b.data-v-dcbcfe34 {
   -webkit-box-align: center;
@@ -50,6 +59,7 @@
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
           justify-content: space-between;
+  position: relative;
 }
 .content .user_box_b .user_info_box.data-v-dcbcfe34 {
   display: -webkit-box;
@@ -79,7 +89,20 @@
   color: #FFFFFF;
   opacity: 0.81;
 }
-.content .user_box_b .sign_box.data-v-dcbcfe34 {
+.content .user_box_b .sign_right.data-v-dcbcfe34 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.content .user_box_b .sign_right .iconfont.data-v-dcbcfe34 {
+  font-size: 40rpx;
+  color: #fff;
+  margin-right: 30rpx;
+}
+.content .user_box_b .sign_right .sign_box.data-v-dcbcfe34 {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -91,15 +114,15 @@
   -webkit-align-items: center;
           align-items: center;
 }
-.content .user_box_b .sign_box .sign_box_icon.data-v-dcbcfe34 {
+.content .user_box_b .sign_right .sign_box .sign_box_icon.data-v-dcbcfe34 {
   width: 48rpx;
   height: 48rpx;
 }
-.content .user_box_b .sign_box .sign_box_icon_img.data-v-dcbcfe34 {
+.content .user_box_b .sign_right .sign_box .sign_box_icon_img.data-v-dcbcfe34 {
   width: 48rpx;
   height: 48rpx;
 }
-.content .user_box_b .sign_box .sign_box_text.data-v-dcbcfe34 {
+.content .user_box_b .sign_right .sign_box .sign_box_text.data-v-dcbcfe34 {
   font-size: 18rpx;
   line-height: 36rpx;
   margin-top: 4rpx;
@@ -114,6 +137,8 @@
   display: -webkit-flex;
   display: flex;
   border-radius: 20rpx;
+  position: relative;
+  z-index: 10;
 }
 .content .datas_box_item.data-v-dcbcfe34 {
   width: 33.33%;

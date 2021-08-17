@@ -26,66 +26,13 @@
 					scroll_y:false,
 					scroll_x:true
 				},
-				id: 129,
-				cutList: [{
-						state: 0,
-						text: '本馆简介',
-						id: 129,
-						video: null,
-					},
-					{
-						state: 1,
-						text: '机构领导',
-						id: 131,
-						video: null,
-					},
-					{
-						state: 2,
-						text: '雨花区公共图书馆',
-						id: 132,
-						video: null,
-					},
-					{
-						state: 3,
-						text: '雨花区文化馆',
-						id: 145,
-						video: null,
-					},
-					{
-						state: 4,
-						text: '雨花区文化市场综合执法局',
-						id: 162,
-						video: null,
-					},
-					{
-						state: 5,
-						text: '雨花区文物管理所',
-						id: 163,
-						video: null,
-					},
-					{
-						state: 6,
-						text: '区文旅体局办公室',
-						id: 164,
-						video: null,
-					},
-					{
-						state: 7,
-						text: '公共文体艺术科',
-						id: 165,
-						video: null,
-					},
-					{
-						state: 8,
-						text: '文化产业科（市场科）',
-						id: 166,
-						video: null,
-					}
-				],
+				id: '',
+				cutList: [],
 			};
 		},
 		onLoad() {
-			this.getDetail(this.id)
+			this.getList()
+			// this.getDetail(this.id)
 		},
 		methods: {
 			changeTab(item,index){
@@ -95,6 +42,21 @@
 					this.scrollLeft = (index - 1) * 130;
 					this.getDetail(this.id)
 				}
+			},
+			getList(){
+				this.indexRequest({url:'/channel/list',data:{parentId:128}}).then(res=>{
+					console.log('wwwwwwwww',res);
+					res.data.body.map((item,index)=>{
+						this.cutList.push({
+							state: index,
+							text: item.title,
+							id: item.id,
+							video: null,
+						})
+						this.id = this.cutList[0].id
+						this.getDetail(this.id)
+					})
+				})
 			},
 			getDetail(id){
 				let params = {

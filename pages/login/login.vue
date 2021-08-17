@@ -123,7 +123,7 @@
 				postParams[3]=["nonce_str",nonce_str];
 				var signVal=sign.createSign(postParams, globalData.appKey);//签名
 				this.request({
-					url:'/user/login.jspx',
+					url:'user/login.jspx',
 					data:{
 						username:this.userform.username,
 						aesPassword: aesPassword,

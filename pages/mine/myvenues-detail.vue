@@ -59,8 +59,8 @@
 		methods: {
 			qrcodeCotent(item){
 				let params={
-					type : 1,
-					value: item.orderNo
+					type : 2,
+					value: this.id
 				}
 				return encodeURIComponent(JSON.stringify(params));
 			},

@@ -63,7 +63,16 @@
     "pages/mine/communication",
     "pages/mine/my-train",
     "pages/mine/my-train-detail",
-    "pages/index/search"
+    "pages/index/search",
+    "pages/mine/my-theatre",
+    "pages/mine/my-theatre-detail",
+    "pages/mine/writeoff",
+    "pages/mine/my-volunteer",
+    "pages/cate/volunteers-booking",
+    "pages/mine/my-volunteer-detail",
+    "pages/cate/digital-cultural-centre",
+    "pages/cate/all-list",
+    "pages/cate/fymap"
   ],
   "subPackages": [],
   "window": {

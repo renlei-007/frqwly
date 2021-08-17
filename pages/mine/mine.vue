@@ -11,13 +11,17 @@
 						<view class="attestation" v-if="is_Login">{{user.isCertification?'实名认证：已认证':'实名认证：未认证'}}</view>
 					</view>
 				</view>
-				<view class="sign_box" @tap="signIn" v-if="is_Login">
-					<view class="sign_box_icon">
-						<image src="/static/sign.png" class="sign_box_icon_img" mode=""></image>
+				<view class="sign_right">
+					<view class="iconfont icon-saoma" @tap="scan" v-if="user.admin"></view>
+					<view class="sign_box" @tap="signIn" v-if="is_Login">
+						<view class="sign_box_icon">
+							<image src="/static/sign.png" class="sign_box_icon_img" mode=""></image>
+						</view>
+						<view class="sign_box_text">连续签到{{is_Login?user.signTimes:0}}天</view>
 					</view>
-					<view class="sign_box_text">连续签到{{is_Login?user.signTimes:0}}天</view>
 				</view>
 			</view>
+			<image class="bac_img" src="/static/gjzx.png" mode=""></image>
 		</view>
 		<view class="datas_box">
 			<view class="datas_box_item" @tap="todetail(0)">
@@ -81,16 +85,20 @@
 						title: '我的收藏',
 					},
 					{
-						src: require('../../static/active-icon/wdsc.png'),
+						src: require('../../static/active-icon/wdjc.png'),
 						title: '我的剧场',
 					},
 					{
-						src: require('../../static/active-icon/wdsc.png'),
+						src: require('../../static/active-icon/wdpx.png'),
 						title: '我的培训',
 					},
 					{
-						src: require('../../static/active-icon/wdsc.png'),
+						src: require('../../static/active-icon/hdjl.png'),
 						title: '互动交流',
+					},
+					{
+						src: require('../../static/active-icon/zyhd.png'),
+						title: '志愿活动',
 					},
 					{
 						src: require('../../static/active-icon/smrz.png'),
@@ -164,25 +172,30 @@
 								break
 							case 4:
 								uni.navigateTo({
-									url: './attestation'
+									url: './my-volunteer'
 								})
 								break
 							case 5:
 								uni.navigateTo({
+									url: './attestation'
+								})
+								break
+							case 6:
+								uni.navigateTo({
 									url: './revise-phone'
 								})
 								break
-							case 6: 
+							case 7: 
 								uni.navigateTo({
 									url: './setting'
 								})
 								break
-							case 7:
+							case 8:
 								uni.navigateTo({
 									url: './feedback'
 								})
 								break
-							case 8:
+							case 9:
 								uni.navigateTo({
 									url: './aboutme'
 								})
@@ -324,6 +337,20 @@
 					}
 				})
 			},
+			scan(){
+				uni.scanCode({
+					success: (res) => {
+						let result = JSON.parse(res.result.replace(/“/g, '"'));
+						if(this.user.admin&&result.type){//核销
+							uni.navigateTo({  
+								url: '/pages/mine/writeoff?type='+result.type+"&value="+result.value
+							});
+						}else{
+							this.toast('该二维码无法核销')
+						}
+					}
+				});
+			},
 		},
 	}
 </script>
@@ -347,16 +374,26 @@
 		padding: 0 35rpx;
 		background-color: #6851E2;
 		border-radius: 0 0 10% 10%;
+		position: relative;
+		z-index: 1;
 		/* #ifdef MP-WEIXIN */
-		padding-top: 88rpx;
+		padding-top: 40rpx;
 		/* #endif */
 		/* #ifndef MP-WEIXIN */
-		padding-top: 60rpx;
+		padding-top: 30rpx;
 		/* #endif */
+		.bac_img{
+			position: absolute;
+			width: 336rpx;
+			height: 325rpx;
+			bottom: -80rpx;
+			right: 44rpx;
+		}
 		&_b {
 			align-items: center;
 			display: flex;
 			justify-content: space-between;
+			position: relative;
 			.user_info_box {
 				display: flex;
 				.user_img {
@@ -385,24 +422,33 @@
 					}
 				}
 			}
-			.sign_box {
+			.sign_right{
 				display: flex;
-				flex-direction: column;
 				align-items: center;
-				// padding-top: 15rpx;
-				.sign_box_icon {
-					width: 48rpx;
-					height: 48rpx;
-					&_img{
+				.iconfont{
+					font-size: 40rpx;
+					color: #fff;
+					margin-right: 30rpx;
+				}
+				.sign_box {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					// padding-top: 15rpx;
+					.sign_box_icon {
 						width: 48rpx;
 						height: 48rpx;
+						&_img{
+							width: 48rpx;
+							height: 48rpx;
+						}
 					}
-				}
-				.sign_box_text {
-					font-size: 18rpx;
-					line-height: 36rpx;
-					margin-top: 4rpx;
-					color: #FEF8E0;
+					.sign_box_text {
+						font-size: 18rpx;
+						line-height: 36rpx;
+						margin-top: 4rpx;
+						color: #FEF8E0;
+					}
 				}
 			}
 		}
@@ -414,6 +460,8 @@
 		background-color: #FFFFFF;
 		display: flex;
 		border-radius: 20rpx;
+		position: relative;
+		z-index: 10;
 		&_item {
 			width: 33.33%;
 			display: flex;

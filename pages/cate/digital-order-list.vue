@@ -26,12 +26,13 @@
 				venuesList: [],
 				param:{//滚动区域配置
 					scroll_y:true,
-					background:'#ffffff',
+					background:'',
 					refresher:true,
 					no_more_text:'没有更多了~',
 					refresher_style:'black'
 				},
 				page: 0,
+				type: '',
 			};
 		},
 		onLoad() {

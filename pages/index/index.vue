@@ -6,63 +6,95 @@
 <template>
 	<view class="content index">
 		<!-- #ifdef MP-WEIXIN -->
-		<ys-top-bar title="芙蓉区文旅体云"></ys-top-bar>
+		<ys-top-bar title="芙蓉区文旅体云" :point="point" :isChange="isChange"></ys-top-bar>
 		<!-- #endif -->
-		<view class="search_box">
-			<view class="search_box_input" @tap="toSearch">
-				<image class="search_img" src="/static/icon/search.png" mode=""></image>
-				<input type="text" disabled class="search_box_input_wri" placeholder="请输入关键词搜索"/>
+		<!-- #ifndef MP-WEIXIN -->
+			<view class="search_box">
+				<view class="search_box_input" @tap="toSearch">
+					<image class="search_img" src="/static/icon/search.png" mode=""></image>
+					<input type="text" disabled class="search_box_input_wri" placeholder="请输入关键词搜索"/>
+				</view>
+				<view class="point_div" @tap="toDel">
+					<view class="point_num">{{point}}</view>
+					<view class="point_txt">积分</view>
+				</view>
 			</view>
-			<view class="point_div" @tap="toDel">
-				<view class="point_num">{{point}}</view>
-				<view class="point_txt">积分</view>
-			</view>
-		</view>
-		<swiper class="banner_box" circular indicator-dots="true" indicator-active-color="rgba(255,153,51,1)">
-			<swiper-item  class="swiper-recommend" v-for="(item, index) in carouselList"  :key="index">
-				<view class="img"><image class="swiper_img" :src="item.attr_image_url"></image></view>
-			</swiper-item>
-		</swiper>
+			<swiper class="banner_box" circular indicator-dots="true" indicator-active-color="rgba(255,153,51,1)">
+				<swiper-item  class="swiper-recommend" v-for="(item, index) in carouselList"  :key="index">
+					<view class="img"><image class="swiper_img" :src="item.attr_image_url"></image></view>
+				</swiper-item>
+			</swiper>
+		<!-- #endif -->
 		<!-- 分类轮播 -->
 		<!-- <view class="news" style="padding: 0;">
 			<ys-menu-list class="z_index" :size="104" :list="cate_list" @select="cateSelect"></ys-menu-list>
 		</view> -->
 		
+		
 		<view class="panel_box" :style="{'padding-bottom':is_showAll?0:'20rpx'}">
-			<view class="panel_box_show">
-				<view class="panel_box_show_part" @tap="navigateTo('/pages/cate/active-list')">
-					<image src="/static/cate/hdbm.png" class="panel_box_show_part_img" mode=""></image>
-					<view class="panel_box_show_part_name">活动报名</view>
+			<view class="history_box">
+				<view class="history_box_top">
+					<image class="riliimg" src="/static/jinri.png" mode=""></image>
+					<image class="jintianimg" src="/static/jintian.png" mode=""></image>
+					<text>{{day}}</text>
 				</view>
-				<view class="panel_box_show_part" @tap="navigateTo('/pages/cate/venues-list')">
-					<image src="/static/cate/cgfw.png" class="panel_box_show_part_img" mode=""></image>
-					<view class="panel_box_show_part_name">场馆服务</view>
-				</view>
-				<view class="panel_box_show_part" @tap="navigateTo('/pages/cate/live-list')">
-					<image src="/static/cate/zbdb.png" class="panel_box_show_part_img" mode=""></image>
-					<view class="panel_box_show_part_name">直播点播</view>
-				</view>
-				<view class="panel_box_show_part" @tap="navigateTo('/pages/cate/nettrain-list')">
-					<image src="/static/cate/wspx.png" class="panel_box_show_part_img" mode=""></image>
-					<view class="panel_box_show_part_name">网上培训</view>
-				</view>
-				<view class="panel_box_show_part" @tap="is_showAll=!is_showAll">
-					<view class="panel_box_show_part_all">
-						<view class="cate red"></view>
-						<view class="cate yellow"></view>
-						<view class="cate blue"></view>
-						<view class="cate purple"></view>
-					</view>
-					<view class="panel_box_show_part_name" style="margin-top: 24rpx;">全部</view>
+				<view class="history_box_bottom">
+					<swiper class="historySwiper" circular :indicator-dots="false" :autoplay="true" :interval="4000" :duration="800" :vertical="true">
+						<swiper-item class="historySwiper-item" v-for="(item,index) in historyList" :key="index">
+							<view class="swiper-item">{{item.title}}</view>
+						</swiper-item>
+					</swiper>
 				</view>
 			</view>
-			<view class="panel_box_hide" v-if="is_showAll">
-				<view class="panel_box_hide_part" v-for="(item,index) in panelList" :key="index" :style="{'background':index==0?'#FFF5F4':index==1?'#EEF7FE':index==2?'#FDF9F6':'#EDFBFB'}">
+			<view class="panel_box_show">
+				<view class="panel_box_show_part" @tap="navigateTo('/pages/cate/digital-cultural-centre?title=文化馆')">
+					<image src="/static/cate/whg.png" class="panel_box_show_part_img" mode=""></image>
+					<view class="panel_box_show_part_name">文化馆</view>
+				</view>
+				<view class="panel_box_show_part" @tap="navigateTo('/pages/cate/digital-cultural-centre?title=图书馆')">
+					<image src="/static/cate/tsg.png" class="panel_box_show_part_img" mode=""></image>
+					<view class="panel_box_show_part_name">图书馆</view>
+				</view>
+				<view class="panel_box_show_part" @tap="navigateTo('/pages/cate/digital-cultural-centre?title=旅游')">
+					<image src="/static/cate/ly.png" class="panel_box_show_part_img" mode=""></image>
+					<view class="panel_box_show_part_name">旅游</view>
+				</view>
+				<view class="panel_box_show_part" @tap="navigateTo('/pages/cate/digital-cultural-centre?title=体育')">
+					<image src="/static/cate/tyg.png" class="panel_box_show_part_img" mode=""></image>
+					<view class="panel_box_show_part_name">体育</view>
+				</view>
+				<view class="panel_box_show_part" @tap="navigateTo('/pages/cate/nonlegacy')">
+					<image src="/static/cate/fywb.png" class="panel_box_show_part_img" mode=""></image>
+					<view class="panel_box_show_part_name">非遗文博</view>
+				</view>
+			</view>
+			<view class="panel_box_hide">
+				<view class="panel_box_hide_part" v-for="(item,index) in panelList" :key="index">
 					<view class="panel_box_hide_part_one" v-for="(ite,ind) in item" :key="ind" @tap="navigateTo(ite.url)">
 						<image :src="ite.img" class="panel_box_hide_part_one_img" mode=""></image>
 						<view class="panel_box_hide_part_one_name">{{ite.name}}</view>
 					</view>
 				</view>
+			</view>
+		</view>
+		
+		<!-- 我的活动 -->
+		<view class="news" v-if="activeShow">
+			<view class="news_title">
+				<view class="news_titles">
+					<image class="news_title_img" src="/static/home/wdsc.png" mode=""></image>
+					<view class="news_title_txt">我的活动</view>
+				</view>
+				<view class="more" @tap="navigateTo('/pages/mine/myactive')">更多></view>
+			</view>
+			<view class="act_content">
+				<view class="act_content_info">
+					<view class="act_content_info_img">
+						<image :src="actives.content.titleImg" mode=""></image>
+					</view>
+					<view class="act_content_info_title">{{actives.content.title}}</view>
+				</view>
+				<view class="act_content_btn" @tap="toActive(actives.id)">立即前往</view>
 			</view>
 		</view>
 		
@@ -98,7 +130,7 @@
 			</view>
 			<view class="news_content">
 				<view class="zx_news">
-					<view class="zx_news_li" v-for="(item,index) in newsList" :key="index" @tap="navigateTo('/pages/cate/information-detail?id='+item.id)">
+					<view class="zx_news_li" v-for="(item,index) in newsList" :key="index" @tap="navigateTo('/pages/cate/information-detail?id='+item.id+'&&channelIds=110')">
 						<view class="zx_news_li_content">
 							<view class="zx_news_li_content_title">{{item.title}}</view>
 							<view class="zx_news_li_content_body">{{item.description}}</view>
@@ -129,7 +161,7 @@
 					<image class="news_title_img" src="/static/home/wlfw.png" mode=""></image>
 					<view class="news_title_txt">精品旅游</view>
 				</view>
-				<view class="more" @tap="navigateTo('/pages/cate/scenic-list')">更多></view>
+				<view class="more" @tap="navigateTo('/pages/cate/scenic-list?type=网红打卡&&cutIndex=2&&channelIds=201')">更多></view>
 			</view>
 			<view class="news_content">
 				<view class="tj_news">
@@ -144,31 +176,6 @@
 				</view>
 			</view>
 		</view>
-		
-		<!-- 文旅服务 -->
-		<!-- <view class="news">
-			<view class="news_title">
-				<view class="news_titles">
-					<image class="news_title_img" src="/static/home/wlfw.png" mode=""></image>
-					<view class="news_title_txt">文旅服务</view>
-				</view>
-				<view class="more">更多></view>
-			</view>
-			<view class="news_content">
-				<view class="fw_news">
-					<view class="fw_news_li" v-for="(item,index) in activityList" :key="index" @tap="gopage(item.id,index)">
-						<view class="fw_news_li_img">
-							<image class="fwimgs" :src="item.titleImg" mode=""></image>
-						</view>
-						<view class="fw_news_li_text">
-							<view class="fw_news_li_text_title">{{item.title}}</view>
-							<view class="fw_news_li_text_time fw_txt">时间：{{item.releaseDate.slice(0,10)}}</view>
-							<view class="fw_news_li_text_address fw_txt" style="margin-bottom: 20rpx;">地址：湘乡市文化馆</view>
-						</view>
-					</view>
-				</view>
-			</view>
-		</view> -->
 	</view>
 </template>
 
@@ -182,105 +189,79 @@
 				newsList: [],//文旅资讯
 				carouselList: [], //轮播图
 				point: 0,
+				day: '',
 				is_showAll: false,
 				first_cate_param: {//一级分类滚动区域配置
 					scroll_y:false,
 					scroll_x:true
 				},
+				historyList: [],
+				isChange: false,
+				actives: {
+					content: {
+						title: '',
+						titleImg: '',
+					},
+				},
+				activeShow: false,
 				panelList: [
 					[{
-						name: '非遗保护',
-						img: require('../../static/cate/fybh.png'),
-						url: '/pages/cate/nonlegacy',
+						name: '场馆服务',
+						img: require('../../static/cate/cgfw.png'),
+						url: '/pages/cate/venues-list',
 					},{
 						name: '志愿者服务',
 						img: require('../../static/cate/zyzfw.png'),
 						url: '/pages/cate/volunteers-list',
 					},],
 					[{
+						name: '活动报名',
+						img: require('../../static/cate/hdbm.png'),
+						url: '/pages/cate/active-list',
+					},{
 						name: '数字资源',
 						img: require('../../static/cate/szzy.png'),
 						url: '/pages/cate/digit-resource',
-					},{
-						name: '数字文化馆',
-						img: require('../../static/cate/szwhg.png'),
-						url: '/pages/cate/digital-cultural',
 					},],
 					[{
-						name: '艺术欣赏',
-						img: require('../../static/cate/ysxs.png'),
-						url: '/pages/cate/art-list',
+						name: '直播点播',
+						img: require('../../static/cate/zbdb.png'),
+						url: '/pages/cate/live-list',
 					},{
 						name: '用户社团',
 						img: require('../../static/cate/yhst.png'),
 						url: '/pages/cate/organization-list',
 					},],
 					[{
-						name: '精品旅游',
-						img: require('../../static/cate/jply.png'),
-						url: '/pages/cate/scenic-list',
+						name: '网上培训',
+						img: require('../../static/cate/wspx.png'),
+						url: '/pages/cate/nettrain-list',
 					},],
 				],
-				cate_list: [[{//分类数据
-					title: '文旅体资讯',
-					img: require('@/static/banner/wltzx.png'),
-					bac: 'linear-gradient(161deg, #EC6B1F 0%, #E75325 87%, #E64F26 100%);',
-				},{
-					title: '活动报名',
-					img: require('../../static/banner/hdbm.png'),
-					bac: 'linear-gradient(144deg, #0FD79A 0%, #1FD369 100%);',
-				},{
-					title: '场馆服务',
-					img: require('../../static/banner/cgfw.png'),
-					bac: 'linear-gradient(140deg, #F79A0B 0%, #EF770E 100%);',
-				},{
-					title: '志愿者服务',
-					img: require('../../static/banner/zyzfw.png'),
-					bac: 'linear-gradient(140deg, #FB65C9 0%, #EF18A1 100%);',
-				},{
-					title: '直播点播',
-					img: require('../../static/banner/zbdb.png'),
-					bac: 'linear-gradient(140deg, #AD87FB 0%, #9566FF 100%);',
-				},{
-					title: '网上培训',
-					img: require('../../static/banner/wspx.png'),
-					bac: 'linear-gradient(138deg, #6CD6FE 0%, #33A0F8 100%);',
-				},{
-					title: '非遗保护',
-					img: require('../../static/banner/fybh.png'),
-					bac: 'linear-gradient(138deg, #FB65C9 0%, #F62EAF 100%);',
-				},{
-					title: '精品旅游',
-					img: require('../../static/banner/jply.png'),
-					bac: 'linear-gradient(144deg, #0FD79A 0%, #1FD369 100%);',
-				}],[{
-					title: '艺术欣赏',
-					img: require('../../static/banner/ysxs.png'),
-					bac: 'linear-gradient(140deg, #AD87FB 0%, #9566FF 100%);',
-				},{
-					title: '用户社团',
-					img: require('../../static/banner/yhst.png'),
-					bac: 'linear-gradient(141deg, #FDD945 0%, #FCB909 100%);',
-				},
-				{
-					title: '数字资源',
-					img: require('../../static/banner/szzy.png'),
-					bac: 'linear-gradient(146deg, #E64F36 0%, #DF1C29 100%);',
-				},
-				{
-					title: '数字文化馆',
-					img: require('../../static/banner/szwhg.png'),
-					bac: 'linear-gradient(138deg, #6CD6FE 0%, #33A0F8 100%);',
-				}],],
 			}
 		},
 		onLoad() {
+			this.getTime()
 			this.getList()
 			if(this.isLogin){
 				this.getPoint()
+				this.getMyActive()
+			}
+		},
+		onPageScroll(event) {
+			if(event.scrollTop>130){
+				this.isChange = true
+			}else{
+				this.isChange = false
 			}
 		},
 		methods: {
+			getTime(){
+				let date = new Date();
+				let month = (date.getMonth() + 1)<10?'0'+(date.getMonth() + 1):(date.getMonth() + 1)
+				let day = date.getDate()<10?'0'+date.getDate():date.getDate()
+				this.day = month+'-'+day
+			},
 			getPoint(){
 				let username = uni.getStorageSync('user_info').username
 				this.homeRequest({
@@ -290,6 +271,23 @@
 				}).then(res=>{
 					console.log(res);
 					this.point = res.body.score
+				})
+			},
+			getMyActive(){
+				let params = {
+					first: 0,
+					count: 1
+				}
+				this.homeRequest({
+					url: '/ticket/list',
+					method: 'GET',
+					data: params,
+				}).then(res=>{
+					console.log(res);
+					if(res.body.length>0){
+						this.actives = res.body[0]
+						this.activeShow = true
+					}
 				})
 			},
 			toDel(){
@@ -328,42 +326,52 @@
 				}
 			},
 			todetail(index,id){
-				if(index==0||index==1){
-					this.navigateTo('/pages/cate/scenic-spot?id='+id)
-				}else{
-					this.navigateTo('/pages/cate/nonlegacy-detail?id='+id)
-				}
+				this.navigateTo('/pages/cate/scenic-spot?id='+id+'&&channelIds=201')
+				// if(index==0||index==1){
+				// }else{
+				// 	this.navigateTo('/pages/cate/nonlegacy-detail?id='+id)
+				// }
 			},
 			toSearch(){
 				uni.navigateTo({
-					url: './search'
+					url: '/pages/index/search'
 				})
 			},
 			gopage(id,index){
-				if(index==0||index==1){
-					this.navigateTo('/pages/cate/active-detail?id='+id)
-				}else{
-					this.navigateTo('/pages/cate/venues-detail?id='+id)
-				}
+				this.navigateTo('/pages/cate/active-detail?id='+id)
+				// if(index==0||index==1){
+				// }else{
+				// 	this.navigateTo('/pages/cate/venues-detail?id='+id)
+				// }
+			},
+			toActive(id){
+				uni.navigateTo({
+					url: '/pages/mine/myactive-detail?id='+id
+				})
 			},
 			getList(){
 				this.indexRequest({url:'/ad/list.jspx',data:{adspaceId:5}}).then(res=>{
 					this.carouselList = res.data.body;
 				})
 				
-				this.indexRequest({url:'/content/list.jspx',data:{channelIds:'135', count:4, orderBy:4, format:0}}).then(res=>{
+				this.indexRequest({url:'/content/list.jspx',data:{channelIds:'201', count:4, orderBy:4, format:0}}).then(res=>{
 					this.recommendList = this.recommendList.concat(res.data.body);
 				})
 				
-				this.indexRequest({url:'/content/list.jspx',data:{channelIds:'116', count:2, orderBy:4}}).then(res=>{
+				this.indexRequest({url:'/content/list.jspx',data:{channelIds:'116', count:4, orderBy:4}}).then(res=>{
 					this.activityList = this.activityList.concat(res.data.body);
 				})
-				this.indexRequest({url:'/content/list.jspx',data:{channelIds:'117', count:2, orderBy:4}}).then(res=>{
-					this.activityList = this.activityList.concat(res.data.body);
-				})
+				// this.indexRequest({url:'/content/list.jspx',data:{channelIds:'117', count:2, orderBy:4}}).then(res=>{
+				// 	this.activityList = this.activityList.concat(res.data.body);
+				// })
 				
 				this.indexRequest({url:'/content/list.jspx',data:{channelIds:'110', count:2, first:1, format:0,}}).then(res=>{
 					this.newsList = res.data.body;
+				})
+				
+				this.indexRequest({url:'/todayInHistory/get',data:{}}).then(res=>{
+					console.log(res,11111111111);
+					this.historyList = res.data.body.result
 				})
 			},
 		}
@@ -374,7 +382,7 @@
 .content{
 	width: 100%;
 	height: auto;
-	background: #F2F5FA;
+	background: #fff;
 	box-sizing: border-box;
 	/* #ifdef H5 */
 	padding-bottom: 150rpx;
@@ -382,87 +390,156 @@
 	/* #ifdef MP-WEIXIN */
 	padding-bottom: 30rpx;
 	/* #endif */
-	.search_box{
-		width: 100%;
-		height: 220rpx;
-		background: #6851E2;
-		border-radius: 0 0 10% 10%;
-		display: flex;
-		justify-content: space-between;
-		/* #ifdef MP-WEIXIN */
-		padding-top: 158rpx;
-		/* #endif */
-		
-		/* #ifndef MP-WEIXIN */
-		padding-top: 60rpx;
-		/* #endif */
-		&_input{
-			width: 560rpx;
-			height: 68rpx;
-			border-radius: 36rpx;
-			background-color: #F2F5FA;
-			margin-left: 30rpx;
+	
+	/* #ifndef MP-WEIXIN */
+		.search_box{
+			width: 100%;
+			height: 220rpx;
+			background: #3F444C;
+			border-radius: 0 0 10% 10%;
+			display: flex;
+			justify-content: space-between;
 			/* #ifdef MP-WEIXIN */
-			// margin-top: 60rpx;
+			padding-top: 158rpx;
 			/* #endif */
 			
 			/* #ifndef MP-WEIXIN */
-			margin-top: 0;
+			padding-top: 60rpx;
 			/* #endif */
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			.search_img{
-				width: 30rpx;
-				height: 30rpx;
-				margin: -8rpx 8rpx 0 16rpx;
+			&_input{
+				width: 560rpx;
+				height: 68rpx;
+				border-radius: 36rpx;
+				background-color: #F2F5FA;
+				margin-left: 30rpx;
+				/* #ifdef MP-WEIXIN */
+				// margin-top: 60rpx;
+				/* #endif */
+				
+				/* #ifndef MP-WEIXIN */
+				margin-top: 0;
+				/* #endif */
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				.search_img{
+					width: 30rpx;
+					height: 30rpx;
+					margin: -8rpx 8rpx 0 16rpx;
+				}
+				&_wri{
+					flex: 1;
+					line-height: 68rpx;
+					font-size: 28rpx;
+				}
 			}
-			&_wri{
-				flex: 1;
-				line-height: 68rpx;
-				font-size: 28rpx;
-			}
-		}
-		.point_div{
-			font-size: 24rpx;
-			height: 70rpx;
-			color: #FFFFFF;
-			text-align: center;
-			margin-right: 30rpx;
-			.point_num{
-				font-size: 40rpx;
-				line-height: 40rpx;
-				margin-bottom: 5rpx;
-			}
-		}
-	}
-	.banner_box{
-		width: 100%;
-		height: 320rpx;
-		// border-radius: 16rpx;
-		margin: -60rpx auto 0;
-		.swiper-recommend{
-			width: 100%;
-			font-size: 16rpx;
-			text-align: center;
-			.img{
-				width: 100%;
-				height: 100%;
-				.swiper_img{
-					border-radius: 16rpx;
-					width: 100%;
-					height: 100%;
+			.point_div{
+				font-size: 24rpx;
+				height: 70rpx;
+				color: #FFFFFF;
+				text-align: center;
+				margin-right: 30rpx;
+				.point_num{
+					font-size: 40rpx;
+					line-height: 40rpx;
+					margin-bottom: 5rpx;
 				}
 			}
 		}
-	}
+	
+		.banner_box{
+			width: 100%;
+			height: 320rpx;
+			// border-radius: 16rpx;
+			// margin: -60rpx auto 0;
+			/* #ifdef MP-WEIXIN */
+			padding-top: 150rpx;
+			/* #endif */
+			
+			/* #ifndef MP-WEIXIN */
+			margin-top: -60rpx;
+			/* #endif */
+			background-color: #3F444C;
+			.swiper-recommend{
+				width: 100%;
+				font-size: 16rpx;
+				text-align: center;
+				.img{
+					width: 100%;
+					height: 100%;
+					.swiper_img{
+						width: 100%;
+						height: 100%;
+					}
+				}
+			}
+		}
+	/* #endif */
 	.panel_box{
 		width: 100%;
-		margin: 30rpx auto 0;
+		margin: -10rpx auto 0;
 		background-color: #FFFFFF;
-		width: 690rpx;
 		box-sizing: border-box;
-		padding: 30rpx 0 20rpx;
+		padding: 50rpx 0 20rpx;
+		border-radius: 12rpx;
+		position: relative;
+		z-index: 100;
+		.history_box{
+			width: 314rpx;
+			height: 88rpx;
+			background: #FFFFFF;
+			box-shadow: 0rpx 2rpx 8rpx rgba(12, 22, 84, 0.16);
+			border-radius: 16rpx;
+			position: absolute;
+			top: -60rpx;
+			right: 30rpx;
+			box-sizing: border-box;
+			padding: 12rpx;
+			&_top{
+				display: flex;
+				align-items: center;
+				.riliimg{
+					width: 32rpx;
+					height: 32rpx;
+					margin-right: 4rpx;
+				}
+				.jintianimg{
+					width: 168rpx;
+					height: 34rpx;
+					margin-right: 8rpx;
+				}
+				text{
+					font-size: 18rpx;
+					font-weight: 400;
+					line-height: 18rpx;
+					color: #6B6B77;
+					display: block;
+					width: calc(100% - 212rpx);
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+			}
+			&_bottom{
+				width: 100%;
+				height: 22rpx;
+				margin-top: 10rpx;
+				overflow: hidden;
+			}
+			.historySwiper{
+				height: 30rpx;
+				.swiper-item{
+					width: 100%;
+					height: 22rpx;
+					font-size: 20rpx;
+					line-height: 20rpx;
+					color: #6B6B77;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+			}
+		}
 		&_show{
 			width: 100%;
 			display: flex;
@@ -497,14 +574,13 @@
 					}
 				}
 				&_img{
-					width: 104rpx;
-					height: 117rpx;
+					width: 88rpx;
+					height: 106rpx;
 				}
 				&_name{
 					font-size: 24rpx;
 					line-height: 24rpx;
 					color: #6B6B77;
-					margin-top: -10rpx;
 				}
 			}
 		}
@@ -525,21 +601,20 @@
 					justify-content: center;
 					align-items: center;
 					&_img{
-						width: 48rpx;
-						height: 48rpx;
+						width: 80rpx;
+						height: 80rpx;
 					}
 					&_name{
 						font-size: 24rpx;
 						line-height: 24rpx;
 						color: #6B6B77;
-						margin-top: 16rpx;
 					}
 				}
 			}
 		}
 	}
 	.news{
-		width: 690rpx;
+		width: 100%;
 		margin: 30rpx auto 0;
 		box-sizing: border-box;
 		padding: 0 30rpx;
@@ -556,7 +631,6 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			border-bottom: 2rpx solid #eee;
 			&_img{
 				width: 48rpx;
 				height: 48rpx;
@@ -578,13 +652,13 @@
 			width: 100%;
 			.tj_list_box{
 				min-width: 1112rpx;
-				height: 152rpx;
+				height: 160rpx;
 				display: flex;
 				overflow: auto;
 				flex-shrink: 0;
 				.tj_list{
 					width: 268rpx;
-					height: 152rpx;
+					height: 150rpx;
 					margin-right: 32rpx;
 					position: relative;
 					&_img{
@@ -613,6 +687,7 @@
 					box-sizing: border-box;
 					padding: 30rpx 0;
 					display: flex;
+					justify-content: space-between;
 					border-bottom: 2rpx solid #eee;
 					&:nth-last-child(1){
 						border-bottom: none;
@@ -691,12 +766,12 @@
 				flex-wrap: wrap;
 				justify-content: space-between;
 				&_li{
-					width: 296rpx;
+					width: 324rpx;
 					box-sizing: border-box;
 					padding-bottom: 20rpx;
 					&_img{
 						width: 100%;
-						height: 168rpx;
+						height: 178rpx;
 						background-color: #E5E5E5;
 						.tjimgs{
 							width: 100%;
@@ -763,6 +838,44 @@
 						}
 					}
 				}
+			}
+		}
+		.act_content{
+			width: 100%;
+			box-sizing: border-box;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			&_info{
+				display: flex;
+				align-items: center;
+				&_img{
+					width: 86rpx;
+					height: 64rpx;
+					background: #E5E5E5;
+					border-radius: 8rpx;
+					margin-right: 16rpx;
+					image{
+						width: 100%;
+						height: 100%;
+					}
+				}
+				&_title{
+					font-size: 28rpx;
+					line-height: 28rpx;
+					color: #1B1C1E;
+				}
+			}
+			&_btn{
+				width: 118rpx;
+				height: 42rpx;
+				background: #FFFFFF;
+				border: 2rpx solid #885BFD;
+				border-radius: 8rpx;
+				text-align: center;
+				line-height: 42rpx;
+				color: #885BFD;
+				font-size: 24rpx;
 			}
 		}
 	}
