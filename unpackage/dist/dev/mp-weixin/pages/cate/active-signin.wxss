@@ -39,7 +39,7 @@ page {
 }
 .active-signin .signin .detail_img {
   width: 100%;
-  height: 400rpx;
+  height: 450rpx;
 }
 .active-signin .signin .detail {
   width: 100%;

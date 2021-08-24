@@ -80,7 +80,7 @@
 	justify-content: space-between;
 	&_point{
 		width: 328rpx;
-		height: 280rpx;
+		height: 288rpx;
 		background: #FFFFFF;
 		border-radius: 8rpx;
 		margin-top: 30rpx;
@@ -88,7 +88,7 @@
 		flex-direction: column;
 		&_img{
 			width: 100%;
-			height: 188rpx;
+			height: 196rpx;
 			background: #E5E5E5;
 			border-radius: 8rpx 8rpx 0px 0px;
 		}

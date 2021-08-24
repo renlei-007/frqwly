@@ -113,8 +113,10 @@ page{
 	width: 100%;
 	height: 100%;
 	&_box{
+		width: 100%;
+		height: 100%;
 		box-sizing: border-box;
-		padding: 30rpx 30rpx 120rpx;
+		padding: 0 30rpx 120rpx;
 	}
 }
 .send_box{

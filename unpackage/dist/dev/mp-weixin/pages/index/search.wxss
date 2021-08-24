@@ -41,10 +41,13 @@ page {
   width: 100%;
   height: auto;
   box-sizing: border-box;
-  padding: 30rpx 0;
+  padding: 20rpx 30rpx;
   font-size: 32rpx;
   color: #000;
-  line-height: 36rpx;
+  line-height: 52rpx;
   border-bottom: 1px solid #c8c7cc;
+}
+.search_list_cell:nth-last-child(1) {
+  border-bottom: none;
 }
 

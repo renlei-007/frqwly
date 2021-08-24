@@ -4,7 +4,9 @@
 			<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
 				<view class="scenic_box">
 					<view class="scenic_point" v-for="(item,index) in teersList" :key="index">
-						<image class="scenic_point_img" :src="item.titleImg" mode="" @tap="todetail(item.id)"></image>
+						<view class="bacImg">
+							<image class="scenic_point_img" :src="item.titleImg" mode="" @tap="todetail(item.id)"></image>
+						</view>
 						<view class="scenic_point_info">
 							<view class="scenic_point_info_name">{{item.stitle}}</view>
 							<view class="scenic_point_info_position">

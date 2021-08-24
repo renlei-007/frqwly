@@ -12,8 +12,10 @@
 		<view class="cate_box">
 			<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
 				<view class="scenic_box" style="box-sizing: border-box;padding: 0 30rpx;">
-					<view class="scenic_point" v-for="(item,index) in venuesList" :key="index">
-						<image class="scenic_point_img" :src="item.titleImg" mode="" @tap="todetail(item.id)"></image>
+					<view class="scenic_point" v-for="(item,index) in venuesList" :key="index" @tap="todetail(item.id)">
+						<view class="bacImg" style="width: 328rpx;height: 188rpx;">
+							<image class="scenic_point_img" :src="item.titleImg" mode=""></image>
+						</view>
 						<view class="scenic_point_info">
 							<view class="scenic_point_info_name">{{item.stitle}}</view>
 							<view class="scenic_point_info_position">

@@ -505,7 +505,7 @@ page{
 		height: auto;
 		.detail_img{
 			width: 100%;
-			height: 400rpx;
+			height: 50rpx;
 		}
 		.detail{
 			width: 100%;

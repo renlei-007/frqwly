@@ -153,7 +153,7 @@
 			position: relative;
 			&_img{
 				width: 690rpx;
-				height: 386rpx;
+				height: 414rpx;
 			}
 			&_info{
 				width: 100%;

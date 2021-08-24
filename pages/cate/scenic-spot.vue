@@ -9,7 +9,7 @@
 				<swiper-item class="swiper-item" v-if="content.attr_videopath">
 					<video id="myVideo" :src="content.attr_videopath" :controls="false" object-fit="fill" class="video-box"></video>
 				</swiper-item>
-				<swiper-item  class="swiper-recommend" v-for="(item, index) in content.picArr"  :key="index">
+				<swiper-item  class="swiper-recommend" v-for="(item, index) in content.picArr"  @tap="preview()" :key="index">
 					<image class="swiper_img" :src="item.picPaths" mode="widthFix"></image>
 				</swiper-item> 
 			</swiper>
@@ -31,7 +31,7 @@
 		<view class="blank"></view>
 		<view class="active_detail">
 			<view class="active_detail_tab">
-				<view class="active_detail_tab_title active">景点简介</view>
+				<view class="active_detail_tab_title active">{{channelIds==204?'美食简介':channelIds==205?'酒店简介':channelIds==206?'公司简介':'景点简介'}}</view>
 			</view>
 			<view class="spot_detail">
 				<rich-text :nodes="content.txt"></rich-text>
@@ -68,6 +68,7 @@
 				is_show: false,
 				page: 0,
 				channelIds: '',
+				imgList: [],
 			};
 		},
 		onLoad(e) {
@@ -118,7 +119,7 @@
 				}
 				this.indexRequest({url:'/content/get.jspx',data:params}).then(res=>{
 					var content = res.data.body;
-					content.txt = this.formatRichText(content.txt)
+					content.txt = this.replaceSpecialChar(content.txt)
 					this.content = content;
 					uni.setNavigationBarTitle({
 						title: content.title
@@ -177,6 +178,12 @@
 					address: item.attr_address
 				})
 			},
+			preview(){
+				this.content.picArr.map(item=>{
+					this.imgList.push(item.picPaths)
+				})
+				this.previewImage(this.imgList)
+			},
 		}
 	}
 </script>
@@ -197,7 +204,7 @@ page{
 		margin: 0 auto;
 		&_img{
 			width: 100%;
-			height: 322rpx;
+			height: 414rpx;
 			background-color: #E5E5E5;
 			video{
 				width: 100%;
@@ -281,7 +288,8 @@ page{
 			font-size: 28rpx;
 			font-weight: 400;
 			line-height: 40rpx;
-			color: #8B8B9C;
+			// color: #353535;
+			// font-family: ;
 		}
 	}
 }
@@ -289,4 +297,5 @@ page{
 	width: 100%;
 	height: 100%;
 }
+
 </style>

@@ -1,22 +1,28 @@
 <template>
 	<view class="nonlegacy-detail content">
 		<view class="major">
-			<view class="major_img">
+			<swiper v-if="content.picArr.length>0" class="spot_info_img" circular autoplay="autoplay" indicator-dots="true" indicator-active-color="rgba(255,153,51,1)">
+				<swiper-item class="swiper-item" v-if="content.attr_videopath">
+					<video id="myVideo" :src="content.attr_videopath" :controls="false" object-fit="fill" class="video-box"></video>
+				</swiper-item>
+				<swiper-item  class="swiper-recommend" v-for="(item, index) in content.picArr"  @tap="preview()" :key="index">
+					<image class="swiper_img" :src="item.picPaths" mode="widthFix"></image>
+				</swiper-item> 
+			</swiper>
+			<view class="major_img" v-else>
 				<image class="major_imgs" :src="content.titleImg" mode=""></image>
 			</view>
 			<view class="major_box">
 				<view class="major_box_name">{{content.title}}</view>
 				<view class="major_box_text">
 					类别：<text>{{content.attr_type&&content.attr_type.length>0?content.attr_type[0]:'暂无'}}</text>
+					<text v-for="(item,index) in content.attr_type" :key="index">{{index==content.attr_type.length-1?item:item+' | '}}</text>
 				</view>
 				<view class="major_box_text">
 					级别：<text>{{content.attr_level?content.attr_level:'暂无'}}</text>
 				</view>
 				<view class="major_box_text">
 					批次：<text>{{content.attr_batch?content.attr_batch:'暂无'}}</text>
-				</view>
-				<view class="major_box_text">
-					非遗代表人：<text></text>
 				</view>
 				<view class="major_box_text">
 					地址：<text>{{content.attr_address?content.attr_address:'暂无'}}</text>
@@ -60,6 +66,7 @@
 				commentList: [],
 				is_show: false,
 				page: 0,
+				imgList: [],
 			};
 		},
 		onLoad(e) {
@@ -110,7 +117,7 @@
 				}
 				this.indexRequest({url:'/content/get.jspx',data:params}).then(res=>{
 					var content = res.data.body;
-					content.txt = this.formatRichText(content.txt)
+					content.txt = this.replaceSpecialChar(content.txt)
 					this.content = content;
 					uni.setNavigationBarTitle({
 						title: content.title
@@ -119,7 +126,7 @@
 			},
 			getNonlegacyList(){
 				let params = {
-					count:5,
+					count:4,
 					channelIds: '175',
 					sort:4
 				}
@@ -133,6 +140,12 @@
 				uni.redirectTo({
 					url: '/pages/cate/nonlegacy-detail?id='+id
 				})
+			},
+			preview(){
+				this.content.picArr.map(item=>{
+					this.imgList.push(item.picPaths)
+				})
+				this.previewImage(this.imgList)
 			},
 		},
 	}
@@ -152,12 +165,26 @@ page{
 		width: 100%;
 		&_img{
 			width: 690rpx;
-			height: 292rpx;
+			height: 414rpx;
 			margin: 30rpx auto 0;
 			.major_imgs{
 				width: 100%;
 				height: 100%;
 				border-radius: 8rpx;
+			}
+		}
+		.spot_info_img{
+			width: 690rpx;
+			height: 414rpx;
+			margin: 30rpx auto 0;
+			background-color: #E5E5E5;
+			video{
+				width: 100%;
+				height: 100%;
+			}
+			.swiper_img{
+				width: 100%;
+				height: 100%;
 			}
 		}
 		&_box{
@@ -177,7 +204,7 @@ page{
 			&_text{
 				line-height: 64rpx;
 				text{
-					color: #aaa;
+					color: #888;
 				}
 			}
 		}

@@ -16,11 +16,17 @@
 				</view>
 				<view class="major_box_text">
 					<image src="/static/position.png" mode="" style="width: 28rpx;height: 34rpx;"></image>
-					<text>{{content.attr_address}}</text>
+					<text>{{content.attr_address?content.attr_address:'暂无'}}</text>
 				</view>
 				<view class="major_box_text">
 					<image src="/static/phone.png" mode="" style="width: 32rpx;height: 32rpx;"></image>
 					<text>{{content.attr_phone}}</text>
+				</view>
+				<view class="major_box_text">
+					<text>课时：{{content.attr_classHours}}</text>
+				</view>
+				<view class="major_box_text" v-if="content.quota!=null&&content.quota!=''&&content.quota!=undefined">
+					<text>剩余名额：{{showStatus == 3&&content.quota?content.quota:0}}</text>
 				</view>
 			</view>
 			
@@ -56,10 +62,10 @@
 					<image class="icon_img" src="/static/cate/pinglun.png" mode=""></image>
 					<text>评论</text>
 				</view>
-				<view class="icon_item" @tap="share">
+				<button class="icon_item" hover-class="none" open-type="share" @tap="share">
 					<image class="icon_img" src="/static/cate/zhuanfa.png" mode=""></image>
 					<text>转发</text>
-				</view>
+				</button>
 				<view class="icon_item" @tap="btnFabulous">
 					<image class="icon_img" :src="isFabulous?'/static/cate/dianzan_red.png':'/static/cate/dianzan.png'" mode=""></image>
 					<text :class="{dz_red:isFabulous}">点赞</text>
@@ -85,7 +91,13 @@
 		data() {
 			return {
 				id: '',
-				content: {},
+				content: {
+					registrationStart: '',
+					registrationEnd: '',
+					attr_startTime: '',
+					attr_endTime: '',
+					quota: null,
+				},
 				trainList: [],
 				status: 0,
 				showStatus:2,
@@ -188,6 +200,10 @@
 				})
 			},
 			signUp(){
+				if(this.content.quota<=0){
+					this.toast('名额不足,请选择其他课程!','none')
+					return
+				}
 				if(!this.isLogin){
 					uni.showModal({
 						title: "提示",
@@ -203,21 +219,25 @@
 							}
 						}
 					})
-				}else{
-					this.homeRequest({
-						url: '/train/add',
-						method: 'GET',
-						data: {contentId: this.id},
-					}).then(res=>{
-						if(res.code==200){
-							this.toast('报名成功！')
-							this.getStatus()
-							this.getDetail()
-						}else{
-							this.toast(res.message,'none')
-						}
-					})
+					return
 				}
+				if(!uni.getStorageSync('user_info').isCertification){
+					this.toast('您还没有实名认证，请先实名认证！','none')
+					return
+				}
+				this.homeRequest({
+					url: '/train/add',
+					method: 'GET',
+					data: {contentId: this.id},
+				}).then(res=>{
+					if(res.code==200){
+						this.toast('报名成功！')
+						this.getStatus()
+						this.getDetail()
+					}else{
+						this.toast(res.message,'none')
+					}
+				})
 			},
 			signOut(){
 				uni.showModal({
@@ -230,7 +250,7 @@
 							this.homeRequest({
 								url: '/train/cancel',
 								method: 'GET',
-								data: {contentId: this.id},
+								data: {recordId: this.id},
 							}).then(res=>{
 								if(res.code==200){
 									this.toast('取消成功！','none')
@@ -258,14 +278,13 @@
 				})
 			},
 			getDetail(){
-				console.log(this.isLogin);
 				let params = {
 					format: 0,
 					id: this.id
 				}
 				this.indexRequest({url:'/content/get.jspx',data:params}).then(res=>{
 					var content = res.data.body;
-					content.txt = this.formatRichText(content.txt)
+					content.txt = this.replaceSpecialChar(content.txt)
 					this.content = content;
 					uni.setNavigationBarTitle({
 						title: content.title
@@ -383,7 +402,7 @@ page{
 		width: 100%;
 		&_img{
 			width: 690rpx;
-			height: 292rpx;
+			height: 414rpx;
 			margin: 30rpx auto 0;
 			.major_imgs{
 				width: 100%;
@@ -404,6 +423,7 @@ page{
 				color: #1B1C1E;
 			}
 			&_text{
+				height: 64rpx;
 				line-height: 64rpx;
 				display: flex;
 				align-items: center;

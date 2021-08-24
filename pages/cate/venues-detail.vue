@@ -9,22 +9,22 @@
 				<view class="venues_info_title">类别：</view>
 				<view class="venues_info_name">{{content.typeName?content.typeName:'暂无'}}</view>
 			</view>
-			<view class="venues_info">
+			<view class="venues_info" v-if="content.attr_address">
 				<view class="venues_info_title">地址：</view>
 				<view class="venues_info_name address">{{content.attr_address}}</view>
 				<view class="address_btn" @tap="openMap(content)" v-if="content.position">查看地图</view>
 			</view>
 			<view class="venues_info">
 				<view class="venues_info_title">电话：</view>
-				<view class="venues_info_name">{{content.attr_phone}}</view>
+				<view class="venues_info_name">{{content.attr_phone?content.attr_phone:'暂无'}}</view>
 			</view>
 			<view class="venues_info">
 				<view class="venues_info_title">面积：</view>
-				<view class="venues_info_name">{{content.attr_area}}</view>
+				<view class="venues_info_name">{{content.attr_area?content.attr_area:'暂无'}}</view>
 			</view>
 			<view class="venues_info">
 				<view class="venues_info_title">容纳：</view>
-				<view class="venues_info_name">{{content.attr_number}}</view>
+				<view class="venues_info_name">{{content.attr_number?content.attr_number:'暂无'}}</view>
 			</view>
 			<view class="venues_info" v-if="channelId==198">
 				<view class="venues_info_title">预定开始时间：</view>
@@ -43,7 +43,7 @@
 				<view class="venues_info_name">{{content.seatSetting.time[1]}}</view>
 			</view>
 			<view class="venues_infos">
-				<text>设备：</text>{{content.attr_equipment}}
+				<text>设备：</text>{{content.attr_equipment?content.attr_equipment:'暂无'}}
 			</view>
 		</view>
 		<view class="blank"></view>
@@ -75,10 +75,10 @@
 					<image class="icon_img" src="/static/cate/pinglun.png" mode=""></image>
 					<text>评论</text>
 				</view>
-				<view class="icon_item" @tap="share">
+				<button class="icon_item" hover-class="none" open-type="share" @tap="share">
 					<image class="icon_img" src="/static/cate/zhuanfa.png" mode=""></image>
 					<text>转发</text>
-				</view>
+				</button>
 				<view class="icon_item" @tap="btnFabulous">
 					<image class="icon_img" :src="isFabulous?'/static/cate/dianzan_red.png':'/static/cate/dianzan.png'" mode=""></image>
 					<text :class="{dz_red:isFabulous}">点赞</text>
@@ -221,7 +221,7 @@
 				let url = this.channelId==179?'/bookings/content':this.channelId==180?'/content/get.jspx':'/content/get.jspx'
 				this.indexRequest({url:url,data:params}).then(res=>{
 					var content = res.data.body;
-					content.txt = this.formatRichText(content.txt)
+					content.txt = this.replaceSpecialChar(content.txt)
 					this.content = content;
 					uni.setNavigationBarTitle({
 						title: content.title
@@ -236,32 +236,36 @@
 						success: (res) => {
 							if (res.confirm) {
 								uni.navigateTo({
-									url: '/pages/login/login'
+									url: '/pages/login/login?is_thing=true'
 								})
 							} else if (res.cancel) {
 							}
 						}
 					});
+					return
+				}
+				if(!uni.getStorageSync('user_info').isCertification){
+					this.toast('您还没有实名认证，请先实名认证！','none')
+					return
+				}
+				if(this.channelId==179){
+					this.homeRequest({
+						url:'/bookings/check_group',
+						method: 'GET',
+					}).then(res=>{
+						console.log(res);
+						if(res.code==200){
+							uni.navigateTo({
+								url: './venues-booking?id='+this.id+'&&channelId='+this.channelId
+							})
+						}else{
+							this.toast(res.message,'none',1500)
+						}
+					});
 				}else{
-					if(this.channelId==179){
-						this.homeRequest({
-							url:'/bookings/check_group',
-							method: 'GET',
-						}).then(res=>{
-							console.log(res);
-							if(res.code==200){
-								uni.navigateTo({
-									url: './venues-booking?id='+this.id+'&&channelId='+this.channelId
-								})
-							}else{
-								this.toast(res.message,'none',1500)
-							}
-						});
-					}else{
-						uni.navigateTo({
-							url: './venues-booking?id='+this.id+'&&channelId='+this.channelId
-						})
-					}
+					uni.navigateTo({
+						url: './venues-booking?id='+this.id+'&&channelId='+this.channelId
+					})
 				}
 			},
 			getVenuesList(){

@@ -138,6 +138,7 @@
 						_this.upload(url).then(r=>{
 							console.log(r);
 							_this.imgList[index-1] = r.body.uploadPath
+							_this.piece = 0
 						})
 					}
 				});

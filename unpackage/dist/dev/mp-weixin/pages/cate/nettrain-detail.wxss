@@ -39,7 +39,7 @@ page {
 }
 .nettrain-detail .major_img {
   width: 690rpx;
-  height: 292rpx;
+  height: 414rpx;
   margin: 30rpx auto 0;
 }
 .nettrain-detail .major_img .major_imgs {
@@ -61,6 +61,7 @@ page {
   color: #1B1C1E;
 }
 .nettrain-detail .major_box_text {
+  height: 64rpx;
   line-height: 64rpx;
   display: -webkit-box;
   display: -webkit-flex;

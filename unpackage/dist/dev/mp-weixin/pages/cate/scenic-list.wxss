@@ -45,7 +45,7 @@ page {
 }
 .cate_box .scenic_boxs .scenic_point_img {
   width: 328rpx;
-  height: 188rpx;
+  height: 196rpx;
 }
 .cate_box .scenic_boxs .scenic_point .stars {
   position: absolute;
@@ -110,7 +110,7 @@ page {
 }
 .cate_box .scenic_boxs .actives_point_img {
   width: 328rpx;
-  height: 188rpx;
+  height: 196rpx;
 }
 .cate_box .scenic_boxs .actives_point_info {
   width: 100%;

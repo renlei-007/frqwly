@@ -55,7 +55,7 @@
 					bottom: true,
 				},{
 					imgs: require('../../static/images/yspx.png'),
-					url: '/pages/cate/all-list?pageVal=1&&s_category_like=艺术培训',
+					url: '/pages/cate/all-list?pageVal=1&&s_category_like=文化馆培训',
 					title: '艺术培训 ',
 					right: false,
 					bottom: true,
@@ -81,6 +81,12 @@
 					imgs: require('../../static/images/mk.png'),
 					url: '/pages/cate/mooc',
 					title: '慕课',
+					right: true,
+					bottom: false,
+				},{
+					imgs: require('../../static/images/whbk.png'),
+					url: '/pages/cate/cultural-encyclopedia',
+					title: '文化百科',
 					right: false,
 					bottom: false,
 				},],
@@ -104,7 +110,7 @@
 					bottom: true,
 				},{
 					imgs: require('../../static/images/szzy.png'),
-					url: '',
+					url: '/pages/cate/digit-resource',
 					title: '数字资源',
 					right: false,
 					bottom: false,
@@ -157,19 +163,13 @@
 					url: '/pages/cate/venues-list?title=体育馆',
 					title: '体育场馆',
 					right: true,
-					bottom: true,
+					bottom: false,
 				},{
 					imgs: require('../../static/images/zbdb.png'),
 					url: '/pages/cate/live-list?type=赛事直播',
 					title: '赛事直播',
 					right: true,
-					bottom: true,
-				},{
-					imgs: require('../../static/images/whbk.png'),
-					url: '/pages/cate/cultural-encyclopedia',
-					title: '文化百科',
-					right: false,
-					bottom: true,
+					bottom: false,
 				},{
 					imgs: require('../../static/images/zhjsd.png'),
 					url: '/pages/map/map?title=智慧健身点',
@@ -204,6 +204,10 @@
 				})
 			},
 			goPage(url,index,e){
+				if(!url){
+					this.toast('功能正在开发中，敬请期待~','none')
+					return
+				}
 				if(e==4 && (index==2||index==6)){
 					let title = index==2?'晨晚练点':'智慧健身点'
 					uni.setStorageSync('mapTitle',title)

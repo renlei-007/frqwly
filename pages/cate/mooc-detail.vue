@@ -1,31 +1,40 @@
 <template>
 	<view class="mooc-detail content">
 		<view class="video_info">
-			<view class="video_play">
-				<!-- #ifdef MP-WEIXIN -->
+			<!-- <view class="video_play" v-if="content.courses.length>0">
 				<video id="myVideo" :src="content.courses[chapters].videoPath" object-fit="fill"></video>
-				<!-- #endif -->
-				<!-- #ifndef MP-WEIXIN -->
 				<video id="myVideo" :src="content.courses[chapters].videoPath" object-fit="fill"></video>
-				<!-- #endif -->
+			</view> -->
+			<view class="titleImg">
+				<image :src="content.titleImg" mode=""></image>
 			</view>
 			<view class="video_info_detail">
 				<view class="video_info_detail_title">{{content.title}}</view>
-				<view class="video_info_detail_txt">课程分类：{{content.typeName}}</view>
-				<view class="video_info_detail_txt">课程章节：{{content.courses.length}}</view>
-				<view class="video_info_detail_txt">课程时长：</view>
-				<view class="video_info_detail_txt">课程主讲：{{content.attr_teacher}}</view>
+				<!-- <view class="video_info_detail_txt">课程章节：{{content.courses.length}}</view> -->
+				<view class="video_info_detail_txt">课程时长：{{content.attr_len?content.attr_len:'暂无'}}</view>
+				<view class="video_info_detail_txt">课程主讲：{{content.attr_teacher?content.attr_teacher:''}}{{content.attr_unit?'('+content.attr_unit+')':''}}</view>
 				<view class="video_info_detail_txt">学习人数：{{content.views+1}}</view>
+				<view class="video_info_detail_txt">课程分类：
+					<text v-for="(item,index) in typeList" :key="index">{{index==typeList.length-1?item:item+' | '}}</text>
+				</view>
 			</view>
 			<view class="chapters">
 				<view class="chapters_tab">
-					<view class="chapters_tab_title">章节</view>
+					<view class="chapters_tab_title" :class="{'active':chapters==0}" style="font-size: 32rpx;" @tap="chapters=0">课程详情</view>
+					<view class="chapters_tab_title" :class="{'active':chapters==1}" style="font-size: 32rpx;" @tap="chapters=1">课程章节</view>
+					<view class="chapters_tab_title" :class="{'active':chapters==2}" style="font-size: 32rpx;" @tap="chapters=2">讲师介绍</view>
 				</view>
-				<view class="chapters_info">
+				<!-- <view class="chapters_info">
 					<view class="chapters_info_list" v-for="(item,Index) in content.courses" :key="Index" :class="{'actives':chapters==Index}" @tap="chapterChange(Index)">
 						<view class="chapters_info_list_title">{{item.name}}</view>
 						<view class="chapters_info_list_free">{{item.isFree?'免费':'收费'}}</view>
 					</view>
+				</view> -->
+				<view class="introduce" v-if="chapters==0">
+					<rich-text :nodes="content.txt"></rich-text>
+				</view>
+				<view class="introduce" v-if="chapters==2">
+					<rich-text :nodes="content.txt1"></rich-text>
 				</view>
 			</view>
 		</view>
@@ -65,6 +74,8 @@
 				
 				showControlbar: true,
 				timer:null,
+				
+				typeList: [],
 			};
 		},
 		onLoad(e) {
@@ -139,6 +150,10 @@
 				this.indexRequest({url:'/content/get.jspx',data:params}).then(res=>{
 					console.log(res);
 					var content = res.data.body;
+					content.txt = this.replaceSpecialChar(content.txt)
+					content.txt1 = this.replaceSpecialChar(content.txt1)
+					// console.log(content.attr_subject,content.attr_category,content.attr_crowd,content.attr_system);
+					this.typeList = content.attr_system
 					this.content = content;
 					uni.setNavigationBarTitle({
 						title: content.title
@@ -147,14 +162,13 @@
 			},
 			getLiveList(){
 				let params = {
-					count:5,
+					count:4,
 					channelIds: '191',
 					sort:4
 				}
 				this.indexRequest({url:'/content/list.jspx',data:params}).then(res=>{
 					console.log(res);
 					let array = res.data.body
-					array.shift()
 					this.liveList = array
 				})
 			},
@@ -186,8 +200,16 @@ video{height: 100%;}
 		width: 100%;
 		.video_play{
 			width: 100%;
-			height: 420rpx;
+			height: 450rpx;
 			background: #707070;
+		}
+		.titleImg{
+			width: 100%;
+			height: 450rpx;
+			image{
+				width: 100%;
+				height: 100%;
+			}
 		}
 		&_detail{
 			width: 100%;
@@ -232,6 +254,11 @@ video{height: 100%;}
 					// font-size: 40rpx;
 					border-bottom: 8rpx solid #7565E3;
 				}
+			}
+			.introduce{
+				box-sizing: border-box;
+				width: 100%;
+				padding: 30rpx 0;
 			}
 			&_info{
 				width: 100%;

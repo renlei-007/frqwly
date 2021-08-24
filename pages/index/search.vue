@@ -3,9 +3,9 @@
 		<zy-search :h-list="list" ref="zysearch" :is-focus="true" :is-block="false" :show-want="true" @search="doSearch"></zy-search>
 		<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore" style="overflow: auto;" :style="{'height':`calc(100% - ${heights*2}rpx)`}">
 			<view class="search_list">
-				<view class="search_list_cell" v-for="(item,index) in result" :key="index"></view>
+				<view class="search_list_cell" v-for="(item,index) in result" :key="index" @tap="navToDetailPage(item)">{{item.title}}</view>
 			</view>
-		</ys-scroll>	
+		</ys-scroll>
 	</view>
 </template>
 
@@ -70,10 +70,12 @@
 					q: this.keywords, count: 10, first: this.page,
 				}
 				this.indexRequest({url:'/content/search',data:params}).then(res=>{
+					console.log(res);
 					if(res.data.body.length==0&&this.result.length == 0){
 						this.$refs.scroll.setLoadStatus('no_data');
 					}else{
 						this.result = this.result.concat(res.data.body)
+						console.log(this.result);
 						if(res.data.body.length<10){
 						  this.$refs.scroll.setLoadStatus('no_more');
 						}else{
@@ -85,15 +87,50 @@
 			doSearch(keywords){
 				this.keywords = keywords;
 				this.refresh()
-				// uni.downloadFile({
-				// 	url: 'http://a-news.oss-cn-hangzhou.aliyuncs.com/avatar/1.jpg',
-				// 	success: (res) => {
-				// 		console.log(res);
-				// 	},
-				// 	fail: err => {
-				// 		console.log(err);
-				// 	}
-				// })
+			},
+			navToDetailPage(item){
+				switch(item.modelName){
+					case '艺术欣赏':
+						this.navigateTo('/pages/cate/art-expert?id='+item.id)
+						break
+					case '旅游景点':
+						this.navigateTo('/pages/cate/scenic-spot?id='+item.id+'&&channelIds='+item.channelId)
+						break
+					case '新闻':
+						this.navigateTo('/pages/cate/information-detail?id='+item.id+'&&channelIds='+item.channelId)
+						break
+					case '非遗名录':
+						this.navigateTo('/pages/cate/nonlegacy-detail?id='+item.id)
+						break
+					case '直播':
+						this.navigateTo('/pages/cate/live-detail?id='+item.id)
+						break
+					case '志愿服务':
+						this.navigateTo('/pages/cate/volunteers-detail?id='+item.id)
+						break
+					case '活动预定':
+						this.navigateTo('/pages/cate/active-detail?id='+item.id)
+						break
+					case '培训':
+						this.navigateTo('/pages/cate/nettrain-detail?id='+item.id)
+						break
+					case '群组':
+						this.navigateTo('/pages/cate/volunteers-detail?id='+item.id+'&&channelIds='+item.channelId)
+						break
+					case '场馆预定':
+						this.navigateTo('/pages/cate/venues-detail?id='+item.id+'&&channelIds='+item.channelId)
+						break
+					case '课程':
+						this.navigateTo('/pages/cate/mooc-detail?id='+item.id)
+						break
+					case '文化百科':
+						this.navigateTo('/pages/cate/cultural-encyclopedia-detail?id='+item.id)
+						break
+					// case '网上培训':
+					// 	this.navigateTo('/pages/cate/nettrain-detail?id='+item.id)
+					// 	break
+					break
+				}
 			},
 		}
 	}
@@ -116,11 +153,14 @@ page{
 		width: 100%;
 		height: auto;
 		box-sizing: border-box;
-		padding: 30rpx 0;
+		padding: 20rpx 30rpx;
 		font-size: 32rpx;
 		color: #000;
-		line-height: 36rpx;
+		line-height: 52rpx;
 		border-bottom: 1px solid #c8c7cc;
+		&:nth-last-child(1){
+			border-bottom: none;
+		}
 	}
 }
 </style>

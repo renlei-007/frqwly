@@ -166,7 +166,7 @@ page{
 		height: auto;
 		.detail_img{
 			width: 100%;
-			height: 400rpx;
+			height: 450rpx;
 		}
 		.detail{
 			width: 100%;

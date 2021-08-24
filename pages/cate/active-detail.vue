@@ -62,10 +62,10 @@
 					<image class="icon_img" src="/static/cate/pinglun.png" mode=""></image>
 					<text>评论</text>
 				</view>
-				<view class="icon_item" @tap="share">
+				<button class="icon_item" hover-class="none" open-type="share" @tap="share">
 					<image class="icon_img" src="/static/cate/zhuanfa.png" mode=""></image>
 					<text>转发</text>
-				</view>
+				</button>
 				<view class="icon_item" @tap="btnFabulous">
 					<image class="icon_img" :src="isFabulous?'/static/cate/dianzan_red.png':'/static/cate/dianzan.png'" mode=""></image>
 					<text :class="{dz_red:isFabulous}">点赞</text>
@@ -272,7 +272,7 @@
 				this.indexRequest({url:'/content/get.jspx',data:params}).then(res=>{
 					console.log(res);
 					var content = res.data.body;
-					content.txt = this.formatRichText(content.txt)
+					content.txt = this.replaceSpecialChar(content.txt)
 					this.content = content;
 					// this.status = res.data.body.status;
 					this.ticketStatus = res.data.body.ticketingSetting.status

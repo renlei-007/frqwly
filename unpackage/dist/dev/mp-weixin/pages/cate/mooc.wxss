@@ -41,7 +41,7 @@
 }
 .mooc .mooc_box_point_img {
   width: 690rpx;
-  height: 386rpx;
+  height: 414rpx;
 }
 .mooc .mooc_box_point_info {
   width: 100%;

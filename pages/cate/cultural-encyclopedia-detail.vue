@@ -110,7 +110,7 @@
 				}
 				this.indexRequest({url:'/content/get.jspx',data:params}).then(res=>{
 					var content = res.data.body;
-					content.txt = this.formatRichText(content.txt)
+					content.txt = this.replaceSpecialChar(content.txt)
 					this.content = content;
 					uni.setNavigationBarTitle({
 						title: content.title
@@ -152,7 +152,7 @@ page{
 		width: 100%;
 		&_img{
 			width: 690rpx;
-			height: 292rpx;
+			height: 414rpx;
 			margin: 30rpx auto 0;
 			.major_imgs{
 				width: 100%;

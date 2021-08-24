@@ -13,11 +13,15 @@
 					成立时间：<text>{{content.sortDate?content.sortDate:'暂无'}}</text>
 				</view>
 				<view class="major_box_text">
-					社团类型：<text>{{content.typeName?content.typeName:'暂无'}}</text>
+					{{channelIds==127?'活动类型：':'社团类型：'}}
+					<text v-for="(item,index) in content.attr_type" :key="index">{{index==content.attr_type.length-1?item:item+' | '}}</text>
 				</view>
 				<view class="major_box_text" v-if="channelIds==127">
 					招募日期：<text>
 						{{content.attr_startTime?content.attr_startTime.slice(0,10):''}}{{content.attr_startTime&&content.attr_endTime?'至':''}}{{content.attr_endTime?content.attr_endTime.slice(0,10):''}}</text>
+				</view>
+				<view class="major_box_text">
+					电话：<text>{{content.attr_phone?content.attr_phone:'暂无'}}</text>
 				</view>
 			</view>
 			<view class="blank"></view>
@@ -48,10 +52,10 @@
 					<image class="icon_img" src="/static/cate/pinglun.png" mode=""></image>
 					<text>评论</text>
 				</view>
-				<view class="icon_item" @tap="share">
+				<button class="icon_item" hover-class="none" open-type="share" @tap="share">
 					<image class="icon_img" src="/static/cate/zhuanfa.png" mode=""></image>
 					<text>转发</text>
-				</view>
+				</button>
 				<view class="icon_item" @tap="btnFabulous">
 					<image class="icon_img" :src="isFabulous?'/static/cate/dianzan_red.png':'/static/cate/dianzan.png'" mode=""></image>
 					<text :class="{dz_red:isFabulous}">点赞</text>
@@ -220,7 +224,7 @@
 				}
 				this.indexRequest({url:'/content/get.jspx',data:params}).then(res=>{
 					var content = res.data.body;
-					content.txt = this.formatRichText(content.txt)
+					content.txt = this.replaceSpecialChar(content.txt)
 					this.content = content;
 					uni.setNavigationBarTitle({
 						title: content.title
@@ -263,23 +267,13 @@
 								})
 							} else if (res.cancel) {
 							}
-							return
 						}
 					})
+					return
 				}
 				if(!this.isCertification){
-					uni.showModal({
-						title: "提示",
-						content: "您还没有实名认证，请先实名认证吧！",
-						showCancel: true,
-						confirmText: "确定",
-						success: (res)=>{
-							if (res.confirm) {
-							} else if (res.cancel) {
-							}
-							return
-						}
-					})
+					this.toast('您还没有实名认证，请先实名认证！','none')
+					return
 				}
 				if(this.channelIds==127){
 					uni.navigateTo({
@@ -428,7 +422,7 @@ page{
 		width: 100%;
 		&_img{
 			width: 690rpx;
-			height: 292rpx;
+			height: 414rpx;
 			margin: 30rpx auto 0;
 			background: url(../../static/default.png) no-repeat center center;
 			.major_imgs{

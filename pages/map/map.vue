@@ -33,11 +33,11 @@
 						@tap="changeCate(index)"
 					>{{item.title}}
 					</view>
-					<view class="bottom_distance"></view>
+					<!-- <view class="bottom_distance"></view> -->
 				</ys-scroll>
 			</view>
 			<view class="pt_list">
-				<ys-scroll :param="pt_param" @loadMore = "" ref = "scroll">
+				<ys-scroll :param="pt_param" @loadMore = "getMore" ref = "scroll">
 					<view v-for="(item,index) in pointList" :key="index" @tap="todetail(item)">
 						<view class="pt_item">
 							<view class="pt_item_img">
@@ -124,6 +124,7 @@ export default {
 			lat: '',
 			lng: '',
 			mapTitle: '',
+			countPage: 0,
 		};
 	},
 	onLoad() {
@@ -174,6 +175,7 @@ export default {
 			this.type = val.type;
 			console.log(this.type);
 			this.sort = val.sort;
+			this.countPage = 0
 			this.is_choose = true
 			this.pointList = []
 			this.pages = 0
@@ -183,6 +185,7 @@ export default {
 			this.cate_index = index
 			this.pointList = [];
 			this.type = this.cateList[index].title
+			this.countPage = 0
 			console.log(this.type);
 			if(index==0){
 				this.type = ''
@@ -216,12 +219,18 @@ export default {
 			this.getCatePointList();
 			// this.$refs.scroll.setLoadStatus('loading')
 		},
+		getMore(){
+			console.log('上拉加载');
+			this.countPage += 25
+			this.getCatePointList();
+		},
 		getCatePointList(){
 			let params={
 				channelIds: 147,
 				count: 25,
 				points: this.points,
-				orderBy: this.sort
+				orderBy: this.sort,
+				first: this.countPage
 			}
 			if(this.type){
 				params['type'] = this.type
@@ -236,12 +245,16 @@ export default {
 				params['lng'] = this.lng;
 				this.indexRequest({url:'/query/position',data:params}).then(res=>{
 					console.log(res);
-					if(res.data.body.data.length == 0){
+					if(res.data.body.data.length == 0 && this.pointList.length == 0){
 						this.$refs.scroll.setLoadStatus('no_data');
 					}else{
-						this.$refs.scroll.setLoadStatus('more');
+						this.pointList = this.pointList.concat(res.data.body.data)
+						if(res.data.body.data.length<25){
+							this.$refs.scroll.setLoadStatus('no_more');
+						}else{
+							this.$refs.scroll.setLoadStatus('more');
+						}
 					}
-					this.pointList = res.data.body.data
 				})
 			})
 		},
@@ -265,7 +278,7 @@ export default {
 		getLocation(){
 			return new Promise((resolve, reject)=>{
 				uni.getLocation({
-					type: 'wgs84',
+					type: 'gcj02',
 					success: (res)=>{
 						console.log(res);
 						resolve(res);
@@ -355,7 +368,7 @@ export default {
 	}
 	.content_box{
 		width: 100%;
-		height: 100%;
+		height: calc(100% - 90rpx);
 		display: flex;
 		.cate_list{
 			height: 100%;

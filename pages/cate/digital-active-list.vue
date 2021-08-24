@@ -3,7 +3,9 @@
 		<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
 			<view class="act_box">
 				<view class="act_list" v-for="(item,index) in activeList" :key="index" @tap="todetail(item.id)">
-					<image class="act_list_img" :src="item.titleImg" mode=""></image>
+					<view class="act_list_bac" style="width: 100%;height: 414rpx;">
+						<image class="act_list_bac_img" :src="item.titleImg" mode=""></image>
+					</view>
 					<view class="act_list_content">
 						<view class="act_list_content_title">{{item.title}}</view>
 						<view class="act_list_content_info">
@@ -99,22 +101,28 @@
 	width: 100%;
 	.act_list{
 		width: 690rpx;
-		height: 538rpx;
+		height: auto;
 		background: #FFFFFF;
 		border-radius: 8rpx;
 		margin: 30rpx auto 0;
-		&_img{
+		&_bac{
 			width: 100%;
-			height: 386rpx;
+			height: 414rpx;
+			background: url(@/static/default.png) no-repeat center center;
+			background-size: 200% 200%;
+			&_img{
+				width: 100%;
+				height: 100%;
+			}
 		}
 		&_content{
-			height: 152rpx;
+			height: auto;
 			width: 100%;
 			box-sizing: border-box;
-			padding: 30rpx;
+			padding: 10rpx 20rpx 20rpx;
 			&_title{
 				font-size: 28rpx;
-				line-height: 28rpx;
+				line-height: 38rpx;
 				color: #1B1C1E;
 			}
 			&_info{
@@ -131,6 +139,7 @@
 					&_icon{
 						width: 20rpx;
 						height: 24rpx;
+						margin-right: 6rpx;
 					}
 				}
 				&_status{

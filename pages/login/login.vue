@@ -12,6 +12,7 @@
 		<view class="orthers">
 			<view class="wx_btn">微信快捷登录</view>
 			<button class="circle" hover-class="none" open-type="getUserInfo" lang="zh_CN" @getuserinfo="goBindTel"></button>
+			<!-- <view class="circle" @tap="getPhoness"></view> -->
 			<view class="action">
 				<text @tap="toforget">找回密码</text>
 				<text class="space">|</text>
@@ -87,7 +88,7 @@
 					data:{
 						js_code: code,
 						grant_type:'authorization_code',
-						appId: appId,
+						appId: globalData.appId,
 						nonce_str:nonce_str,
 						nickName:nickName,
 						avatarUrl:avatarUrl,
@@ -133,12 +134,20 @@
 					},
 					complete: (res)=>{
 						console.log(res);
+						if(res.code==304){
+							uni.showToast({
+								title:'密码错误',
+								icon:'none'
+							})
+							return
+						}
 						if(res.code!=200){
 							console.log(1);
 							uni.showToast({
 							  title:res.message,
 							  icon:'none'
 							})
+							return
 						}
 						if(res.code==200){
 							console.log(2);

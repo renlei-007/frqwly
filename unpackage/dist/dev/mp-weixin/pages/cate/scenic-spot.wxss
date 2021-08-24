@@ -41,7 +41,7 @@ page {
 }
 .scenic-spot .spot_info_img {
   width: 100%;
-  height: 322rpx;
+  height: 414rpx;
   background-color: #E5E5E5;
 }
 .scenic-spot .spot_info_img video {
@@ -130,7 +130,6 @@ page {
   font-size: 28rpx;
   font-weight: 400;
   line-height: 40rpx;
-  color: #8B8B9C;
 }
 .video-box {
   width: 100%;

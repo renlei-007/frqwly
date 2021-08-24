@@ -43,9 +43,15 @@
 		onLoad(e) {
 			if(e.type){
 				this.type = e.type
-				uni.setNavigationBarTitle({
-					title: e.type
-				})
+				if(e.type=='活动专区'){
+					uni.setNavigationBarTitle({
+						title: '直播点播'
+					})
+				}else{
+					uni.setNavigationBarTitle({
+						title: e.type
+					})
+				}
 			}
 			this.getList()
 		},
@@ -112,7 +118,7 @@
 		background-color: #FFFFFF;
 		&_img{
 			width: 100%;
-			height: 386rpx;
+			height: 414rpx;
 			background: url(../../static/default.png) no-repeat;
 			background-position: left top;
 			background-size: 100% 100%;

@@ -48,8 +48,16 @@ video {
 }
 .mooc-detail .video_info .video_play {
   width: 100%;
-  height: 420rpx;
+  height: 450rpx;
   background: #707070;
+}
+.mooc-detail .video_info .titleImg {
+  width: 100%;
+  height: 450rpx;
+}
+.mooc-detail .video_info .titleImg image {
+  width: 100%;
+  height: 100%;
 }
 .mooc-detail .video_info_detail {
   width: 100%;
@@ -96,6 +104,11 @@ video {
   font-weight: 500;
   color: #7565E3;
   border-bottom: 8rpx solid #7565E3;
+}
+.mooc-detail .video_info .chapters .introduce {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 30rpx 0;
 }
 .mooc-detail .video_info .chapters_info {
   width: 100%;

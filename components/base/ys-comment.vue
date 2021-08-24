@@ -103,6 +103,7 @@
 			},
 			send(){
 				if(!this.isLogin){
+					this.$emit('close')
 					uni.showModal({
 						title: "提示",
 						content: "您还未登录，确定先登录吗？",
@@ -129,7 +130,7 @@
 							console.log(res);
 							if(res.code==201){
 								this.toast('评论成功！等待审核中~')
-								this.refresh()
+								this.$emit('close')
 							}else{
 								this.toast(res.message,'none')
 							}

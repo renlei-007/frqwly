@@ -1,8 +1,16 @@
 <template>
 	<view class="art-expert content">
-		<view class="main_img">
+		<!-- <view class="main_img">
 			<image class="indeximg" :src="content.titleImg" mode=""></image>
-		</view>
+		</view> -->
+		<swiper class="spot_info_img" circular autoplay="autoplay" indicator-dots="true" indicator-active-color="rgba(255,153,51,1)">
+			<swiper-item class="swiper-item" v-if="content.attr_videopath">
+				<video id="myVideo" :src="content.attr_videopath" :controls="false" object-fit="fill" class="video-box"></video>
+			</swiper-item>
+			<swiper-item  class="swiper-recommend" v-for="(item, index) in content.picArr" :key="index" @tap="preview()">
+				<image class="swiper_img" :src="item.picPaths" mode="widthFix"></image>
+			</swiper-item> 
+		</swiper>
 		<view class="arts">
 			<view class="arts_title">{{content.title}}</view>
 			<view class="arts_detail">
@@ -44,6 +52,7 @@
 				artList: [],
 				is_show: false,
 				commentList: [],
+				imgList: [],
 			};
 		},
 		onLoad(e) {
@@ -131,6 +140,12 @@
 					url: '/pages/cate/art-expert?id='+id
 				})
 			},
+			preview(){
+				this.content.picArr.map(item=>{
+					this.imgList.push(item.picPaths)
+				})
+				this.previewImage(this.imgList)
+			},
 		},
 	}
 </script>
@@ -197,6 +212,20 @@ page{
 			width: 100%;
 			min-height: 400rpx;
 		}
+	}
+}
+.spot_info_img{
+	width: 690rpx;
+	height: 414rpx;
+	margin: 30rpx auto 0;
+	background-color: #E5E5E5;
+	video{
+		width: 100%;
+		height: 100%;
+	}
+	.swiper_img{
+		width: 100%;
+		height: 100%;
 	}
 }
 </style>

@@ -38,7 +38,7 @@ page {
 }
 .cultural-encyclopedia-detail .major_img {
   width: 690rpx;
-  height: 292rpx;
+  height: 414rpx;
   margin: 30rpx auto 0;
 }
 .cultural-encyclopedia-detail .major_img .major_imgs {

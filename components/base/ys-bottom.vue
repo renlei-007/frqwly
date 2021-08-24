@@ -11,10 +11,10 @@
 				<image class="icon_img" src="/static/cate/pinglun.png" mode=""></image>
 				<text>评论</text>
 			</view>
-			<view class="icon_item" @tap="share">
+			<button class="icon_item" hover-class="none" open-type="share" @tap="share">
 				<image class="icon_img" src="/static/cate/zhuanfa.png" mode=""></image>
 				<text>转发</text>
-			</view>
+			</button>
 			<view class="icon_item" @tap="btnFabulous">
 				<image class="icon_img" :src="isFabulous?'/static/cate/dianzan_red.png':'/static/cate/dianzan.png'" mode=""></image>
 				<text :class="{dz_red:isFabulous}">点赞</text>
@@ -88,7 +88,8 @@
 			},
 			share(){
 				// #ifdef MP-WEIXIN
-				wx.showShareMenu();
+				console.log(11111111);
+				uni.showShareMenu();
 				// #endif
 				// #ifdef H5
 				this.$refs.share.toggleMask();	

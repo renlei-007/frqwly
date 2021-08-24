@@ -2,7 +2,7 @@
 	<view class="all-list content">
 		<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
 			<view class="act_box">
-				<view class="act_list" v-for="(item,index) in activeList" :key="index" @tap="todetail(item.id)">
+				<view class="act_list" v-for="(item,index) in activeList" :key="index" @tap="todetail(item)">
 					<image class="act_list_img" :src="item.titleImg" mode=""></image>
 					<view class="act_list_content">
 						<view class="act_list_content_title">{{item.title}}</view>
@@ -93,7 +93,7 @@
 					case '1':
 						url = '/content/list.jspx'
 						params.channelIds = 133
-						params.s_category_like = this.s_category_like
+						params.s_organizer_like = this.s_category_like
 						this.setNavTitle('艺术培训')
 						break
 					case '2':
@@ -133,6 +133,20 @@
 					title: title
 				})
 			},
+			todetail(item){
+				switch(this.pageVal){
+					case '1':
+						uni.navigateTo({
+							url: '/pages/cate/nettrain-detail?id='+item.id
+						})
+						break
+					case '1':
+						uni.navigateTo({
+							url: '/pages/cate/live-detail?id='+item.id
+						})
+						break
+				}
+			},
 		},
 	}
 </script>
@@ -146,7 +160,7 @@
 	width: 100%;
 	.act_list{
 		width: 690rpx;
-		height: 538rpx;
+		height: 566rpx;
 		background: #FFFFFF;
 		border-radius: 8rpx;
 		margin: 30rpx auto 0;

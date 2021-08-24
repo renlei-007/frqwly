@@ -23,7 +23,7 @@
     </view>
     <!-- #endif -->
 	<swiper class="banner_box" circular :indicator-dots="false" autoplay>
-		<swiper-item  class="swiper-recommend" v-for="(item, index) in carouselList"  :key="index">
+		<swiper-item  class="swiper-recommend" v-for="(item, index) in carouselList"  :key="index" @tap="toPage(item)">
 			<view class="img"><image class="swiper_img" :src="item.attr_image_url"></image></view>
 		</swiper-item>
 	</swiper>
@@ -85,13 +85,19 @@
 			url: '/pages/index/search'
 		  })
 	  },
+	  toPage(item){
+		console.log(1111111);
+		uni.navigateTo({
+		  url: item.attr_image_link
+		})
+	  },
 	  toDel(){
 		if(this.isLogin){
 	  		this.navigateTo('/pages/mine/reward-points')
 		}else{
 			uni.showModal({
 				title: '提示',
-				content: '您还没有登录，无法查看或设置，确认要先登录吗？',
+				content: '您还没有登录，确认要先登录吗？',
 				success: (res) => {
 					if (res.confirm) {
 						uni.navigateTo({
@@ -113,7 +119,7 @@
     width: 100%;
 	position: relative;
 	/* #ifdef MP-WEIXIN */
-	height: 564rpx;
+	height: 750rpx;
 	/* #endif */
     /* #ifdef MP-WEIXIN */
     .wx{
@@ -174,7 +180,7 @@
     /* #endif */
 	.banner_box{
 		width: 100%;
-		height: 564rpx;
+		height: 750rpx;
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -309,7 +315,7 @@
   		.point_num{
   			font-size: 60rpx;
   			line-height: 60rpx;
-  			margin-bottom: 5rpx;
+			font-family: Din;
   		}
   	}
   }

@@ -14,7 +14,7 @@
 				<view class="scenic_box" v-if="Index==1" style="justify-content: space-between;box-sizing: border-box;padding: 0 30rpx;">
 					<view class="scenic_point" v-for="(item,index) in scenicList" :key="index">
 						<!-- <rich-text class="scenic_point_img" style="height: auto;" :nodes="item.imgString"></rich-text> -->
-						<image class="scenic_point_img" :src="item.titleImg" @tap="todetail(item.id,0)"></image>
+						<image class="scenic_point_img" :src="item.titleImg" @tap="todetail(item,0)"></image>
 						<view class="scenic_point_info">
 							<view class="scenic_point_info_name">{{item.stitle}}</view>
 							<view class="scenic_point_info_position">
@@ -29,9 +29,10 @@
 						<view class="scenic_point" v-for="(item,index) in scenicLeftList" :key="index">
 							<!-- <rich-text class="scenic_point_img" style="height: auto;" :nodes="item.imgString"></rich-text> -->
 							<view style="position: relative;">
-								<image class="scenic_point_img" :src="item.titleImg" mode="widthFix" @load="onImageLoad" @tap="todetail(item.id,1)"></image>
-								<view class="stars" v-if="item.attr_start">
-									<view v-for="(item,index) in Number(item.attr_start)" :key="index">★</view>
+								<image class="scenic_point_img" v-if="item.titleImg" :src="item.titleImg" mode="widthFix" @load="onImageLoad" @tap="todetail(item,1)"></image>
+								<image class="scenic_point_img" v-else src="/static/default.png" mode="widthFix" @load="onImageLoad" @tap="todetail(item,1)"></image>
+								<view class="stars" v-if="item.attr_start>0">
+									<view v-for="(item,index) in item.starList" :key="index">★</view>
 								</view>
 							</view>
 							<view class="scenic_point_info">
@@ -47,9 +48,10 @@
 						<view class="scenic_point" v-for="(item,index) in scenicRightList" :key="index">
 							<!-- <rich-text class="scenic_point_img" style="height: auto;" :nodes="item.imgString"></rich-text> -->
 							<view style="position: relative;">
-								<image class="scenic_point_img" :src="item.titleImg" mode="widthFix" @load="onImageLoad" @tap="todetail(item.id,1)"></image>
-								<view class="stars" v-if="item.attr_start">
-									<view v-for="(item,index) in Number(item.attr_start)" :key="index">★</view>
+								<image class="scenic_point_img" v-if="item.titleImg" :src="item.titleImg" mode="widthFix" @load="onImageLoad" @tap="todetail(item,1)"></image>
+								<image class="scenic_point_img" v-else src="/static/default.png" mode="widthFix" @load="onImageLoad" @tap="todetail(item,1)"></image>
+								<view class="stars" v-if="item.attr_start>0">
+									<view v-for="(item,index) in item.starList" :key="index">★</view>
 								</view>
 							</view>
 							<view class="scenic_point_info">
@@ -74,24 +76,9 @@
 					:style="'width:'+item.width+'rpx;height:'+item.height+'rpx;left:'+getLocation(item,0)[0]+'%;top:'+getLocation(item,0)[1]+'%;'"
 					@tap="goDetail(0,item.name)"
 				></view>
-				<!-- <view class="lineBox_one_left">
-					<image class="flag" src="/static/flag.png" mode=""></image>
-					<view class="lineBox_one_left_title">芙蓉印记 红色游</view>
-					<view class="splitline">
-						<view class="splitline_black"></view>
-					</view>
-				</view>
-				<view class="lineBox_one_right">
-					<view class="lineBox_one_right_top">
-						
-					</view>
-					<view class="lineBox_one_right_bottom">
-						
-					</view>
-				</view> -->
 			</view>
 			<view class="lineBox_one">
-				<image class="lineBox_one_img" src="https://oss.culturalcloud.net/furong/202108/16084211f376.png" mode="widthFix"></image>
+				<image class="lineBox_one_img" src="https://oss.culturalcloud.net/furong/202108/1909270714tw.png" mode="widthFix"></image>
 				<view 
 					v-for="(item,index) in hsjyList" 
 					:key="index" 
@@ -101,23 +88,23 @@
 				></view>
 			</view>
 			<view class="lineBox_one">
-				<image class="lineBox_one_img" src="https://oss.culturalcloud.net/furong/202108/16084232lvqi.png" mode="widthFix"></image>
-				<view 
-					v-for="(item,index) in yxyList" 
-					:key="index" 
-					class="point"
-					@tap="goDetail(2,item.name)"
-					:style="'width:'+item.width+'rpx;height:'+item.height+'rpx;left:'+getLocation(item,2)[0]+'%;top:'+getLocation(item,2)[1]+'%;'"
-				></view>
-			</view>
-			<view class="lineBox_one">
-				<image class="lineBox_one_img" src="https://oss.culturalcloud.net/furong/202108/16084252ucvh.png" mode="widthFix"></image>
+				<image class="lineBox_one_img" src="https://oss.culturalcloud.net/furong/202108/19092805fzfn.png" mode="widthFix"></image>
 				<view 
 					v-for="(item,index) in whdkyList" 
 					:key="index" 
 					class="point"
 					@tap="goDetail(3,item.name)"
 					:style="'width:'+item.width+'rpx;height:'+item.height+'rpx;left:'+getLocation(item,3)[0]+'%;top:'+getLocation(item,3)[1]+'%;'"
+				></view>
+			</view>
+			<view class="lineBox_one">
+				<image class="lineBox_one_img" src="https://oss.culturalcloud.net/furong/202108/19092746bohu.png" mode="widthFix"></image>
+				<view 
+					v-for="(item,index) in yxyList" 
+					:key="index" 
+					class="point"
+					@tap="goDetail(2,item.name)"
+					:style="'width:'+item.width+'rpx;height:'+item.height+'rpx;left:'+getLocation(item,2)[0]+'%;top:'+getLocation(item,2)[1]+'%;'"
 				></view>
 			</view>
 		</view>
@@ -171,6 +158,8 @@
 				lineList2: [],
 				lineList3: [],
 				lineList4: [],
+				
+				starsList: []
 			};
 		},
 		onLoad(e) {
@@ -264,13 +253,22 @@
 				}
 				//星级的orderBy传25,线路orderby传5
 				this.indexRequest({url:'/content/list.jspx',data:params}).then(res=>{
-					console.log(this.scenicList);
+					// console.log(this.scenicList);
 					if(res.data.body.length==0&&this.scenicList.length == 0){
 						this.$refs.scroll.setLoadStatus('no_data');
 					}else{
+						for(let i = 0;i<res.data.body.length;i++){
+							if(res.data.body[i].attr_start>0){
+								res.data.body[i].starList = []
+								for(let j = 0;j<Number(res.data.body[i].attr_start);j++){
+									res.data.body[i].starList.push('')
+								}
+							}
+						}
 						this.scenicList = this.scenicList.concat(res.data.body)
 						// this.scenicLeftList.push(res.data.body[0])
-						if(this.Index!=1){
+						if(this.Index!=1&&res.data.body.length>0){
+							console.log('000000000000000');
 							if(this.scenicLeftListHeight > this.scenicRightListHeight){
 								this.scenicRightList.push(res.data.body[0]);
 							}else{
@@ -306,7 +304,7 @@
 					})
 				})
 			},
-			onImageLoad(e){
+			async onImageLoad(e){
 				let divWidth = 328;
 				let oImgW = e.detail.width; //图片原始宽度
 				let oImgH = e.detail.height+112; //图片原始高度
@@ -331,9 +329,10 @@
 					}
 				}
 			},
-			todetail(id,index){
+			todetail(item,index){
+				// console.log(item.attr_start,parseFloat(item.attr_start));
 				uni.navigateTo({
-					url: '/pages/cate/scenic-spot?id='+id+'&&channelIds='+this.channelIds
+					url: '/pages/cate/scenic-spot?id='+item.id+'&&channelIds='+this.channelIds
 				})
 			},
 			goDetail(e,name){
@@ -395,7 +394,7 @@ page{
 			margin-top: 30rpx;
 			&_img{
 				width: 328rpx;
-				height: 188rpx;
+				height: 196rpx;
 			}
 			.stars{
 				position: absolute;
@@ -456,7 +455,7 @@ page{
 			position: relative;
 			&_img{
 				width: 328rpx;
-				height: 188rpx;
+				height: 196rpx;
 			}
 			&_info{
 				width: 100%;

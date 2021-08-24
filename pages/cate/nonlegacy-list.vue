@@ -13,7 +13,9 @@
 			<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
 				<view class="cultural_box" style="box-sizing: border-box;padding: 0 30rpx;">
 					<view class="cultural_box_point" v-for="(item,index) in nonlegacyList" :key="index" @tap="todetail(item.id)">
-						<image class="cultural_box_point_img" :src="item.titleImg" mode=""></image>
+						<view class="bacImg" style="width: 100%;height: 196rpx;">
+							<image class="cultural_box_point_img" :src="item.titleImg" mode=""></image>
+						</view>
 						<view class="cultural_box_point_name">{{item.title}}</view>
 					</view>
 				</view>
@@ -134,7 +136,7 @@
 		justify-content: space-between;
 		&_point{
 			width: 328rpx;
-			height: 280rpx;
+			height: 288rpx;
 			background: #FFFFFF;
 			border-radius: 8rpx;
 			margin-top: 30rpx;
@@ -142,7 +144,7 @@
 			flex-direction: column;
 			&_img{
 				width: 100%;
-				height: 188rpx;
+				height: 196rpx;
 				background: #E5E5E5;
 				border-radius: 8rpx 8rpx 0px 0px;
 			}

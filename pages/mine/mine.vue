@@ -351,6 +351,9 @@
 					}
 				});
 			},
+			moveHandle(){
+				return false
+			},
 		},
 	}
 </script>
@@ -388,6 +391,7 @@
 			height: 325rpx;
 			bottom: -80rpx;
 			right: 44rpx;
+			z-index: -10;
 		}
 		&_b {
 			align-items: center;
@@ -462,6 +466,7 @@
 		border-radius: 20rpx;
 		position: relative;
 		z-index: 10;
+		font-family: Din;
 		&_item {
 			width: 33.33%;
 			display: flex;
@@ -471,6 +476,7 @@
 			&_num {
 				font-size: 40rpx;
 				color: #1B1C1E;
+				font-family: Din;
 			}
 			&_name {
 				font-size: 24rpx;
@@ -505,12 +511,12 @@
 		}
 	}
 	.function_menu {
-		width: 690rpx;
+		width: 100%;
 		background-color: #ffffff;
-		border-radius: 20rpx;
-		padding: 0 20rpx;
+		// border-radius: 20rpx;
+		padding: 0 30rpx;
 		box-sizing: border-box;
-		margin: 20rpx auto 0;
+		margin: 30rpx auto 0;
 		.menu_item {
 			width: 100%;
 			height: 110rpx;
@@ -550,7 +556,7 @@
 			transform: translateX(-50%);
 			width: 690rpx;
 			height: 1px;
-			background-color: #e6e6e6;
+			background-color: #F9FAFE;
 		}
 		.menu_item_line:last-child::after {
 			background-color: #FFFFFF;
@@ -562,7 +568,7 @@
 		text-align: center;
 		line-height: 112rpx;
 		font-size: 34rpx;
-		color: #956FEC;
+		color: #EB5F45;
 		margin-top: 60rpx;
 		background-color: #FFFFFF;
 	}

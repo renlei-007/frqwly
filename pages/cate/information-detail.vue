@@ -22,7 +22,9 @@
 		data() {
 			return {
 				id: '',
-				content: {},
+				content: {
+					txt: '',
+				},
 				commentList: [],
 				is_show: false,
 				page: 0,
@@ -43,12 +45,6 @@
 			
 		},
 		methods: {
-			getHeight(){
-				let query = uni.createSelectorQuery().in(this)
-				query.select('.information_content').boundingClientRect(data => {
-					console.log(data);
-				}).exec()
-			},
 			/**
 			 * 页面刷新
 			 */
@@ -90,19 +86,15 @@
 					this.commentList = this.commentList.concat(content);
 				})
 			},
-			async getDetail(){
+			getDetail(){
 				let params = {
 					format: 0,
 					id: this.id
 				}
 				this.indexRequest({url:'/content/get.jspx',data:params}).then(res=>{
-					console.log(res);
 					var content = res.data.body;
-					content.txt = this.formatRichText(content.txt)
-					this.content = content;
-					this.$nextTick(()=>{
-						this.getHeight()
-					})
+					content.txt = this.replaceSpecialChar(content.txt)
+					this.content = content
 					uni.setNavigationBarTitle({
 						title: content.title
 					})

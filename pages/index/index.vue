@@ -5,10 +5,22 @@
  */
 <template>
 	<view class="content index">
-		<!-- #ifdef MP-WEIXIN -->
-		<ys-top-bar title="芙蓉区文旅体云" :point="point" :isChange="isChange"></ys-top-bar>
-		<!-- #endif -->
-		<!-- #ifndef MP-WEIXIN -->
+		<!-- <scroll-view 
+			:scroll-y="true"
+			:show-scrollbar="false"
+			:upper-threshold="50"
+			:refresher-enabled="refresher"
+			:refresher-default-style="refresher_style"
+			:refresher-background="refresher_background"
+			:refresher-triggered="triggered"
+			@scrolltoupper="scrolltoupper"
+			@refresherrefresh="onRefresh"
+			@refresherrestore="onRestore"
+		> -->
+			<!-- #ifdef MP-WEIXIN -->
+			<ys-top-bar title="芙蓉区文旅体云" :point="point" :isChange="isChange"></ys-top-bar>
+			<!-- #endif -->
+			<!-- #ifndef MP-WEIXIN --> 
 			<view class="search_box">
 				<view class="search_box_input" @tap="toSearch">
 					<image class="search_img" src="/static/icon/search.png" mode=""></image>
@@ -24,158 +36,159 @@
 					<view class="img"><image class="swiper_img" :src="item.attr_image_url"></image></view>
 				</swiper-item>
 			</swiper>
-		<!-- #endif -->
-		<!-- 分类轮播 -->
-		<!-- <view class="news" style="padding: 0;">
-			<ys-menu-list class="z_index" :size="104" :list="cate_list" @select="cateSelect"></ys-menu-list>
-		</view> -->
-		
-		
-		<view class="panel_box" :style="{'padding-bottom':is_showAll?0:'20rpx'}">
-			<view class="history_box">
-				<view class="history_box_top">
-					<image class="riliimg" src="/static/jinri.png" mode=""></image>
-					<image class="jintianimg" src="/static/jintian.png" mode=""></image>
-					<text>{{day}}</text>
-				</view>
-				<view class="history_box_bottom">
-					<swiper class="historySwiper" circular :indicator-dots="false" :autoplay="true" :interval="4000" :duration="800" :vertical="true">
-						<swiper-item class="historySwiper-item" v-for="(item,index) in historyList" :key="index">
-							<view class="swiper-item">{{item.title}}</view>
-						</swiper-item>
-					</swiper>
-				</view>
-			</view>
-			<view class="panel_box_show">
-				<view class="panel_box_show_part" @tap="navigateTo('/pages/cate/digital-cultural-centre?title=文化馆')">
-					<image src="/static/cate/whg.png" class="panel_box_show_part_img" mode=""></image>
-					<view class="panel_box_show_part_name">文化馆</view>
-				</view>
-				<view class="panel_box_show_part" @tap="navigateTo('/pages/cate/digital-cultural-centre?title=图书馆')">
-					<image src="/static/cate/tsg.png" class="panel_box_show_part_img" mode=""></image>
-					<view class="panel_box_show_part_name">图书馆</view>
-				</view>
-				<view class="panel_box_show_part" @tap="navigateTo('/pages/cate/digital-cultural-centre?title=旅游')">
-					<image src="/static/cate/ly.png" class="panel_box_show_part_img" mode=""></image>
-					<view class="panel_box_show_part_name">旅游</view>
-				</view>
-				<view class="panel_box_show_part" @tap="navigateTo('/pages/cate/digital-cultural-centre?title=体育')">
-					<image src="/static/cate/tyg.png" class="panel_box_show_part_img" mode=""></image>
-					<view class="panel_box_show_part_name">体育</view>
-				</view>
-				<view class="panel_box_show_part" @tap="navigateTo('/pages/cate/nonlegacy')">
-					<image src="/static/cate/fywb.png" class="panel_box_show_part_img" mode=""></image>
-					<view class="panel_box_show_part_name">非遗文博</view>
-				</view>
-			</view>
-			<view class="panel_box_hide">
-				<view class="panel_box_hide_part" v-for="(item,index) in panelList" :key="index">
-					<view class="panel_box_hide_part_one" v-for="(ite,ind) in item" :key="ind" @tap="navigateTo(ite.url)">
-						<image :src="ite.img" class="panel_box_hide_part_one_img" mode=""></image>
-						<view class="panel_box_hide_part_one_name">{{ite.name}}</view>
+			<!-- #endif -->
+			<!-- 分类轮播 -->
+			<!-- <view class="news" style="padding: 0;">
+				<ys-menu-list class="z_index" :size="104" :list="cate_list" @select="cateSelect"></ys-menu-list>
+			</view> -->
+			
+			
+			<view class="panel_box" :style="{'padding-bottom':is_showAll?0:'20rpx'}">
+				<view class="history_box">
+					<view class="history_box_top">
+						<image class="riliimg" src="/static/jinri.png" mode=""></image>
+						<image class="jintianimg" src="/static/jintian.png" mode=""></image>
+						<text>{{day}}</text>
+					</view>
+					<view class="history_box_bottom">
+						<swiper class="historySwiper" circular :indicator-dots="false" :autoplay="true" :interval="4000" :duration="800" :vertical="true">
+							<swiper-item class="historySwiper-item" v-for="(item,index) in historyList" :key="index">
+								<view class="swiper-item">{{item.title}}</view>
+							</swiper-item>
+						</swiper>
 					</view>
 				</view>
-			</view>
-		</view>
-		
-		<!-- 我的活动 -->
-		<view class="news" v-if="activeShow">
-			<view class="news_title">
-				<view class="news_titles">
-					<image class="news_title_img" src="/static/home/wdsc.png" mode=""></image>
-					<view class="news_title_txt">我的活动</view>
-				</view>
-				<view class="more" @tap="navigateTo('/pages/mine/myactive')">更多></view>
-			</view>
-			<view class="act_content">
-				<view class="act_content_info">
-					<view class="act_content_info_img">
-						<image :src="actives.content.titleImg" mode=""></image>
+				<view class="panel_box_show">
+					<view class="panel_box_show_part" @tap="navigateTo('/pages/cate/digital-cultural-centre?title=文化馆')">
+						<image src="/static/cate/whg.png" class="panel_box_show_part_img" mode=""></image>
+						<view class="panel_box_show_part_name">文化馆</view>
 					</view>
-					<view class="act_content_info_title">{{actives.content.title}}</view>
+					<view class="panel_box_show_part" @tap="navigateTo('/pages/cate/digital-cultural-centre?title=图书馆')">
+						<image src="/static/cate/tsg.png" class="panel_box_show_part_img" mode=""></image>
+						<view class="panel_box_show_part_name">图书馆</view>
+					</view>
+					<view class="panel_box_show_part" @tap="navigateTo('/pages/cate/digital-cultural-centre?title=旅游')">
+						<image src="/static/cate/ly.png" class="panel_box_show_part_img" mode=""></image>
+						<view class="panel_box_show_part_name">旅游</view>
+					</view>
+					<view class="panel_box_show_part" @tap="navigateTo('/pages/cate/digital-cultural-centre?title=体育')">
+						<image src="/static/cate/tyg.png" class="panel_box_show_part_img" mode=""></image>
+						<view class="panel_box_show_part_name">体育</view>
+					</view>
+					<view class="panel_box_show_part" @tap="navigateTo('/pages/cate/nonlegacy')">
+						<image src="/static/cate/fywb.png" class="panel_box_show_part_img" mode=""></image>
+						<view class="panel_box_show_part_name">非遗文博</view>
+					</view>
 				</view>
-				<view class="act_content_btn" @tap="toActive(actives.id)">立即前往</view>
-			</view>
-		</view>
-		
-		<!-- 精彩推荐 -->
-		<view class="news">
-			<view class="news_title">
-				<view class="news_titles">
-					<image class="news_title_img" src="/static/home/jctj.png" mode=""></image>
-					<view class="news_title_txt">精彩推荐</view>
-				</view>
-				<view class="more" @tap="navigateTo('/pages/cate/scenic-list')">更多></view>
-			</view>
-			<view class="news_content" style="box-sizing: border-box;padding: 30rpx 0;">
-				<scroll-view scroll-x="true" style="width: 100%;overflow:hidden;white-space:nowrap;">
-					<view class="tj_list_box">
-						<view class="tj_list" v-for="(item,index) in activityList" :key="index" @tap="gopage(item.id,index)">
-							<image class="tj_list_img" :src="item.titleImg" mode=""></image>
-							<view class="tj_list_txt">{{item.title}}</view>
+				<view class="panel_box_hide">
+					<view class="panel_box_hide_part" v-for="(item,index) in panelList" :key="index">
+						<view class="panel_box_hide_part_one" v-for="(ite,ind) in item" :key="ind" @tap="navigateTo(ite.url)">
+							<image :src="ite.img" class="panel_box_hide_part_one_img" mode=""></image>
+							<view class="panel_box_hide_part_one_name">{{ite.name}}</view>
 						</view>
 					</view>
-				</scroll-view>
-			</view>
-		</view>
-		
-		<!-- 文旅资讯 -->
-		<view class="news">
-			<view class="news_title">
-				<view class="news_titles">
-					<image class="news_title_img" src="/static/home/wlzx.png" mode=""></image>
-					<view class="news_title_txt">文旅资讯</view>
 				</view>
-				<view class="more" @tap="navigateTo('/pages/cate/information-list')">更多></view>
 			</view>
-			<view class="news_content">
-				<view class="zx_news">
-					<view class="zx_news_li" v-for="(item,index) in newsList" :key="index" @tap="navigateTo('/pages/cate/information-detail?id='+item.id+'&&channelIds=110')">
-						<view class="zx_news_li_content">
-							<view class="zx_news_li_content_title">{{item.title}}</view>
-							<view class="zx_news_li_content_body">{{item.description}}</view>
-							<view class="zx_news_li_content_source">
-								<view class="zx_news_li_content_source_left">
-									<image src="/static/resource.png" class="zx_news_li_content_source_left_img" mode=""></image>
-									<text>{{item.origin}}</text>
+			
+			<!-- 我的活动 -->
+			<view class="news" v-if="activeShow">
+				<view class="news_title">
+					<view class="news_titles">
+						<image class="news_title_img" src="/static/home/wdsc.png" mode=""></image>
+						<view class="news_title_txt">我的活动</view>
+					</view>
+					<view class="more" @tap="navigateTo('/pages/mine/myactive')">更多></view>
+				</view>
+				<view class="act_content">
+					<view class="act_content_info">
+						<view class="act_content_info_img">
+							<image :src="actives.content.titleImg" mode=""></image>
+						</view>
+						<view class="act_content_info_title">{{actives.content.title}}</view>
+					</view>
+					<view class="act_content_btn" @tap="toActive(actives.id)">立即前往</view>
+				</view>
+			</view>
+			<!-- 文旅资讯 -->
+			<view class="news" style="margin-top: 0;">
+				<view class="news_title">
+					<view class="news_titles">
+						<image class="news_title_img" src="/static/home/wlzx.png" mode=""></image>
+						<view class="news_title_txt">文旅资讯</view>
+					</view>
+					<view class="more" @tap="navigateTo('/pages/cate/information-list')">更多></view>
+				</view>
+				<view class="news_content">
+					<view class="zx_news">
+						<view class="zx_news_li" v-for="(item,index) in newsList" :key="index" @tap="navigateTo('/pages/cate/information-detail?id='+item.id+'&&channelIds=110')">
+							<view class="zx_news_li_content">
+								<view class="zx_news_li_content_title">{{item.title}}</view>
+								<view class="zx_news_li_content_body">{{item.description}}</view>
+								<view class="zx_news_li_content_source">
+									<view class="zx_news_li_content_source_left">
+										<image src="/static/resource.png" class="zx_news_li_content_source_left_img" mode=""></image>
+										<text>{{item.origin}}</text>
+									</view>
+									<view class="zx_news_li_content_source_right">{{item.releaseDate.slice(0,10)}}</view>
 								</view>
-								<view class="zx_news_li_content_source_right">{{item.releaseDate.slice(0,10)}}</view>
+							</view>
+							<view class="zx_news_li_img">
+								<image class="zximgs" :src="item.titleImg" mode="aspectFill"></image>
 							</view>
 						</view>
-						<view class="zx_news_li_img">
-							<image class="zximgs" :src="item.titleImg" mode=""></image>
+					</view>
+				</view>
+			</view>
+			
+			<!-- 精彩推荐 -->
+			<view class="news">
+				<view class="news_title">
+					<view class="news_titles">
+						<image class="news_title_img" src="/static/home/jctj.png" mode=""></image>
+						<view class="news_title_txt">精彩推荐</view>
+					</view>
+					<view class="more" @tap="navigateTo('/pages/cate/active-list')">更多></view>
+				</view>
+				<view class="news_content" style="box-sizing: border-box;padding: 30rpx 0;">
+					<scroll-view scroll-x="true" style="width: 100%;overflow:hidden;white-space:nowrap;">
+						<view class="tj_list_box">
+							<view class="tj_list" v-for="(item,index) in activityList" :key="index" @tap="gopage(item.id,index)">
+								<image class="tj_list_img" :src="item.titleImg" mode="aspectFill"></image>
+								<view class="tj_list_txt">{{item.title}}</view>
+							</view>
+						</view>
+					</scroll-view>
+				</view>
+			</view>
+			
+			
+			<!-- 精彩推荐 -->
+			<view class="news">
+				<!-- <view class="news_title">
+					<image class="news_title_img" src="/static/home/jctj.png" mode=""></image>
+					<view class="news_title_txt">精彩推荐</view>
+				</view> -->
+				<view class="news_title">
+					<view class="news_titles">
+						<image class="news_title_img" src="/static/home/wlfw.png" mode=""></image>
+						<view class="news_title_txt">精品旅游</view>
+					</view>
+					<view class="more" @tap="navigateTo('/pages/cate/scenic-list?type=网红打卡&&cutIndex=2&&channelIds=201')">更多></view>
+				</view>
+				<view class="news_content">
+					<view class="tj_news">
+						<view class="tj_news_li" v-for="(item,index) in recommendList" :key="index" @tap="todetail(index,item.id)">
+							<view class="tj_news_li_img">
+								<image class="tjimgs" :src="item.titleImg" mode="aspectFill"></image>
+							</view>
+							<view class="tj_news_li_name">{{item.title}}</view>
+							<view class="tj_news_li_line">描述：{{item.description}}</view>
+							<view class="tj_news_li_line">地址：{{item.attr_address}}</view>
 						</view>
 					</view>
 				</view>
 			</view>
-		</view>
-		
-		<!-- 精彩推荐 -->
-		<view class="news">
-			<!-- <view class="news_title">
-				<image class="news_title_img" src="/static/home/jctj.png" mode=""></image>
-				<view class="news_title_txt">精彩推荐</view>
-			</view> -->
-			<view class="news_title">
-				<view class="news_titles">
-					<image class="news_title_img" src="/static/home/wlfw.png" mode=""></image>
-					<view class="news_title_txt">精品旅游</view>
-				</view>
-				<view class="more" @tap="navigateTo('/pages/cate/scenic-list?type=网红打卡&&cutIndex=2&&channelIds=201')">更多></view>
-			</view>
-			<view class="news_content">
-				<view class="tj_news">
-					<view class="tj_news_li" v-for="(item,index) in recommendList" :key="index" @tap="todetail(index,item.id)">
-						<view class="tj_news_li_img">
-							<image class="tjimgs" :src="item.titleImg" mode=""></image>
-						</view>
-						<view class="tj_news_li_name">{{item.title}}</view>
-						<view class="tj_news_li_line">时间：{{item.releaseDate.slice(0,10)}}</view>
-						<view class="tj_news_li_line">地址：{{item.attr_address}}</view>
-					</view>
-				</view>
-			</view>
-		</view>
+		<!-- </scroll-view> -->
 	</view>
 </template>
 
@@ -183,6 +196,12 @@
 	export default {
 		data() {
 			return {
+				refresher: false, //开启自定义下拉刷新
+				refresher_style: ' black', //设置自定义下拉刷新默认样式，支持设置 black，white，none，none 表示不使用默认样式
+				refresher_background: '#FFF', //设置自定义下拉刷新区域背景颜色
+				triggered: "restore", //Boolean 设置当前下拉刷新状态，true 表示下拉刷新已经被触发，false 表示下拉刷新未被触发
+				freshing: false, //用于阻止多次触发下拉刷新
+				
 				bannerList: [],//轮播图数据
 				recommendList:[],//精彩推荐
 				activityList:[],//文旅服务
@@ -236,6 +255,10 @@
 						name: '网上培训',
 						img: require('../../static/cate/wspx.png'),
 						url: '/pages/cate/nettrain-list',
+					},{
+						name: '联系我们',
+						img: require('../../static/cate/lxwm.png'),
+						url: '/pages/mine/communication',
 					},],
 				],
 			}
@@ -256,6 +279,34 @@
 			}
 		},
 		methods: {
+			scrolltoupper(){
+				console.log(111111111);
+			},
+			/**
+			 * 自定义下拉刷新被触发
+			 */
+			onRefresh() {
+				// if (this.freshing) return;
+				console.log(2222222222);
+				this.freshing = true;
+				setTimeout(()=>{
+				    this.endRefresh()
+				},800)
+			},
+			/**
+			 * 自定义下拉刷新被复位
+			 */
+			onRestore() {
+				this.triggered = 'restore'; // 需要重置
+			},
+			/**
+			 * 结束下拉状态
+			 */
+			endRefresh() {
+				this.triggered = false;
+				this.freshing = false;
+			},
+			
 			getTime(){
 				let date = new Date();
 				let month = (date.getMonth() + 1)<10?'0'+(date.getMonth() + 1):(date.getMonth() + 1)
@@ -365,8 +416,16 @@
 				// 	this.activityList = this.activityList.concat(res.data.body);
 				// })
 				
-				this.indexRequest({url:'/content/list.jspx',data:{channelIds:'110', count:2, first:1, format:0,}}).then(res=>{
-					this.newsList = res.data.body;
+				this.indexRequest({url:'/content/list.jspx',data:{channelIds:'110', count:5, first:0, format:0,}}).then(res=>{
+					res.data.body.map(item=>{
+						if(this.newsList.length==2){
+							return
+						}
+						if(item.title.length>13){
+							this.newsList.push(item)
+						}
+					})
+					// this.newsList = res.data.body;
 				})
 				
 				this.indexRequest({url:'/todayInHistory/get',data:{}}).then(res=>{
@@ -382,7 +441,7 @@
 .content{
 	width: 100%;
 	height: auto;
-	background: #fff;
+	background: #FBFBFB;
 	box-sizing: border-box;
 	/* #ifdef H5 */
 	padding-bottom: 150rpx;
@@ -485,14 +544,14 @@
 		position: relative;
 		z-index: 100;
 		.history_box{
-			width: 314rpx;
+			width: 344rpx;
 			height: 88rpx;
 			background: #FFFFFF;
 			box-shadow: 0rpx 2rpx 8rpx rgba(12, 22, 84, 0.16);
-			border-radius: 16rpx;
+			border-radius: 16rpx 0px 0px 16rpx;
 			position: absolute;
 			top: -60rpx;
-			right: 30rpx;
+			right: 0;
 			box-sizing: border-box;
 			padding: 12rpx;
 			&_top{
@@ -580,7 +639,7 @@
 				&_name{
 					font-size: 24rpx;
 					line-height: 24rpx;
-					color: #6B6B77;
+					color: #000;
 				}
 			}
 		}
@@ -607,7 +666,7 @@
 					&_name{
 						font-size: 24rpx;
 						line-height: 24rpx;
-						color: #6B6B77;
+						color: #000;
 					}
 				}
 			}
@@ -658,7 +717,7 @@
 				flex-shrink: 0;
 				.tj_list{
 					width: 268rpx;
-					height: 150rpx;
+					height: 160rpx;
 					margin-right: 32rpx;
 					position: relative;
 					&_img{
@@ -672,7 +731,7 @@
 						line-height: 30rpx;
 						color: #FFFFFF;
 						left: 18rpx;
-						top: 61rpx;
+						top: 66rpx;
 						text-align: center;
 						overflow: hidden;
 						text-overflow: ellipsis;
@@ -703,32 +762,32 @@
 						}
 					}
 					&_content{
-						color: #8B8B9C;
-						width: 368rpx;
+						color: #888;
+						width: 400rpx;
 						&_title{
-							width: calc(100% - 20rpx);
+							width: 100%;
 							font-size: 32rpx;
 							font-weight: 400;
 							line-height: 48rpx;
-							color: #1B1C1E;
-							overflow: hidden;
-							text-overflow:ellipsis;
-							white-space: nowrap;
+							color: #000;
+							// overflow: hidden;
+							// text-overflow:ellipsis;
+							// white-space: nowrap;
 						}
 						&_body{
 							width: 100%;
 							font-size: 26rpx;
-							margin-top: 24rpx;
+							margin: 12rpx 0;
 							overflow: hidden;
 							text-overflow:ellipsis;
 							white-space: nowrap;
+							color: #888;
 						}
 						&_source{
 							display: flex;
 							justify-content: space-between;
 							font-size: 24rpx;
 							color: #8B8B9C;
-							margin-top: 40rpx;
 							&_left{
 								width: 176rpx;
 								height: 40rpx;
@@ -771,7 +830,7 @@
 					padding-bottom: 20rpx;
 					&_img{
 						width: 100%;
-						height: 178rpx;
+						height: 194rpx;
 						background-color: #E5E5E5;
 						.tjimgs{
 							width: 100%;
@@ -782,7 +841,7 @@
 						width: 100%;
 						font-size: 32rpx;
 						line-height: 72rpx;
-						color: #1B1C1E;
+						color: #000;
 						overflow: hidden;
 						text-overflow:ellipsis;
 						white-space: nowrap;
@@ -790,7 +849,7 @@
 					&_line{
 						line-height: 40rpx;
 						font-size: 24rpx;
-						color: #8B8B9C;
+						color: #888;
 						width: 100%;
 						overflow: hidden;
 						text-overflow:ellipsis;
@@ -878,6 +937,47 @@
 				font-size: 24rpx;
 			}
 		}
+	}
+}
+
+.load_status {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	margin: 15upx 0;
+}
+
+.load_status .text {
+	font-size: 26upx;
+	color: #909090;
+	margin-left: 5upx;
+}
+
+/* 旋转动画 */
+.loader_rotates {
+	-webkit-animation: loaderRotate 0.6s linear infinite;
+	animation: loaderRotate 0.6s linear infinite;
+}
+
+@-webkit-keyframes loaderRotate {
+	0% {
+		-webkit-transform: rotate(0deg);
+	}
+
+	100% {
+		-webkit-transform: rotate(360deg);
+	}
+}
+
+@keyframes loaderRotate {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
 	}
 }
 </style>

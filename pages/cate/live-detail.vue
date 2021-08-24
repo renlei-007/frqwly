@@ -19,13 +19,14 @@
 				<!-- #ifndef MP-WEIXIN -->
 				<video id="myVideo" :src="content.liveRecord.recordUrl" v-if='content.liveRecord.type == 2' object-fit="fill"></video>
 				<video autoplay webkit-playsinline v-if='content.liveRecord.type == 1'>      
-					<source :src="content.liveRecord.pullUrl" type='rtmp/flv' />      
+					<source :src="content.liveRecord.pullUrl" type='rtmp/flv' />
 				</video>
 				<!-- #endif -->
 			</view>
 			<view class="video_info_detail">
 				<view class="video_info_detail_title">{{content.title}}</view>
 				<view class="video_info_detail_txt">发布时间：{{content.releaseDate}}</view>
+				<view class="video_info_detail_txt">视频类型：<text v-for="(item,index) in content.attr_category" :key="index">{{item+(index==content.attr_category.length-1?'':'|')}}</text></view>
 				<view class="video_info_detail_txt">观看人数：{{content.views+1}}</view>
 			</view>
 			<view class="tj_active">
@@ -58,7 +59,11 @@
 				chapters: 0,
 				comment: '',
 				id: '',
-				content: {},
+				content: {
+					liveRecord: {
+						type: '',
+					}
+				},
 				liveList: [],
 				
 				commentList: [],
@@ -145,7 +150,7 @@
 				this.indexRequest({url:'/content/get.jspx',data:params}).then(res=>{
 					console.log(res);
 					var content = res.data.body;
-					content.txt = this.formatRichText(content.txt)
+					content.txt = this.replaceSpecialChar(content.txt)
 					this.content = content;
 					uni.setNavigationBarTitle({
 						title: content.title
@@ -154,14 +159,13 @@
 			},
 			getLiveList(){
 				let params = {
-					count:5,
+					count:4,
 					channelIds: '113',
 					sort:4
 				}
 				this.indexRequest({url:'/content/list.jspx',data:params}).then(res=>{
 					console.log(res);
 					let array = res.data.body
-					array.shift()
 					this.liveList = array
 				})
 			},

@@ -13,12 +13,14 @@
 			<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
 				<view class="cultural_box" style="box-sizing: border-box;padding: 0 30rpx;">
 					<view class="cultural_box_point" v-for="(item,index) in trainList" :key="index" @tap="todetail(item.id)">
-						<image class="cultural_box_point_img" :src="item.titleImg" mode=""></image>
+						<view class="bacImg">
+							<image class="cultural_box_point_img" :src="item.titleImg" mode=""></image>
+						</view>
 						<view class="cultural_box_point_box">
 							<view class="cultural_box_point_box_name">{{item.title}}</view>
 							<view class="cultural_box_point_box_time">
 								<image src="/static/first_time.png" class="times" mode=""></image>
-								<text>{{item.registrationStart}} </text>
+								<text>{{item.registrationStart.slice(0,10)}} </text>
 							</view>
 						</view>
 					</view>
@@ -147,7 +149,7 @@
 			flex-direction: column;
 			&_img{
 				width: 100%;
-				height: 188rpx;
+				height: 196rpx;
 				background: #E5E5E5;
 				border-radius: 8rpx 8rpx 0px 0px;
 			}

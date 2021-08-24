@@ -4,8 +4,8 @@ import rand from './random.js'
 import sign from './sign.js'
 import aes from './aes.js'
 
-// const baseUrl = 'https://furong.culturalcloud.net/'
-const baseUrl = 'http://192.168.2.149:8080/'
+const baseUrl = 'https://furong.culturalcloud.net/'
+// const baseUrl = 'http://192.168.2.149:8080/'
 var navigateTo_num = 0; //页面跳转次数,用于登录失效的跳转判断,防止多接口请求时跳转多个页面
 const img_upload_path = '/api/upload_new/image' //图片上传接口地址
 const img_upload_name = 'uploadFile' //图片上传名字
@@ -21,10 +21,8 @@ let globalData = {
 
 class common {
 	constructor() {
-		//测试域名 https://sgydev.douhuomall.com 生产域名 https://shu.wiwipu.com
 		Vue.prototype.baseUrl = baseUrl
-		//Vue.prototype.domainName = 'https://sgydev.douhuomall.com'; //开发域名
-		Vue.prototype.domainName = 'http://192.168.2.149:8080/api/front'; //域名
+		Vue.prototype.domainName = baseUrl+'api/front'; //域名
 		Vue.prototype.access_token = uni.getStorageSync('access_token') || '';
 		// Vue.prototype.theme = {
 		//   button_color: '#509919',
@@ -50,7 +48,7 @@ class common {
 		// this._setCurrentPages(); //执行前一个页面事件
 		this._setUpload(); //图片上传
 		// this._setArraySlice() //数组裁剪
-		// this._setPreviewImage() //图片预览
+		this._setPreviewImage() //图片预览
 		// this._getRestTime(); //倒计时
 	}
 	_initBase() {
@@ -141,18 +139,33 @@ class common {
 		 */
 		Vue.prototype.formatRichText = function(html) {
 			let newContent = html.replace(/<img[^>]*>/gi, function(match, capture) {
-			match = match.replace(/style="[^"]+"/gi, '').replace(/style='[^']+'/gi, '');
-			match = match.replace(/width="[^"]+"/gi, '').replace(/width='[^']+'/gi, '');
-			match = match.replace(/height="[^"]+"/gi, '').replace(/height='[^']+'/gi, '');
-			return match;
+				match = match.replace(/style="[^"]+"/gi, '').replace(/style='[^']+'/gi, '');
+				match = match.replace(/width="[^"]+"/gi, '').replace(/width='[^']+'/gi, '');
+				match = match.replace(/height="[^"]+"/gi, '').replace(/height='[^']+'/gi, '');
+				console.log(match);
+				return match;
 			});
 			newContent = newContent.replace(/style="[^"]+"/gi, function(match, capture) {
-			match = match.replace(/width:[^;]+;/gi, 'max-width:100%;').replace(/width:[^;]+;/gi, 'max-width:100%;');
-			return match;
+				match = match.replace(/width:[^;]+;/gi, 'max-width:100%;').replace(/width:[^;]+;/gi, 'max-width:100%;');
+				return match;
 			});
 			newContent = newContent.replace(/<br[^>]*\/>/gi, '');
 			newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;height:auto;display:block;margin:10px 0;"');
+			console.log(newContent);
 			return newContent;
+		}
+		Vue.prototype.replaceSpecialChar = function (detail) {
+			if(!detail){
+				return ''
+			}else{
+				var details = detail.replace(/\<img/gi,'<img style="max-width:100%;height:auto:display:block;"')
+				var content = details.replace(/<img[^>]*>/gi, function(match, capture) {
+					var match = match.replace(/(style="(.*?)")/ig,'style="max-width:100%;height:auto;display:block;margin:10px 0;"');
+					return match;
+				});
+				content = content.replace('class="t"', 'style="display:none;"');
+				return content;
+			}
 		}
 		Date.prototype.format = function(fmt) {
 			var o = {
@@ -210,7 +223,7 @@ class common {
 	}
 	_getUser(){
 		Vue.prototype.getUser = (username, sessionKey) => {
-			var getUser_url= "http://192.168.2.149:8080/api/member/user/get";
+			var getUser_url= baseUrl+"api/member/user/get";
 			var nonce_str=rand.getRand();//获取随机数
 			var postParams=[];//签名数组
 			postParams[0]=["username",username];

@@ -20,7 +20,7 @@
 								<!-- <image src="/static/position.png" class="actives_point_info_position_icon" mode=""></image> -->
 								<view class="actives_point_info_position_txt">{{item.attr_address}}</view>
 							</view>
-							<view class="actives_point_info_piao">余票{{item.ticketingSetting.num -item.ticketingSetting.currentNum}}</view>
+							<view class="actives_point_info_piao">余票{{item.ticketingSetting.status == 0?item.ticketingSetting.num -item.ticketingSetting.currentNum:0}}</view>
 							<view class="is_coming" v-if='item.ticketingSetting.status == 0'>可预约</view>
 							<view class="is_coming" v-if='item.ticketingSetting.status == 1'>即将开始</view>
 							<view class="is_coming" v-if='item.ticketingSetting.status == 2'>已结束</view>
@@ -126,7 +126,7 @@
 			},
 			getList(){
 				let params={
-					channelIds: 116, count: 10, first: this.page, format:0, s_type: this.type,
+					channelIds: 116, count: 10, first: this.page, format:0, s_type_like: this.type,
 				}
 				this.indexRequest({url:'/content/list.jspx',data:params}).then(res=>{
 					if(res.data.body.length==0&&this.activeList.length == 0){

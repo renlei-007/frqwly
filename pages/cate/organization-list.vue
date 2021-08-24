@@ -151,7 +151,7 @@
 	justify-content: space-between;
 	&_point{
 		width: 328rpx;
-		height: 280rpx;
+		height: 288rpx;
 		background: #FFFFFF;
 		border-radius: 8rpx;
 		margin-top: 30rpx;
@@ -159,12 +159,12 @@
 		flex-direction: column;
 		&_box{
 			width: 100%;
-			height: 188rpx;
+			height: 196rpx;
 			background: url(../../static/default.png) no-repeat center center;
 			background-size: 200% 200%;
 			&_img{
 				width: 100%;
-				height: 188rpx;
+				height: 196rpx;
 				border-radius: 8rpx 8rpx 0px 0px;
 			}
 		}

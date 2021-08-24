@@ -33,7 +33,7 @@
 }
 .act_box .act_list {
   width: 690rpx;
-  height: 538rpx;
+  height: 566rpx;
   background: #FFFFFF;
   border-radius: 8rpx;
   margin: 30rpx auto 0;
