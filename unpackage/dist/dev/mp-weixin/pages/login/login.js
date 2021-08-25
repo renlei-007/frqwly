@@ -155,6 +155,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var _random = _interopRequireDefault(__webpack_require__(/*! @/common/random.js */ 12));
 var _sign = _interopRequireDefault(__webpack_require__(/*! @/common/sign.js */ 13));
 var _aes = _interopRequireDefault(__webpack_require__(/*! @/common/aes.js */ 14));
@@ -182,12 +183,81 @@ var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _i
 //
 //
 //
-var _default = { data: function data() {return { userform: { username: '', password: '', is_thing: false } };}, onLoad: function onLoad(e) {this.is_thing = e.is_thing;}, methods: { goBindTel: function goBindTel(e) {var _this = this;var userInfo = e.detail.userInfo;console.log(userInfo);uni.login({ provider: 'weixin', success: function success(loginRes) {console.log(loginRes);_this.doLogin(userInfo, loginRes.code);}, fail: function fail(err) {
+//
+var _default = { data: function data() {return { userform: { username: '', password: '', is_thing: false }, is_click_login: false, session_key: '', id: '', user_info: {} };}, onLoad: function onLoad(e) {this.is_thing = e.is_thing;}, methods: { goBindTel: function goBindTel(e) {var _this = this;console.log(e);var userInfo = e.detail.userInfo;console.log(userInfo);uni.login({ provider: 'weixin', success: function success(loginRes) {
+          console.log(loginRes);
+          _this.doLogin(userInfo, loginRes.code);
+        },
+        fail: function fail(err) {
           console.log(err);
         } });
 
     },
-    doLogin: function doLogin(userInfo, code) {
+    getphone: function getphone(e) {var _this2 = this;
+      console.log(e);
+      var detail = e.detail;
+      if (detail.errMsg == 'getPhoneNumber:ok') {
+        var globalData = {
+          appId: "1580387213331704",
+          appKey: "Sd6qkHm9o4LaVluYRX5pUFyNuiu2a8oi",
+          aesKey: "S9u978Q31NGPGc5H",
+          ivKey: "X83yESM9iShLxfwS" };
+
+        var encryptedData = detail.encryptedData;
+        var iv = detail.iv;
+        var session_key = this.session_key;
+        var nonce_str = _random.default.getRand(); //随机数
+        var id = this.id;
+
+        var postParams = [];
+
+        postParams[0] = ["session_key", session_key];
+        postParams[1] = ["encryptedData", encryptedData];
+        postParams[2] = ["appId", globalData.appId];
+        postParams[3] = ["nonce_str", nonce_str];
+        postParams[4] = ["iv", iv];
+        postParams[5] = ["userId", id];
+        var signVal = _sign.default.createSign(postParams, globalData.appKey); //签名
+        var params = {
+          encryptedData: detail.encryptedData,
+          iv: detail.iv,
+          session_key: this.session_key,
+          appId: globalData.appId,
+          nonce_str: nonce_str,
+          sign: signVal,
+          userId: id };
+
+        this.request({
+          url: 'api/front/user/bindingPhone',
+          data: params,
+          complete: function complete(res) {
+            console.log(res);
+            if (res.code == 200) {
+              _this2.user_info.phone = res.body.phoneNumber;
+              uni.setStorageSync('user_info', _this2.copyData(_this2.user_info));
+              uni.showToast({
+                title: '登录成功' });
+
+              _vue.default.prototype.isLogin = true;
+              if (_this2.is_thing) {
+                setTimeout(function () {
+                  uni.navigateBack({
+                    delta: 1 });
+
+                }, 500);
+              } else {
+                setTimeout(function () {
+                  uni.reLaunch({
+                    url: '/pages/index/index' });
+
+                }, 500);
+              }
+            }
+          } });
+
+      }
+    },
+    doLogin: function doLogin(userInfo, code) {var _this3 = this;
       var globalData = {
         appId: "1580387213331704",
         appKey: "Sd6qkHm9o4LaVluYRX5pUFyNuiu2a8oi",
@@ -233,14 +303,53 @@ var _default = { data: function data() {return { userform: { username: '', passw
         complete: function complete(res) {
           console.log(res);
           if (res.code == 200) {
+            _this3.getUser(res.body.username, res.body.sessionKey).then(function (user) {
+              console.log(user);
+              if (user.code == 201) {
+                uni.setStorageSync('sessionKey', res.body.sessionKey);
+                _this3.session_key = res.body.session_key;
+                _this3.id = user.body.id;
+                var user_info = user.body;
+                _this3.user_info = user.body;
+                if (user.phone != undefined && user.phone != null && user.phone.length > 0) {
+                  uni.setStorageSync('user_info', user_info);
+                  uni.showToast({
+                    title: '登录成功' });
 
+                  _vue.default.prototype.isLogin = true;
+                  if (_this3.is_thing) {
+                    setTimeout(function () {
+                      uni.navigateBack({
+                        delta: 1 });
+
+                    }, 500);
+                  } else {
+                    setTimeout(function () {
+                      uni.reLaunch({
+                        url: '/pages/index/index' });
+
+                    }, 500);
+                  }
+                } else {
+                  _this3.is_click_login = true;
+                }
+              } else {
+                _this3.toast(user.message, 'none');
+              }
+            }).catch(function (message) {
+              console.log(message);
+              uni.showToast({
+                icon: 'none',
+                title: message.message });
+
+            });
           }
         } });
 
 
 
     },
-    login: function login() {var _this2 = this;
+    login: function login() {var _this4 = this;
       var globalData = {
         appId: "1580387213331704",
         appKey: "Sd6qkHm9o4LaVluYRX5pUFyNuiu2a8oi",
@@ -283,7 +392,7 @@ var _default = { data: function data() {return { userform: { username: '', passw
           }
           if (res.code == 200) {
             console.log(2);
-            _this2.getUser(_this2.userform.username, res.body).then(function (user) {
+            _this4.getUser(_this4.userform.username, res.body).then(function (user) {
               console.log(11111111);
               uni.setStorageSync('sessionKey', res.body);
               console.log(user);
@@ -292,7 +401,7 @@ var _default = { data: function data() {return { userform: { username: '', passw
                 title: '登录成功' });
 
               _vue.default.prototype.isLogin = true;
-              if (_this2.is_thing) {
+              if (_this4.is_thing) {
                 setTimeout(function () {
                   uni.navigateBack({
                     delta: 1 });

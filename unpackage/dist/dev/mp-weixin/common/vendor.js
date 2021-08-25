@@ -2013,8 +2013,8 @@ var _random = _interopRequireDefault(__webpack_require__(/*! ./random.js */ 12))
 var _sign = _interopRequireDefault(__webpack_require__(/*! ./sign.js */ 13));
 var _aes = _interopRequireDefault(__webpack_require__(/*! ./aes.js */ 14));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}
 
-var baseUrl = 'https://furong.culturalcloud.net/';
-// const baseUrl = 'http://192.168.2.149:8080/'
+// const baseUrl = 'https://furong.culturalcloud.net/'
+var baseUrl = 'http://192.168.2.149:8080/';
 var navigateTo_num = 0; //页面跳转次数,用于登录失效的跳转判断,防止多接口请求时跳转多个页面
 var img_upload_path = '/api/upload_new/image'; //图片上传接口地址
 var img_upload_name = 'uploadFile'; //图片上传名字
@@ -2380,6 +2380,9 @@ common = /*#__PURE__*/function () {
             method: method,
             success: function success(res) {
               resolve(res.data);
+            },
+            fail: function fail(err) {
+              reject(err);
             } });
 
         });
@@ -3532,7 +3535,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       top: 30,
       width: 94,
       height: 28,
-      name: '晓月公园' },
+      name: '晓园公园' },
     {
       left: 220,
       top: 122,

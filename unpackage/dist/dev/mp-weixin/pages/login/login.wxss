@@ -65,6 +65,9 @@
   letter-spacing: 10rpx;
   color: #FFFFFF;
 }
+.login_box .wxphone_btn {
+  margin-top: 30rpx;
+}
 .login .orthers {
   width: 100%;
   margin-top: 70rpx;

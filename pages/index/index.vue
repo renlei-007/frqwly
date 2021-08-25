@@ -409,8 +409,16 @@
 					this.recommendList = this.recommendList.concat(res.data.body);
 				})
 				
-				this.indexRequest({url:'/content/list.jspx',data:{channelIds:'116', count:4, orderBy:4}}).then(res=>{
-					this.activityList = this.activityList.concat(res.data.body);
+				this.indexRequest({url:'/content/list.jspx',data:{channelIds:'116', count:6, orderBy:4}}).then(res=>{
+					res.data.body.map(item=>{
+						if(this.activityList.length==4){
+							return
+						}
+						if(item.titleImg){
+							this.activityList.push(item)
+						}
+					})
+					// this.activityList = this.activityList.concat(res.data.body);
 				})
 				// this.indexRequest({url:'/content/list.jspx',data:{channelIds:'117', count:2, orderBy:4}}).then(res=>{
 				// 	this.activityList = this.activityList.concat(res.data.body);

@@ -79,6 +79,7 @@
 .content .user_box_b .user_info_box .user_img image.data-v-dcbcfe34 {
   width: 100%;
   height: 100%;
+  border-radius: 50%;
 }
 .content .user_box_b .user_info_box .user_name_box .user_name.data-v-dcbcfe34 {
   font-size: 32rpx;

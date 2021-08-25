@@ -591,8 +591,16 @@ var _default =
         _this4.recommendList = _this4.recommendList.concat(res.data.body);
       });
 
-      this.indexRequest({ url: '/content/list.jspx', data: { channelIds: '116', count: 4, orderBy: 4 } }).then(function (res) {
-        _this4.activityList = _this4.activityList.concat(res.data.body);
+      this.indexRequest({ url: '/content/list.jspx', data: { channelIds: '116', count: 6, orderBy: 4 } }).then(function (res) {
+        res.data.body.map(function (item) {
+          if (_this4.activityList.length == 4) {
+            return;
+          }
+          if (item.titleImg) {
+            _this4.activityList.push(item);
+          }
+        });
+        // this.activityList = this.activityList.concat(res.data.body);
       });
       // this.indexRequest({url:'/content/list.jspx',data:{channelIds:'117', count:2, orderBy:4}}).then(res=>{
       // 	this.activityList = this.activityList.concat(res.data.body);

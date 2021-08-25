@@ -8,6 +8,7 @@
 				<input type="password" v-model="userform.password" placeholder="密码" />
 			</view>
 			<view class="log_btn" @tap="login">登录</view>
+			<button class="log_btn wxphone_btn" open-type="getPhoneNumber" lang="zh_CN" @getphonenumber="getphone" v-if="is_click_login">绑定手机授权</button>
 		</view>
 		<view class="orthers">
 			<view class="wx_btn">微信快捷登录</view>
@@ -35,6 +36,10 @@
 					password: '',
 					is_thing: false,
 				},
+				is_click_login: false,
+				session_key: '',
+				id: '',
+				user_info: {},
 			};
 		},
 		onLoad(e) {
@@ -42,6 +47,7 @@
 		},
 		methods: {
 			goBindTel(e){
+				console.log(e);
 				let userInfo = e.detail.userInfo;
 				console.log(userInfo);
 				uni.login({
@@ -54,6 +60,70 @@
 						console.log(err);
 					}
 				});
+			},
+			getphone(e){
+				console.log(e);
+				var detail = e.detail;
+				if (detail.errMsg == 'getPhoneNumber:ok') {
+					let globalData = {
+						appId:"1580387213331704",
+						appKey:"Sd6qkHm9o4LaVluYRX5pUFyNuiu2a8oi",
+						aesKey:"S9u978Q31NGPGc5H",
+						ivKey:"X83yESM9iShLxfwS",
+					}
+					var encryptedData = detail.encryptedData;
+					var iv = detail.iv;
+					var session_key = this.session_key;
+					var nonce_str = rand.getRand();//随机数
+					var id = this.id
+					
+					let postParams = [];
+					
+					postParams[0]=["session_key", session_key];
+					postParams[1]=["encryptedData",encryptedData];
+					postParams[2]=["appId", globalData.appId];
+					postParams[3]=["nonce_str",nonce_str];
+					postParams[4]=["iv",iv];
+					postParams[5]=["userId", id];
+					var signVal=sign.createSign(postParams, globalData.appKey);//签名
+					let params = {
+						encryptedData: detail.encryptedData,
+						iv: detail.iv,
+						session_key: this.session_key,
+						appId: globalData.appId,
+						nonce_str: nonce_str,
+						sign: signVal,
+						userId: id,
+					}
+					this.request({
+						url:'api/front/user/bindingPhone',
+						data:params,
+						complete: res=>{
+							console.log(res);
+							if(res.code==200){
+								this.user_info.phone = res.body.phoneNumber
+								uni.setStorageSync('user_info',this.copyData(this.user_info));
+								uni.showToast({
+								  title:'登录成功'
+								});
+								Vue.prototype.isLogin = true
+								if(this.is_thing){
+									setTimeout(()=>{
+									  uni.navigateBack({
+										delta: 1
+									  })
+									},500)
+								}else{
+									setTimeout(()=>{
+									  uni.reLaunch({
+										url:'/pages/index/index'
+									  })
+									},500)
+								}
+							}
+						}
+					})
+				}
 			},
 			doLogin(userInfo, code){
 				let globalData = {
@@ -101,7 +171,46 @@
 					complete: (res)=>{
 						console.log(res);
 						if(res.code==200){
-							
+							this.getUser(res.body.username, res.body.sessionKey).then(user=>{
+								console.log(user);
+								if(user.code==201){
+									uni.setStorageSync('sessionKey', res.body.sessionKey);
+									this.session_key = res.body.session_key
+									this.id = user.body.id
+									let user_info = user.body
+									this.user_info = user.body
+									if(user.phone!=undefined&&user.phone!=null&&user.phone.length>0){
+										uni.setStorageSync('user_info',user_info);
+										uni.showToast({
+										  title:'登录成功'
+										});
+										Vue.prototype.isLogin = true
+										if(this.is_thing){
+											setTimeout(()=>{
+											  uni.navigateBack({
+												delta: 1
+											  })
+											},500)
+										}else{
+											setTimeout(()=>{
+											  uni.reLaunch({
+												url:'/pages/index/index'
+											  })
+											},500)
+										}
+									}else{
+										this.is_click_login = true
+									}
+								}else{
+									this.toast(user.message,'none')
+								}
+							}).catch((message)=>{
+								console.log(message);
+								uni.showToast({
+									icon: 'none',
+									title: message.message
+								});
+							});
 						}
 					}
 				})
@@ -240,6 +349,9 @@
 			font-size: 34rpx;
 			letter-spacing: 10rpx;
 			color: #FFFFFF;
+		}
+		.wxphone_btn{
+			margin-top: 30rpx;
 		}
 	}
 	.orthers{

@@ -64,6 +64,8 @@
   height: 92rpx;
   text-align: center;
   line-height: 92rpx;
+  box-sizing: border-box;
+  padding: 0 20rpx;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

@@ -160,7 +160,7 @@
 	width: 100%;
 	.act_list{
 		width: 690rpx;
-		height: 566rpx;
+		height: auto;
 		background: #FFFFFF;
 		border-radius: 8rpx;
 		margin: 30rpx auto 0;
@@ -169,7 +169,7 @@
 			height: 386rpx;
 		}
 		&_content{
-			height: 152rpx;
+			height: auto;
 			width: 100%;
 			box-sizing: border-box;
 			padding: 30rpx;
@@ -192,6 +192,7 @@
 					&_icon{
 						width: 20rpx;
 						height: 24rpx;
+						margin-right: 6rpx;
 					}
 				}
 				&_status{

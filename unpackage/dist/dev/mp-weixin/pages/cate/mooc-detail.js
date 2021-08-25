@@ -229,11 +229,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 var _default =
 {
   data: function data() {
     return {
       chapters: 0,
+      coursesIndex: 0,
       comment: '',
       id: '',
       content: {},
@@ -315,7 +318,7 @@ var _default =
       this.is_show = false;
     },
     chapterChange: function chapterChange(index) {
-      this.chapters = index;
+      this.coursesIndex = index;
     },
     getDetail: function getDetail() {var _this = this;
       var params = {

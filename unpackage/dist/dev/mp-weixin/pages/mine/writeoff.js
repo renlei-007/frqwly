@@ -141,7 +141,8 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
 //
 //
 //
@@ -229,7 +230,7 @@ var _default =
         params.recordId = this.value;
         url = '/volunteer/detail';
       }
-      this.adminGet({
+      this.homeRequest({
         url: url,
         data: params }).
       then(function (res) {
@@ -245,9 +246,39 @@ var _default =
         }
       });
     },
-    writeoff: function writeoff() {
-
+    writeoff: function writeoff() {var _this2 = this;
+      var params = {};
+      var url = '';
+      if (this.type == 1) {//活动核销
+        params.orderNo = this.value;
+        url = '/ticketing_record/writeOff';
+      } else if (this.type == 2) {//场馆核销
+        params.recordId = this.value;
+        url = '/booking_record/writeoff';
+      } else if (this.type == 3) {//培训核销
+        params.ids = this.value;
+        url = '/train_record/writeoff';
+      } else if (this.type == 4) {//自愿活动核销
+        params.recordId = this.value;
+        url = '/volunteer/writeoff';
+      }
+      this.adminGet({
+        url: url,
+        data: params }).
+      then(function (res) {
+        if (res.code == 200) {
+          _this2.toast('核销成功！');
+          setTimeout(function () {
+            uni.navigateBack({
+              delta: 1 },
+            1500);
+          });
+        } else {
+          _this2.toast(res.message, 'none');
+        }
+      });
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

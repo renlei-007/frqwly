@@ -1,11 +1,11 @@
 <template>
 	<view class="mooc-detail content">
 		<view class="video_info">
-			<!-- <view class="video_play" v-if="content.courses.length>0">
-				<video id="myVideo" :src="content.courses[chapters].videoPath" object-fit="fill"></video>
-				<video id="myVideo" :src="content.courses[chapters].videoPath" object-fit="fill"></video>
-			</view> -->
-			<view class="titleImg">
+			<view class="video_play" v-if="content.courses.length>0">
+				<video id="myVideo" :src="content.courses[coursesIndex].videoPath" object-fit="fill"></video>
+				<!-- <video id="myVideo" :src="content.courses[chapters].videoPath" object-fit="fill"></video> -->
+			</view>
+			<view class="titleImg" v-else>
 				<image :src="content.titleImg" mode=""></image>
 			</view>
 			<view class="video_info_detail">
@@ -24,13 +24,15 @@
 					<view class="chapters_tab_title" :class="{'active':chapters==1}" style="font-size: 32rpx;" @tap="chapters=1">课程章节</view>
 					<view class="chapters_tab_title" :class="{'active':chapters==2}" style="font-size: 32rpx;" @tap="chapters=2">讲师介绍</view>
 				</view>
-				<!-- <view class="chapters_info">
-					<view class="chapters_info_list" v-for="(item,Index) in content.courses" :key="Index" :class="{'actives':chapters==Index}" @tap="chapterChange(Index)">
-						<view class="chapters_info_list_title">{{item.name}}</view>
-						<view class="chapters_info_list_free">{{item.isFree?'免费':'收费'}}</view>
-					</view>
-				</view> -->
-				<view class="introduce" v-if="chapters==0">
+				<view class="chapters_info" v-if="chapters==0">
+					<block v-if="content.courses">
+						<view class="chapters_info_list" v-for="(item,index) in content.courses" :key="index" :class="{'actives':coursesIndex==index}" @tap="chapterChange(index)">
+							<view class="chapters_info_list_title">{{item.name}}</view>
+							<view class="chapters_info_list_free">{{item.isFree?'免费':'收费'}}</view>
+						</view>
+					</block>
+				</view>
+				<view class="introduce" v-if="chapters==1">
 					<rich-text :nodes="content.txt"></rich-text>
 				</view>
 				<view class="introduce" v-if="chapters==2">
@@ -59,6 +61,7 @@
 		data() {
 			return {
 				chapters: 0,
+				coursesIndex: 0,
 				comment: '',
 				id: '',
 				content: {},
@@ -140,7 +143,7 @@
 				this.is_show = false
 			},
 			chapterChange(index){
-				this.chapters = index
+				this.coursesIndex = index
 			},
 			getDetail(){
 				let params = {
