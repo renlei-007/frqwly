@@ -85,6 +85,9 @@
 			this.id = e.id
 			this.getDetail()
 			this.getLiveList()
+			if(this.isLogin){
+				this.homeRequest({url:'/view',method:'GET',data:{}})
+			}
 		},
 		onReady(res) {
 			console.log('ready!');

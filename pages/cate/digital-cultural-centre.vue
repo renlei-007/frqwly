@@ -1,7 +1,7 @@
 <template>
 	<view class="digital-cultural-centre content">
 		<view class="commom_img">
-			<image class="commom_img_icon" v-if="title=='文化馆'" src="https://oss.culturalcloud.net/furong/202108/16084540r83n.png" mode=""></image>
+			<image class="commom_img_icon" v-if="title=='文化馆'" src="https://oss.culturalcloud.net/furong/202108/28162008gwcn.png" mode=""></image>
 			<image class="commom_img_icon" v-if="title=='图书馆'" src="https://oss.culturalcloud.net/furong/202108/16084556lak8.png" mode=""></image>
 			<image class="commom_img_icon" v-if="title=='旅游'" src="https://oss.culturalcloud.net/furong/202108/16084617x9fi.png" mode=""></image>
 			<image class="commom_img_icon" v-if="title=='体育'" src="https://oss.culturalcloud.net/furong/202108/160846305677.png" mode=""></image>
@@ -83,21 +83,15 @@
 					title: '慕课',
 					right: true,
 					bottom: false,
-				},{
-					imgs: require('../../static/images/whbk.png'),
-					url: '/pages/cate/cultural-encyclopedia',
-					title: '文化百科',
-					right: false,
-					bottom: false,
 				},],
 				tsgList: [{
-					imgs: require('../../static/images/cgyy.png'),
+					imgs: require('../../static/images/rgyy.png'),
 					url: '/pages/cate/venues-list?title=图书馆',
 					title: '入馆预约',
 					right: true,
 					bottom: true,
 				},{
-					imgs: require('../../static/images/zbdb.png'),
+					imgs: require('../../static/images/jzzb.png'),
 					url: '/pages/cate/all-list?pageVal=3&&s_category_like=活动专区',
 					title: '讲座直播',
 					right: true,
@@ -165,7 +159,7 @@
 					right: true,
 					bottom: false,
 				},{
-					imgs: require('../../static/images/zbdb.png'),
+					imgs: require('../../static/images/sszb.png'),
 					url: '/pages/cate/live-list?type=赛事直播',
 					title: '赛事直播',
 					right: true,
@@ -187,7 +181,7 @@
 		},
 		onReady() {
 			if(this.title=='文化馆'){
-				this.setBarStyle('#537FC4')
+				this.setBarStyle('#6755C3')
 			}else if(this.title=='图书馆'){
 				this.setBarStyle('#1B5A6B')
 			}else if(this.title=='旅游'){
@@ -208,7 +202,7 @@
 					this.toast('功能正在开发中，敬请期待~','none')
 					return
 				}
-				if(e==4 && (index==2||index==6)){
+				if(e==4 && (index==2||index==5)){
 					let title = index==2?'晨晚练点':'智慧健身点'
 					uni.setStorageSync('mapTitle',title)
 					uni.switchTab({

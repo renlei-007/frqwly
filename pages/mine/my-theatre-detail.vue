@@ -4,7 +4,7 @@
 			<block v-if="record.status ==1  || record.status == 3">
 				<view class="actives_box_tips">核销二维码</view>
 				<view class="actives_box_img">
-					<image class="code_img" :src="baseUrl+'special/o_create_dimensioncode.jspx?content='+qrcodeCotent()" mode=""></image>
+					<image class="code_img" :src="globalUrl+'special/o_create_dimensioncode.jspx?content='+qrcodeCotent()" mode=""></image>
 					<view class="state" v-if="record.status ==3"><image :src="verifyImg"></image></view>
 				</view>
 			</block>
@@ -52,6 +52,7 @@
 					reason: '',
 				},
 				id: '',
+				globalUrl: 'https://furong.culturalcloud.net/',
 			};
 		},
 		onLoad(e) {

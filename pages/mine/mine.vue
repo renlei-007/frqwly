@@ -7,7 +7,7 @@
 						<image :src="is_Login&&user.userImg?user.userImg:'/static/user.png'" mode=""></image>
 					</view>
 					<view class="user_name_box">
-						<view class="user_name" @tap="toLogin">{{is_Login?user.username:'点击登录'}}</view>
+						<view class="user_name" @tap="toLogin">{{is_Login?user.realname||user.username:'点击登录'}}</view>
 						<view class="attestation" v-if="is_Login">{{user.isCertification?'实名认证：已认证':'实名认证：未认证'}}</view>
 					</view>
 				</view>
@@ -17,7 +17,7 @@
 						<view class="sign_box_icon">
 							<image src="/static/sign.png" class="sign_box_icon_img" mode=""></image>
 						</view>
-						<view class="sign_box_text">连续签到{{is_Login?user.signTimes:0}}天</view>
+						<view class="sign_box_text">连续签到{{is_Login?signDays:0}}天</view>
 					</view>
 				</view>
 			</view>
@@ -59,7 +59,7 @@
 				<view class="point">积分明细</view>
 				<image class="mask_img" src="/static/money.png" mode=""></image>
 				<view class="get_point">签到得积分</view>
-				<view class="continue">你累计签到<text style="color: #FF8E19;">11</text>天，请继续保持！</view>
+				<!-- <view class="continue">你累计签到<text style="color: #FF8E19;">11</text>天，请继续保持！</view> -->
 				<view class="sign_btn" @tap.stop="toSign">签到</view>
 				
 				<view class="mask_content_blank1"></view>
@@ -75,6 +75,9 @@
 		data() {
 			return {
 				is_sign: false,
+				today_sign: false,
+				signDays: 0,
+				
 				user: {},
 				score: 0,
 				messageCount: 0,
@@ -106,7 +109,11 @@
 					},
 					{
 						src: require('../../static/active-icon/xgsj.png'),
-						title: '修改手机',
+						title: '修改/绑定手机',
+					},
+					{
+						src: require('../../static/active-icon/xgmm.png'),
+						title: '修改密码',
 					},
 					{
 						src: require('../../static/active-icon/grsz.png'),
@@ -139,13 +146,22 @@
 			};
 		},
 		onLoad() {
+		},
+		onShow() {
 			this.is_Login = this.isLogin
 			if(this.is_Login){
 				// this.user = uni.getStorageSync('user_info')
 				this.getMessageNumber()
+				this.getSignDay()
 			}
 		},
 		methods: {
+			getSignDay(){
+				this.homeRequest({url:'/continuousSigin',methods:'GET',data:{}}).then(res=>{
+					console.log(res);
+					this.signDays = res.body
+				})
+			},
 			goPage(val,index){
 				if(this.is_Login){
 					if(val=='function'){
@@ -187,15 +203,20 @@
 								break
 							case 7: 
 								uni.navigateTo({
-									url: './setting'
+									url: '../login/forget?change=1'
 								})
 								break
 							case 8:
 								uni.navigateTo({
-									url: './feedback'
+									url: './setting'
 								})
 								break
 							case 9:
+								uni.navigateTo({
+									url: './feedback'
+								})
+								break
+							case 10:
 								uni.navigateTo({
 									url: './aboutme'
 								})
@@ -316,10 +337,12 @@
 				}).then(res=>{
 					console.log(res);
 					if(res.code==200){
-						this.is_sign = false
+						this.toast('签到成功！','none')
+						this.signDays++
 					}else{
 						this.toast(res.message,'none')
 					}
+					this.is_sign = false
 				})
 			},
 			logout(){

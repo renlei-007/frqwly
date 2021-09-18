@@ -40,6 +40,9 @@
 				title: e.channelIds==109?'通知公告':e.channelIds == 170?'法律法规':'政策文件'
 			})
 			this.getList()
+			if(this.isLogin){
+				this.homeRequest({url:'/view',method:'GET',data:{}})
+			}
 		},
 		methods: {
 			/**

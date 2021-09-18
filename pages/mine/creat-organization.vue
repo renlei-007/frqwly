@@ -18,7 +18,7 @@
 			<view class="input_box_item input_box_item_more" @tap="selected(0)">
 				<view class="input_box_item_name">社团类别</view>
 				<view class="input_box_item_write">
-					<input type="text" class="inp" placeholder="请选择社团类别" v-model="team.groupType" />
+					<input type="text" class="inp" disabled placeholder="请选择社团类别" v-model="team.groupType" />
 				</view>
 			</view>
 			<view class="input_box_item">
@@ -36,13 +36,20 @@
 			<view class="input_box_item">
 				<view class="input_box_item_name">招募人数</view>
 				<view class="input_box_item_write">
-					<input type="text" class="inp" placeholder="请输入招募人数" v-model="team.toplimit" />
+					<input type="number" class="inp" placeholder="请输入招募人数" v-model="team.toplimit" />
 				</view>
 			</view>
 			<view class="input_box_item input_box_item_more" @tap="selected(2)">
 				<view class="input_box_item_name">招募日期</view>
 				<view class="input_box_item_write">
 					<input type="text" class="inp" placeholder="请选择招募截止日期" disabled v-model="team.dateLimit" />
+				</view>
+			</view>
+			<view class="upload_box">
+				<view class="upload_box_title">社会团体法人登记证书</view>
+				<view class="upload_box_area">
+					<image class="registerImg" :src="registerImg" v-if="registerImg" mode=""></image>
+					<view v-else class="upload_box_area_btn" @tap="uploadImg">+</view>
 				</view>
 			</view>
 			<view class="cu-form-group">
@@ -61,6 +68,7 @@
 			return {
 				pickTitle: '',
 				teamImg: '',
+				registerImg: '',
 				isCheck: false,
 				team: {
 					name: '',
@@ -73,7 +81,7 @@
 				},
 				remark: '',
 				Index: 0,
-				typeList: ['舞蹈', '音乐', '戏剧', '，曲艺', '美术', '摄影', '文学', '其它'],
+				typeList: ['舞蹈', '音乐', '戏剧', '曲艺', '美术', '摄影', '文学', '其它'],
 				
 			};
 		},
@@ -119,9 +127,28 @@
 					}
 				});
 			},
+			uploadImg(){
+				let _this = this
+				uni.chooseImage({
+					count: 1, //默认9
+					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album'], //从相册选择
+					success: function (res) {
+						let url = res.tempFilePaths[0]
+						_this.upload(url).then(r=>{
+							console.log(r);
+							_this.registerImg = r.body.uploadPath
+						})
+					}
+				});
+			},
 			submit(){
 				if(!this.teamImg){
 					this.toast('请选择封面图片','none')
+					return ;
+				}
+				if(!this.registerImg){
+					this.toast('请选择法人登记证书','none')
 					return ;
 				}
 				if(!this.team.name||!this.team.groupType||!this.team.address||!this.team.founded||!this.team.toplimit||!this.team.dateLimit){
@@ -140,7 +167,8 @@
 						founded:  this.team.founded,
 						dateLimit: this.team.dateLimit,
 						address: this.team.address,
-						legal: this.isCheck?'是':'否'
+						legal: this.isCheck?'是':'否',
+						registerImg: this.registerImg,
 					},
 				}).then(res=>{
 					if(res.code == 200){
@@ -220,6 +248,31 @@ page{
 		.cu-form-group{
 			box-sizing: border-box;
 			padding: 30rpx 0;
+		}
+		.upload_box{
+			&_title{
+				font-size: 30rpx;
+				color: #000;
+				line-height: 112rpx;
+			}
+			&_area{
+				display: flex;
+				align-items: center;
+				.registerImg{
+					width: 300rpx;
+					height: 300rpx;
+				}
+				&_btn{
+					width: 300rpx;
+					height: 300rpx;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					font-size: 200rpx;
+					color: #ccc;
+					border: 2px solid #e5e5e5;
+				}
+			}
 		}
 		&_item_address{
 			background-image: url('~@/static/marker.png');

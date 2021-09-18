@@ -56,7 +56,7 @@
 				<view class="input_box_item_choose">
 					<!-- <input type="text" class="inp" placeholder="选择社团" disabled v-model="teammate" /> -->
 					<view class="input_box_item_choose_list" v-for="(item,index) in memberList" :key="index">
-						<image class="check" @tap="item.isCheck=!item.isCheck" :src="item.isCheck?'/static/check.png':'/static/nocheck.png'" mode=""></image>
+						<image class="check" @tap="chooseMember(item)" :src="item.isCheck?'/static/check.png':'/static/nocheck.png'" mode=""></image>
 						<text>{{item.realname?item.realname:item.username}}</text>
 					</view>
 				</view>
@@ -70,32 +70,41 @@
 			<view class="input_box_items" style="border-bottom: none;" v-if="channelId==198">
 				<view class="input_box_item_name">选择座位</view>
 			</view>
-			<view class="choose_seat" :style="{'height':height+'rpx',}" v-if="channelId==198">
-				<movable-area scale-area class="movable-area" :style="'height'+height+'rpx;'">
+			<view class="choose_seat" v-if="channelId==198" :style="{'height':height+120+'rpx',}">
+				<movable-area scale-area  class="movable-area" :style="{'height':(height+60)*2+'rpx','width':'200%'}">
 					<movable-view
+						:style="{'height':height+60+'rpx','width':width+'rpx',}"
 						class="movable-view"
 						direction="all"
 						:out-of-bounds="true"
 						scale="true"
 						:x="x"
 						:y="y"
-						scale-min="1"
-						scale-max="4"
+						scale-min="0.5"
+						scale-max="2"
 						:scale-value="scale"
-						@dbclick="dblclick"
 					>
-						<view class="choose_seat_hover">
-							<view class="choose_seat_hover_num" v-for="(item,index) in tipArray" :key="index">
-								<text v-show="notSeatArr.indexOf(index)==-1">{{item+1}}</text>
-							</view>
+						<view class="screen">
+							<view class="screen_box">舞台中央</view>
 						</view>
-						<view class="seat_box" :style="{'height':height+'rpx',}">
-							<view class="seat_box_row" v-for="(item,index) in seatArray" :key="index">
-								<view class="seat_box_row_col" v-for="(ite,ind) in item" :key="ind">
-									<image src="/static/seat_can.png" v-if="ite==0" mode="" @tap="chooseSet(index,ind)"></image>
-									<image src="/static/seat_no.png" v-if="ite==2" mode=""></image>
-									<image src="/static/seat_choose.png" v-if="ite==3" mode="" @tap="chooseSet(index,ind)"></image>
-									<image src="" v-show="ite==-1" mode=""></image>
+						<view class="choose_seat_box">
+							<view class="choose_seat_hover">
+								<view class="choose_seat_hover_num" v-for="(item,index) in tipArray" :key="index">
+									<text v-show="notSeatArr.indexOf(index)==-1">{{item+1}}</text>
+								</view>
+							</view>
+							<view class="seat_box" :style="{'height':height+'rpx',}">
+								<view class="seat_box_row" v-for="(item,index) in seatArray" :key="index">
+									<view class="seat_box_row_col" v-for="(ite,ind) in item" :key="ind">
+										<view class="seat_can" style="background-color: #fff;" v-if="ite==0" @tap="chooseSet(index,ind)"></view>
+										<view class="seat_no" style="background-color: rgb(199,62,44);" v-if="ite==2"></view>
+										<view class="seat_choose" style="background-color: rgb(63,174,73);" v-if="ite==3" @tap="chooseSet(index,ind)"></view>
+										<view class="kong" style="border: none;" v-if="ite==-1"></view>
+										<!-- <image src="/static/seat_can.png" v-if="ite==0" mode="" @tap="chooseSet(index,ind)"></image>
+										<image src="/static/seat_no.png" v-if="ite==2" mode=""></image>
+										<image src="/static/seat_choose.png" v-if="ite==3" mode="" @tap="chooseSet(index,ind)"></image>
+										<image src="" v-show="ite==-1" mode=""></image> -->
+									</view>
 								</view>
 							</view>
 						</view>
@@ -148,8 +157,8 @@
 				remark: '',
 				
 				scale: 1,
-				x: 200,
-				y: 200,
+				x: 0,
+				y: 0,
 				seatArray: [],
 				maxTicket: 0,
 				seatsList: [],
@@ -175,6 +184,7 @@
 				notSeatArr: [],
 				tipArray: [],
 				height: '',
+				width: '',
 			};
 		},
 		computed: {
@@ -193,10 +203,10 @@
 							is_reduce = true
 						}
 						array[index][ind] = index+1+'-'+(ind+1-num)
+						if(!is_reduce&&ind==(item.length-1)){
+							array[index][ind] = index+'-'+(ind+1-num)
+						}
 					})
-					if(!is_reduce&&ind==(item.length-1)){
-						array[index][ind] = index+'-'+(ind+1-num)
-					}
 				})
 				return array
 				
@@ -213,17 +223,13 @@
 				this.getTeam()
 			}
 			this.userInfo = uni.getStorageSync('user_info')
-			this.phone = this.userInfo.phone || this.userInfo.authPhone
+			if(this.userInfo.phone){
+				this.phone = this.userInfo.phone
+			}else{
+				this.phone = this.userInfo.authPhone
+			}
 		},
 		methods: {
-			dblclick() {
-				console.log(111111111);
-				if (this.scale == 2) {
-					this.scale = 1;
-				} else {
-					this.scale = 2;
-				}
-			},
 			chooseSet(value,ind){
 				console.log(ind);
 				if(this.seatArray[value][ind]==0){
@@ -240,7 +246,7 @@
 						})
 					})
 					if(num==this.maxTicket){
-						this.toast('最多可预定'+this.maxTicket+'张！','none')
+						this.toast('最多可预定'+this.maxTicket+'张,点击已选座位可取消！','none')
 						return
 					}
 					let _val = ind+1
@@ -317,6 +323,9 @@
 			getMember(val){
 				this.memberList = this.teamList[val].userList
 			},
+			chooseMember(item){
+				item.isCheck=!item.isCheck
+			},
 			getDetail(){
 				let params = {
 					format: 0,
@@ -333,10 +342,18 @@
 				this.indexRequest({url:url,data:params}).then(res=>{
 					var content = res.data.body;
 					this.content = content;
-					this.phone = res.data.body.phone||res.data.body.authPhone
 					if(this.channelId==198){
 						this.seatArray = content.seatSetting.seatArray
-						this.height = content.seatSetting.seatArray.length*40+60
+						let maxArr = []
+						content.seatSetting.seatArray.map(item=>{
+							maxArr.push(item.length)
+						})
+						let maxNum = Math.max(...maxArr)
+						console.log(maxNum);
+						console.log((690/(maxNum*40+50)).toFixed(1))
+						this.scale = 690/(maxNum*40+50)>1?1:(690/(maxNum*40+50)).toFixed(1)
+						this.height = content.seatSetting.seatArray.length*40
+						this.width = maxNum*40+50
 						console.log(this.height);
 						this.maxTicket = content.seatSetting.maxScheduled
 						res.data.body.seatSetting.seatArray.map((item,index)=>{
@@ -384,7 +401,6 @@
 				year = new Date().getFullYear()
 				day = this.date.split('.')
 				date = year+'-'+day[0]+'-'+day[1]
-				console.log(this.date);
 				let params
 				let url,ids
 				if(this.channelId!=198){
@@ -418,7 +434,7 @@
 						contentId: this.id,
 						bookingDate: date,
 						slot: this.slot,
-						phone: this.userInfo.authPhone||this.userInfo.phone,
+						phone: this.phone,
 						contact: this.contacts,
 						userName: this.user,
 						purpose: this.purpose,
@@ -444,7 +460,7 @@
 						contentId: this.id,
 						bookingDate: date,
 						slot: this.slot,
-						phone: this.userInfo.authPhone||this.userInfo.phone,
+						phone: this.phone,
 						contact: this.contacts,
 						userName: this.user,
 						purpose: this.purpose,
@@ -479,7 +495,8 @@
 					if(res.code==200){
 						res.body.map(item=>{
 							item.userList.map(ite=>{
-								ite.isCheck = false
+								this.$set(ite,'isCheck',false)
+								// ite.isCheck = false
 							})
 						})
 						this.teamList = res.body
@@ -495,6 +512,7 @@
 <style lang="scss">
 page{
 	background-color: #FFFFFF;
+	overflow: auto;
 }
 .venues-booking{
 	width: 100%;
@@ -505,7 +523,7 @@ page{
 		height: auto;
 		.detail_img{
 			width: 100%;
-			height: 50rpx;
+			height: 450rpx;
 		}
 		.detail{
 			width: 100%;
@@ -613,51 +631,79 @@ page{
 		}
 		.choose_seat{
 			width: 100%;
-			height: 600rpx;
 			box-sizing: border-box;
 			padding: 30rpx 0;
-			background-color: #ccc;
+			background-color: rgba(225,227,230,0.3);
+			// background-color: #ccc;
 			overflow: auto;
 			.movable-area{
-				width: 200%;
-				height: 200%;
+				width: 100%;
+				height: 100%;
 				overflow: auto;
-				margin-left: -200px;
-				margin-top: -200px;
+				// margin-left: -200px;
+				// margin-top: -200px;
 				.movable-view{
-					display: flex;
+					width: 100%;
+					height: 100%;
+					// display: flex;
 					position: relative;
-					.choose_seat_hover{
-						color: #FFFFFF;
-						width: auto;
-						text-align: center;
-						&_num{
-							width: 50rpx;
-							height: 40rpx;
-							line-height: 40rpx;
-							font-size: 24rpx;
+					transform: translateX(100rpx) translateY(100rpx);
+					.screen{
+						width: 100%;
+						height: 40rpx;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						margin-bottom: 20rpx;
+						&_box{
+							width: 200rpx;
+							text-align: center;
+							height: 36rpx;
+							line-height: 36rpx;
+							font-size: 28rpx;
+							color: rgba(0,0,0,0.3);
+							// border: 1px solid #000;
 						}
 					}
-					.seat_box{
-						width: 660rpx;
-						height: 500rpx;
-						&_row{
-							width: 100%;
-							height: 40rpx;
-							display: flex;
-							&_col{
-								min-width: 40rpx;
+					.choose_seat_box{
+						display: flex;
+						.choose_seat_hover{
+							color: rgba(0,0,0,0.3);
+							width: auto;
+							text-align: center;
+							&_num{
+								width: 50rpx;
 								height: 40rpx;
-								box-sizing: border-box;
-								padding: 5rpx;
-								image{
-									width: 30rpx;
-									height: 30rpx;
-								}
-								text{
-									font-size: 24rpx;
-									display: block;
-									line-height: 24rpx;
+								line-height: 40rpx;
+								font-size: 24rpx;
+							}
+						}
+						.seat_box{
+							height: 500rpx;
+							&_row{
+								width: 100%;
+								height: 40rpx;
+								display: flex;
+								&_col{
+									min-width: 40rpx;
+									height: 40rpx;
+									box-sizing: border-box;
+									padding: 5rpx;
+									view{
+										width: 30rpx;
+										height: 30rpx;
+										border: 1rpx solid #ccc;
+										border-radius: 6rpx;
+									}
+									image{
+										width: 30rpx;
+										height: 30rpx;
+									}
+									text{
+										font-size: 24rpx;
+										display: block;
+										line-height: 24rpx;
+									}
 								}
 							}
 						}

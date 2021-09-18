@@ -2,7 +2,16 @@
 	<view class="nettrain-detail content">
 		<view class="major">
 			<view class="major_img">
-				<image class="major_imgs" :src="content.titleImg" mode=""></image>
+				<!-- #ifndef MP-WEIXIN -->
+					<image class="major_imgs" :src="content.titleImg" mode=""></image>
+				<!-- #endif -->
+				<!-- #ifdef MP-WEIXIN -->
+					<image v-if='content.liveTrainRecord.online==0' class="major_imgs" :src="content.titleImg" mode=""></image>
+					<video v-if="content.liveTrainRecord.online==1&&content.liveTrainRecord.type==2" class="major_video" :src="content.liveTrainRecord.recordUrl" controls></video>
+					<video autoplay webkit-playsinline class="major_video" v-if='content.liveTrainRecord.online==1&&content.liveTrainRecord.type == 1'>
+						<source :src="content.liveTrainRecord.pullUrl" type='rtmp/flv' />
+					</video>
+				<!-- #endif -->
 			</view>
 			<view class="major_box">
 				<view class="major_box_name">{{content.title}}</view>
@@ -16,7 +25,8 @@
 				</view>
 				<view class="major_box_text">
 					<image src="/static/position.png" mode="" style="width: 28rpx;height: 34rpx;"></image>
-					<text>{{content.attr_address?content.attr_address:'暂无'}}</text>
+					<text class="address">{{content.attr_address?content.attr_address:'暂无'}}</text>
+					<view class="address_btn" @tap="openMap(content)" v-if="content.position">查看地图</view>
 				</view>
 				<view class="major_box_text">
 					<image src="/static/phone.png" mode="" style="width: 32rpx;height: 32rpx;"></image>
@@ -25,7 +35,7 @@
 				<view class="major_box_text">
 					<text>课时：{{content.attr_classHours}}</text>
 				</view>
-				<view class="major_box_text" v-if="content.quota!=null&&content.quota!=''&&content.quota!=undefined">
+				<view class="major_box_text" v-if="content.quota!=null&&content.quota!=''&&content.quota!=undefined&&content.liveTrainRecord.online==0">
 					<text>剩余名额：{{showStatus == 3&&content.quota?content.quota:0}}</text>
 				</view>
 			</view>
@@ -34,7 +44,7 @@
 			
 			<view class="chapters">
 				<view class="chapters_tab">
-					<view class="chapters_tab_title">活动详情</view>
+					<view class="chapters_tab_title">培训详情</view>
 					<!-- <view class="chapters_tab_title">培训课程</view> -->
 				</view>
 				<view class="introduce">
@@ -75,11 +85,16 @@
 					<text :class="{dz_red:is_keep}">收藏</text>
 				</view>
 			</view>
-			<view class="public_btn" @tap="signUp" v-if='showStatus == 3 && status == 0'>立即报名</view>
-			<view class="public_btn" @tap="signOut" v-if='showStatus == 3 && status == 1'>取消申请</view>
-			<view class="public_btn" @tap="signOut" v-if='showStatus == 3 && status == 2'>取消报名</view>
-			<view class="public_btn public_btn_g" v-if='showStatus == 1'>即将开始</view>
-			<view class="public_btn public_btn_g" v-if='showStatus == 2'>已结束</view>
+			<block v-if='content.liveTrainRecord.online==1'>
+				<view class="public_btn public_btn_g">无需报名</view>
+			</block>
+			<block v-else>
+				<view class="public_btn" @tap="signUp" v-if='showStatus == 3 && status == 0'>立即报名</view>
+				<view class="public_btn" @tap="signOut" v-if='showStatus == 3 && status == 1'>取消申请</view>
+				<view class="public_btn" @tap="signOut" v-if='showStatus == 3 && status == 2'>取消报名</view>
+				<view class="public_btn public_btn_g" v-if='showStatus == 1'>即将开始</view>
+				<view class="public_btn public_btn_g" v-if='showStatus == 2'>已结束</view>
+			</block>
 		</view>
 		<ys-comment v-if="comment_show" :ids="id" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
 		<ys-share ref="share" :contentHeight="580" :shareList="shareList"></ys-share>
@@ -97,6 +112,12 @@
 					attr_startTime: '',
 					attr_endTime: '',
 					quota: null,
+					liveTrainRecord: {
+						online: 0,//是否线上
+						type: 0,//是否直播  1为直播 2为录播
+						recordUrl: '',
+						pullUrl: '',
+					},
 				},
 				trainList: [],
 				status: 0,
@@ -144,7 +165,7 @@
 			if(this.isLogin){
 				console.log(111111111);
 				// this.getTicketStatus()
-				
+				this.homeRequest({url:'/view',method:'GET',data:{}})
 				this.homeRequest({
 					url: '/content/collectExit',
 					method: 'GET',
@@ -332,6 +353,15 @@
 				//uni.showToast({ title: time, duration: 2000 }); 
 				return new Date(time);
 			},
+			openMap(item){
+				var pos = this.bMapToQQMap(item.position.lng, item.position.lat);
+				uni.openLocation({
+					latitude: pos.lat,
+					longitude: pos.lng,
+					name: item.title,
+					address: item.attr_address
+				})
+			},
 			btnFabulous: function() {
 				if(this.isFabulous){
 					this.indexRequest({url:'/content/down',data:{contentId: this.id}}).then(res=>{
@@ -409,6 +439,10 @@ page{
 				height: 100%;
 				border-radius: 8rpx;
 			}
+			.major_video{
+				width: 100%;
+				height: 100%;
+			}
 		}
 		&_box{
 			width: 690rpx;
@@ -431,6 +465,23 @@ page{
 				color: #1B1C1E;
 				image{
 					margin-right: 16rpx;
+				}
+				.address{
+					max-width: calc(100% - 152rpx);
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+				.address_btn{
+					width: 108rpx;
+					height: 38rpx;
+					margin-left: 10rpx;
+					border: 2rpx solid #5D4ADE;
+					border-radius: 8rpx;
+					text-align: center;
+					line-height: 38rpx;
+					color: #614DDF;
+					font-size: 22rpx;
 				}
 			}
 		}
@@ -467,4 +518,9 @@ page{
 .dz_red{
 	color: rgb(223,20,20);
 }
+video,live-player {
+	width: 100%;
+	height: 100%;
+}
+uni-video{ height: 100%;}
 </style>

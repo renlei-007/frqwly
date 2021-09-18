@@ -96,7 +96,7 @@ var components
 try {
   components = {
     ysScroll: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 658))
+      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 660))
     }
   }
 } catch (e) {
@@ -202,7 +202,7 @@ var _default =
       console.log('刷新');
       this.page = 0;
       this.orgList = [];
-      this.getList();
+      this.getDetail();
       setTimeout(function () {
         _this.$refs.scroll.endRefresh();
       }, 800);
@@ -213,7 +213,7 @@ var _default =
     loadMore: function loadMore() {
       console.log('上拉加载');
       this.page += 10;
-      this.getList();
+      this.getDetail();
     },
     getDetail: function getDetail() {var _this2 = this;
       this.homeRequest({
@@ -222,12 +222,14 @@ var _default =
         data: { groupId: this.id, pageSize: 1000, pageNo: 1 } }).
       then(function (res) {
         console.log(res);
-        if (res.code == 200) {
-          res.body.map(function (item) {
-            if (item.record.status == 1) {
-              _this2.orgList.push(item);
-            }
-          });
+        res.body.map(function (item) {
+          if (item.record.status == 0) {
+            _this2.orgList.push(item);
+          }
+        });
+        if (_this2.orgList.length == 0) {
+          console.log(1111111111);
+          _this2.$refs.scroll.setLoadStatus('no_data');
         }
       });
     },
@@ -235,11 +237,13 @@ var _default =
       this.homeRequest({
         url: '/group/user/verify',
         method: 'GET',
-        data: { guid: this.id, pass: is_pass, refuseReason: '' } }).
+        data: { guId: id, pass: is_pass, refuseReason: '' } }).
       then(function (res) {
         console.log(res);
         if (res.code == 200) {
           _this3.toast('审核成功！');
+          _this3.orgList = [];
+          _this3.getDetail();
         } else {
           _this3.toast(res.message, 'none');
         }

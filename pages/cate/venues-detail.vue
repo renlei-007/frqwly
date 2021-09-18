@@ -88,8 +88,9 @@
 					<text :class="{dz_red:is_keep}">收藏</text>
 				</view>
 			</view>
-			<view class="public_btn" v-if="channelId==179||channelId==180||channelId==198" @tap="bookings">马上预约</view>
-			<view class="public_btn gray" v-else>无需预约</view>
+			<view class="public_btn" v-if="(channelId==179||channelId==180||channelId==198)&&canBooking" @tap="bookings">马上预约</view>
+			<view class="public_btn gray" v-if="channelId==198&&!canBooking">已过预约时间</view>
+			<view class="public_btn gray" v-if="channelId!=179&&channelId!=180&&channelId!=198">无需预约</view>
 		</view>
 		<ys-comment v-if="comment_show" :ids="id" :commentList="commentList" @refresh="refresh" @loadMore="loadMore" @close="close"></ys-comment>
 		<ys-share ref="share" :contentHeight="580" :shareList="shareList"></ys-share>
@@ -110,6 +111,8 @@
 					},
 				},
 				venuesList: [],
+				
+				canBooking: true,
 				
 				comment_show: false,
 				commentList: [],
@@ -143,6 +146,15 @@
 		onLoad(e) {
 			this.id = e.id
 			this.channelId = e.channelId
+			if(e.scene){
+				console.log(e.scene);
+				let params = decodeURIComponent(e.scene).split('&');
+				if(params.length == 2){
+					this.id = params[0];
+					this.channelId = params[1]
+					// this.doShare(params[1], params[2]);
+				}
+			}
 			this.getDetail()
 			this.getVenuesList()
 			this.getCommentList()
@@ -151,7 +163,7 @@
 				this.isFabulous = true;
 			}
 			if(this.isLogin){
-				
+				this.homeRequest({url:'/view',method:'GET',data:{}})
 				this.homeRequest({
 					url: '/content/collectExit',
 					method: 'GET',
@@ -223,6 +235,13 @@
 					var content = res.data.body;
 					content.txt = this.replaceSpecialChar(content.txt)
 					this.content = content;
+					if(this.channelId == 198){
+						let time = new Date().getTime()
+						let _time = new Date(content.seatSetting.registrationTime[1]).getTime()
+						if(time>_time){
+							this.canBooking = false
+						}
+					}
 					uni.setNavigationBarTitle({
 						title: content.title
 					})

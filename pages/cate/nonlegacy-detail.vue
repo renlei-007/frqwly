@@ -1,13 +1,14 @@
 <template>
 	<view class="nonlegacy-detail content">
 		<view class="major">
-			<swiper v-if="content.picArr.length>0" class="spot_info_img" circular autoplay="autoplay" indicator-dots="true" indicator-active-color="rgba(255,153,51,1)">
+			<swiper v-if="content.picArr&&content.picArr.length>0" class="spot_info_img" circular :autoplay="content.attr_videopath?false:true" indicator-dots="true" indicator-active-color="rgba(255,153,51,1)">
 				<swiper-item class="swiper-item" v-if="content.attr_videopath">
 					<video id="myVideo" :src="content.attr_videopath" :controls="false" object-fit="fill" class="video-box"></video>
 				</swiper-item>
 				<swiper-item  class="swiper-recommend" v-for="(item, index) in content.picArr"  @tap="preview()" :key="index">
 					<image class="swiper_img" :src="item.picPaths" mode="widthFix"></image>
-				</swiper-item> 
+					<image class="screen" src="/static/screen.png" mode=""></image>
+				</swiper-item>
 			</swiper>
 			<view class="major_img" v-else>
 				<image class="major_imgs" :src="content.titleImg" mode=""></image>
@@ -15,8 +16,7 @@
 			<view class="major_box">
 				<view class="major_box_name">{{content.title}}</view>
 				<view class="major_box_text">
-					类别：<text>{{content.attr_type&&content.attr_type.length>0?content.attr_type[0]:'暂无'}}</text>
-					<text v-for="(item,index) in content.attr_type" :key="index">{{index==content.attr_type.length-1?item:item+' | '}}</text>
+					类别：<text v-for="(item,index) in content.attr_type" :key="index">{{index==content.attr_type.length-1?item:item+' | '}}</text>
 				</view>
 				<view class="major_box_text">
 					级别：<text>{{content.attr_level?content.attr_level:'暂无'}}</text>
@@ -30,7 +30,7 @@
 			</view>
 			<view class="blank"></view>
 			<view class="tj_active">
-				<view class="tj_active_title">非遗详情</view>
+				<!-- <view class="tj_active_title">非遗详情</view> -->
 				<view class="introduce">
 					<rich-text :nodes="content.txt"></rich-text>
 				</view>
@@ -75,6 +75,9 @@
 			this.getNonlegacyList()
 			
 			this.getCommentList()
+			if(this.isLogin){
+				this.homeRequest({url:'/view',method:'GET',data:{}})
+			}
 		},
 		methods: {
 			/**
@@ -142,6 +145,7 @@
 				})
 			},
 			preview(){
+				this.imgList = []
 				this.content.picArr.map(item=>{
 					this.imgList.push(item.picPaths)
 				})
@@ -182,9 +186,21 @@ page{
 				width: 100%;
 				height: 100%;
 			}
-			.swiper_img{
+			.swiper-recommend{
 				width: 100%;
 				height: 100%;
+				position: relative;
+				.swiper_img{
+					width: 100%;
+					height: 100%;
+				}
+				.screen{
+					width: 40rpx;
+					height: 40rpx;
+					position: absolute;
+					right: 20rpx;
+					bottom: 20rpx;
+				}
 			}
 		}
 		&_box{

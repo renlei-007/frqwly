@@ -1,10 +1,10 @@
 <template>
 	<view class="my-train-detail content">
-		<view class="actives_box" v-if="record.status != 1 && record.status != 3">
+		<view class="actives_box">
 			<view class="actives_box_title">{{record.content.title}}</view>
-			<view class="actives_box_img">
-				<image class="code_img" :src="baseUrl+'special/o_create_dimensioncode.jspx?content='+qrcodeCotent()" mode=""></image>
-				<view class="state" v-if="record.status ==1"><image :src="verifyImg"></image></view>
+			<view class="actives_box_img" v-if="record.status == 1 || record.status == 3">
+				<image class="code_img" :src="globalUrl+'special/o_create_dimensioncode.jspx?content='+qrcodeCotent()" mode=""></image>
+				<view class="state" v-if="record.status ==3"><image :src="verifyImg"></image></view>
 			</view>
 			<view class="info">
 				<view>编号：{{record.id}}</view>
@@ -34,6 +34,7 @@
 				},
 				verifyImg:'/static/verify_img.png',
 				id: '',
+				globalUrl: 'https://furong.culturalcloud.net/',
 			};
 		},
 		onLoad(e) {
@@ -43,7 +44,7 @@
 		methods: {
 			qrcodeCotent(){
 				let params={
-					type : 3,
+					type : 5,
 					value: this.id
 				}
 				return encodeURIComponent(JSON.stringify(params));
@@ -105,6 +106,7 @@
 					console.log(res);
 					if(res.code==200){
 						this.record = res.body
+						console.log(res.body.status);
 						this.indexRequest({url:'/content/get.jspx',data:{
 							format: 0,
 							id: this.record.content.id

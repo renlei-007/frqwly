@@ -27,6 +27,7 @@
 .nonlegacy {
   width: 100%;
   height: 100%;
+  background-color: #fff;
 }
 .chooseway {
   width: 100%;
@@ -38,9 +39,6 @@
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
           flex-direction: column;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-          justify-content: center;
   text-align: center;
   -webkit-box-align: center;
   -webkit-align-items: center;
@@ -49,5 +47,10 @@
 .chooseway image {
   width: 690rpx;
   height: 226rpx;
+  margin-top: 30rpx;
+}
+.chooseway .fy_top {
+  width: 690rpx;
+  height: 386rpx;
 }
 

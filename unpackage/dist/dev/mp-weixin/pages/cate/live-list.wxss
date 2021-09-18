@@ -37,6 +37,7 @@
   margin: 30rpx auto 0;
   width: 100%;
   background-color: #FFFFFF;
+  position: relative;
 }
 .live_list_img {
   width: 100%;
@@ -90,5 +91,18 @@
   width: 21rpx;
   height: 24rpx;
   margin-right: 16rpx;
+}
+.is_live {
+  box-sizing: border-box;
+  padding: 0 20rpx;
+  height: 44rpx;
+  font-size: 22rpx;
+  line-height: 44rpx;
+  color: #fff;
+  background: #FF3616;
+  border-radius: 24px 0px 0px 24px;
+  position: absolute;
+  top: 30rpx;
+  right: 0;
 }
 

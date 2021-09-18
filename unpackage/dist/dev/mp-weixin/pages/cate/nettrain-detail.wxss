@@ -47,6 +47,10 @@ page {
   height: 100%;
   border-radius: 8rpx;
 }
+.nettrain-detail .major_img .major_video {
+  width: 100%;
+  height: 100%;
+}
 .nettrain-detail .major_box {
   width: 690rpx;
   font-size: 32rpx;
@@ -74,6 +78,23 @@ page {
 }
 .nettrain-detail .major_box_text image {
   margin-right: 16rpx;
+}
+.nettrain-detail .major_box_text .address {
+  max-width: calc(100% - 152rpx);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nettrain-detail .major_box_text .address_btn {
+  width: 108rpx;
+  height: 38rpx;
+  margin-left: 10rpx;
+  border: 2rpx solid #5D4ADE;
+  border-radius: 8rpx;
+  text-align: center;
+  line-height: 38rpx;
+  color: #614DDF;
+  font-size: 22rpx;
 }
 .nettrain-detail .major .chapters {
   width: 654rpx;
@@ -106,5 +127,12 @@ page {
 }
 .dz_red {
   color: #df1414;
+}
+video, live-player {
+  width: 100%;
+  height: 100%;
+}
+uni-video {
+  height: 100%;
 }
 

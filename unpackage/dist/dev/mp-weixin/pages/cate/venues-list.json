@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "场馆服务",
+  "navigationBarTitleText": "场馆预约",
   "enablePullDownRefresh": false,
   "usingComponents": {
     "ys-scroll": "/components/base/ys-scroll"

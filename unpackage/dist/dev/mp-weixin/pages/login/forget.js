@@ -148,6 +148,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 var _default =
 {
   data: function data() {
@@ -159,10 +161,14 @@ var _default =
 
       tips: '获取验证码',
       step: 0,
-      timer: null };
+      timer: null,
+      is_see: false };
 
   },
   methods: {
+    seePsw: function seePsw() {
+      this.is_see = !this.is_see;
+    },
     getVerCode: function getVerCode() {var _this = this;
       var myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
       if (this.userform.username.length != 11 || !myreg.test(this.userform.username)) {

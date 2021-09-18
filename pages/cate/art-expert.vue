@@ -7,8 +7,9 @@
 			<swiper-item class="swiper-item" v-if="content.attr_videopath">
 				<video id="myVideo" :src="content.attr_videopath" :controls="false" object-fit="fill" class="video-box"></video>
 			</swiper-item>
-			<swiper-item  class="swiper-recommend" v-for="(item, index) in content.picArr" :key="index" @tap="preview()">
+			<swiper-item  class="swiper-recommend" v-for="(item, index) in content.picArr" :key="index" @tap="preview(index)">
 				<image class="swiper_img" :src="item.picPaths" mode="widthFix"></image>
+				<image class="screen" src="/static/screen.png" mode=""></image>
 			</swiper-item> 
 		</swiper>
 		<view class="arts">
@@ -61,6 +62,7 @@
 			this.getArtList()
 			if(this.isLogin){
 				this.getCommentList()
+				this.homeRequest({url:'/view',method:'GET',data:{}})
 			}
 		},
 		methods: {
@@ -114,6 +116,12 @@
 					uni.setNavigationBarTitle({
 						title: content.title
 					})
+					if(this.content.picArr.length>0){
+						this.content.picArr.map(item=>{
+							this.imgList.push(item.picPaths)
+						})
+					}
+					console.log(this.imgList);
 					if(content.description.length>48){
 						this.showText = content.description.slice(0,42)+'...'
 					}else{
@@ -140,11 +148,16 @@
 					url: '/pages/cate/art-expert?id='+id
 				})
 			},
-			preview(){
+			preview(index){
+				this.imgList = []
 				this.content.picArr.map(item=>{
 					this.imgList.push(item.picPaths)
 				})
 				this.previewImage(this.imgList)
+				// uni.previewImage({
+				// 	current: index,
+				// 	urls: this.imgList
+				// })
 			},
 		},
 	}
@@ -223,9 +236,21 @@ page{
 		width: 100%;
 		height: 100%;
 	}
-	.swiper_img{
+	.swiper-recommend{
 		width: 100%;
 		height: 100%;
+		position: relative;
+		.swiper_img{
+			width: 100%;
+			height: 100%;
+		}
+		.screen{
+			width: 40rpx;
+			height: 40rpx;
+			position: absolute;
+			right: 20rpx;
+			bottom: 20rpx;
+		}
 	}
 }
 </style>

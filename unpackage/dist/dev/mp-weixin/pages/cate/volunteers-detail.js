@@ -96,10 +96,10 @@ var components
 try {
   components = {
     ysComment: function() {
-      return Promise.all(/*! import() | components/base/ys-comment */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/base/ys-comment")]).then(__webpack_require__.bind(null, /*! @/components/base/ys-comment.vue */ 672))
+      return Promise.all(/*! import() | components/base/ys-comment */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/base/ys-comment")]).then(__webpack_require__.bind(null, /*! @/components/base/ys-comment.vue */ 674))
     },
     ysShare: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-share */ "components/base/ys-share").then(__webpack_require__.bind(null, /*! @/components/base/ys-share.vue */ 680))
+      return __webpack_require__.e(/*! import() | components/base/ys-share */ "components/base/ys-share").then(__webpack_require__.bind(null, /*! @/components/base/ys-share.vue */ 682))
     }
   }
 } catch (e) {
@@ -124,12 +124,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var g0 =
-    _vm.channelIds == 127 && _vm.content.attr_startTime
-      ? _vm.content.attr_startTime.slice(0, 10)
-      : null
-  var g1 =
-    _vm.channelIds == 127 && _vm.content.attr_endTime
-      ? _vm.content.attr_endTime.slice(0, 10)
+    _vm.channelIds == 127 && _vm.content.registrationEnd
+      ? _vm.content.registrationEnd.slice(0, 10)
       : null
 
   if (!_vm._isMounted) {
@@ -142,8 +138,7 @@ var render = function() {
     {},
     {
       $root: {
-        g0: g0,
-        g1: g1
+        g0: g0
       }
     }
   )
@@ -266,6 +261,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -276,6 +284,8 @@ var _default =
       content: {},
       teersList: [],
       status: 0,
+      can_join: false,
+      isJoin: false,
 
       comment_show: false,
       commentList: [],
@@ -300,14 +310,22 @@ var _default =
       {
         type: 4,
         icon: '/static/share_qqzone.png',
-        text: 'QQ空间' }] };
+        text: 'QQ空间' }],
 
 
+      is_Certification: false };
 
   },
   onLoad: function onLoad(e) {
     this.id = e.id;
     this.channelIds = e.channelIds;
+    if (this.isLogin) {
+      this.getUser();
+      this.homeRequest({ url: '/view', method: 'GET', data: {} });
+      if (this.channelIds == 127) {
+        this.getJoinStatus();
+      }
+    }
   },
   onShow: function onShow() {var _this = this;
     this.getDetail();
@@ -387,7 +405,18 @@ var _default =
 
 
     },
-    getCommentList: function getCommentList() {var _this3 = this;
+    getUser: function getUser() {var _this3 = this;
+      var username = uni.getStorageSync('user_info').username;
+      this.homeRequest({
+        url: '/user/get',
+        method: 'get',
+        data: { username: username } }).
+      then(function (res) {
+        console.log(res);
+        _this3.is_Certification = res.body.isCertification;
+      });
+    },
+    getCommentList: function getCommentList() {var _this4 = this;
       var params = {
         contentId: this.id,
         checked: 1,
@@ -396,32 +425,48 @@ var _default =
 
       this.indexRequest({ url: '/comment/list.jspx', data: params }).then(function (res) {
         var content = res.data.body;
-        _this3.commentList = _this3.commentList.concat(content);
+        _this4.commentList = _this4.commentList.concat(content);
       });
     },
-    getDetail: function getDetail() {var _this4 = this;
+    getDetail: function getDetail() {var _this5 = this;
       var params = {
         format: 0,
         id: this.id };
 
       this.indexRequest({ url: '/content/get.jspx', data: params }).then(function (res) {
         var content = res.data.body;
-        content.txt = _this4.replaceSpecialChar(content.txt);
-        _this4.content = content;
+        content.txt = _this5.replaceSpecialChar(content.txt);
+        _this5.content = content;
         uni.setNavigationBarTitle({
           title: content.title });
 
-        if (_this4.status == 0 && _this4.content.registrationEnd) {
-          var date = new Date(),end = Date.parse(_this4.content.registrationEnd);
-          if (end < date.getTime()) {
-            _this4.status = 3;
+        if (_this5.channelIds == 142) {
+          if (content.group.memberCount < content.group.toplimit) {
+            _this5.can_join = true;
+          } else {
+            _this5.can_join = false;
           }
         }
-
-        console.log(_this4.isLogin);
+        if (_this5.status == 0 && _this5.content.registrationEnd) {
+          var date = new Date(),end = Date.parse(_this5.content.registrationEnd);
+          if (end < date.getTime()) {
+            _this5.status = 3;
+          }
+        }
       });
     },
-    getTeersList: function getTeersList() {var _this5 = this;
+    getJoinStatus: function getJoinStatus() {var _this6 = this;
+      this.homeRequest({ url: '/volunteerInfo/check', method: 'GET', data: {} }).then(function (res) {
+        console.log(res);
+        if (res.code == 101) {
+          _this6.isJoin = false;
+        }
+        if (res.code == 200) {
+          _this6.isJoin = true;
+        }
+      });
+    },
+    getTeersList: function getTeersList() {var _this7 = this;
       var params = {
         count: 5,
         channelIds: this.channelIds,
@@ -431,10 +476,10 @@ var _default =
         console.log(res);
         var array = res.data.body;
         array.shift();
-        _this5.teersList = array;
+        _this7.teersList = array;
       });
     },
-    signUp: function signUp() {var _this6 = this;
+    signUp: function signUp() {var _this8 = this;
       console.log(this.isLogin);
       if (!this.isLogin) {
         uni.showModal({
@@ -453,43 +498,65 @@ var _default =
 
         return;
       }
-      if (!this.isCertification) {
-        this.toast('您还没有实名认证，请先实名认证！', 'none');
+      if (!this.is_Certification) {
+        this.toast('您还没有实名认证或认证正在审核中，请检查', 'none');
         return;
       }
       if (this.channelIds == 127) {
-        uni.navigateTo({
-          url: './volunteers-booking?id=' + this.id });
+        if (!this.isJoin) {
+          this.toast('请先成为志愿者！', 'none');
+          return;
+        }
+        uni.showModal({
+          title: "提示",
+          content: "确定要加入该志愿者活动吗？",
+          showCancel: true,
+          confirmText: "确定",
+          success: function success(res) {
+            if (res.confirm) {
+              _this8.homeRequest({
+                url: '/volunteer/add',
+                method: 'GET',
+                data: { contentId: _this8.id } }).
+              then(function (res) {
+                if (res.code == 200) {
+                  _this8.toast('报名成功！');
+                  _this8.status = 1;
+                } else {
+                  _this8.toast(res.message, 'none');
+                }
+              });
+            } else if (res.cancel) {
+            }
+          } });
 
-        return;
-        this.homeRequest({
-          url: '/volunteer/add',
-          method: 'GET',
-          data: { contentId: this.id } }).
-        then(function (res) {
-          if (res.code == 200) {
-            _this6.toast('报名成功！');
-            _this6.status = 1;
-          } else {
-            _this6.toast(res.message, 'none');
-          }
-        });
       } else {
-        this.homeRequest({
-          url: '/group/join',
-          method: 'GET',
-          data: { groupId: this.id } }).
-        then(function (res) {
-          if (res.code == 200) {
-            _this6.toast('报名成功！');
-            _this6.status = 1;
-          } else {
-            _this6.toast(res.message, 'none');
-          }
-        });
+        uni.showModal({
+          title: "提示",
+          content: "确定要加入该社团吗？",
+          showCancel: true,
+          confirmText: "确定",
+          success: function success(res) {
+            if (res.confirm) {
+              _this8.homeRequest({
+                url: '/group/join',
+                method: 'GET',
+                data: { groupId: _this8.id } }).
+              then(function (res) {
+                if (res.code == 200) {
+                  _this8.toast('报名成功！');
+                  _this8.status = 1;
+                } else {
+                  _this8.toast(res.message, 'none');
+                }
+              });
+            } else if (res.cancel) {
+            }
+          } });
+
       }
     },
-    cancel: function cancel(e) {var _this7 = this;
+    cancel: function cancel(e) {var _this9 = this;
       uni.showModal({
         title: "提示",
         content: "确定要退出吗？",
@@ -497,30 +564,30 @@ var _default =
         confirmText: "确定",
         success: function success(res) {
           if (res.confirm) {
-            if (_this7.channelIds == 127) {
-              _this7.homeRequest({
+            if (_this9.channelIds == 127) {
+              _this9.homeRequest({
                 url: '/volunteer/cancel',
                 method: 'GET',
-                data: { recordId: _this7.id } }).
+                data: { recordId: _this9.id } }).
               then(function (r) {
                 if (r.code == 200) {
-                  _this7.toast('操作成功！');
-                  _this7.status = 4;
+                  _this9.toast('操作成功！');
+                  _this9.status = 4;
                 } else {
-                  _this7.toast('操作失败！', 'none');
+                  _this9.toast('操作失败！', 'none');
                 }
               });
             } else {
-              _this7.homeRequest({
+              _this9.homeRequest({
                 url: '/group/cancelApply',
                 method: 'GET',
-                data: { groupId: _this7.id } }).
+                data: { groupId: _this9.id } }).
               then(function (r) {
                 if (r.code == 200) {
-                  _this7.toast('操作成功！');
-                  _this7.getStatus();
+                  _this9.toast('操作成功！');
+                  _this9.getStatus();
                 } else {
-                  _this7.toast('操作失败！', 'none');
+                  _this9.toast('操作失败！', 'none');
                 }
               });
             }
@@ -534,26 +601,26 @@ var _default =
         url: '/pages/cate/volunteers-detail?id=' + id + '&&channelIds=' + this.channelIds });
 
     },
-    btnFabulous: function btnFabulous() {var _this8 = this;
+    btnFabulous: function btnFabulous() {var _this10 = this;
       if (this.isFabulous) {
         this.indexRequest({ url: '/content/down', data: { contentId: this.id } }).then(function (res) {
           if (res.data.code == 200) {
-            _this8.isFabulous = false;
-            uni.removeStorageSync('fabulous' + _this8.id);
-            _this8.toast('取消点赞成功！');
+            _this10.isFabulous = false;
+            uni.removeStorageSync('fabulous' + _this10.id);
+            _this10.toast('取消点赞成功！');
           }
         });
       } else {
         this.indexRequest({ url: '/content/up', data: { contentId: this.id } }).then(function (res) {
           if (res.data.code == 200) {
-            _this8.isFabulous = true;
-            uni.setStorageSync('fabulous' + _this8.id, true);
-            _this8.toast('点赞成功！');
+            _this10.isFabulous = true;
+            uni.setStorageSync('fabulous' + _this10.id, true);
+            _this10.toast('点赞成功！');
           }
         });
       }
     },
-    collection: function collection() {var _this9 = this;
+    collection: function collection() {var _this11 = this;
       if (!this.isLogin) {
         uni.showModal({
           title: "提示",
@@ -576,12 +643,12 @@ var _default =
           data: { id: this.id, operate: this.is_keep ? 0 : 1 } }).
         then(function (res) {
           if (res.code == 200) {
-            if (_this9.is_keep) {
-              _this9.toast('取消收藏成功！');
+            if (_this11.is_keep) {
+              _this11.toast('取消收藏成功！');
             } else {
-              _this9.toast('收藏成功！');
+              _this11.toast('收藏成功！');
             }
-            _this9.is_keep = !_this9.is_keep;
+            _this11.is_keep = !_this11.is_keep;
           }
         });
       }

@@ -96,7 +96,7 @@ var components
 try {
   components = {
     ysScroll: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 658))
+      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 660))
     }
   }
 } catch (e) {
@@ -253,7 +253,7 @@ var _default =
     },
     getList: function getList() {var _this2 = this;
       var params = {
-        channelIds: 191, count: 10, first: this.page, format: 0, s_type: this.type };
+        channelIds: 191, count: 10, first: this.page, format: 0, s_subject_like: this.type };
 
       this.indexRequest({ url: '/content/list.jspx', data: params }).then(function (res) {
         if (res.data.body.length == 0 && _this2.moocList.length == 0) {
@@ -276,7 +276,7 @@ var _default =
       this.indexRequest({ url: '/model/get', data: params }).then(function (res) {
         console.log(res);
         res.data.body.map(function (item) {
-          if (item.field == 'category') {
+          if (item.field == 'subject') {
             array = item.optValue;
           }
         });

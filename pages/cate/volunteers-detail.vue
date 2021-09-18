@@ -12,15 +12,27 @@
 				<view class="major_box_text">
 					成立时间：<text>{{content.sortDate?content.sortDate:'暂无'}}</text>
 				</view>
-				<view class="major_box_text">
-					{{channelIds==127?'活动类型：':'社团类型：'}}
+				<view class="major_box_text" v-if="channelIds==127">
+					活动类型：
 					<text v-for="(item,index) in content.attr_type" :key="index">{{index==content.attr_type.length-1?item:item+' | '}}</text>
 				</view>
-				<view class="major_box_text" v-if="channelIds==127">
-					招募日期：<text>
-						{{content.attr_startTime?content.attr_startTime.slice(0,10):''}}{{content.attr_startTime&&content.attr_endTime?'至':''}}{{content.attr_endTime?content.attr_endTime.slice(0,10):''}}</text>
+				<view class="major_box_text" v-else>
+					社团类型：
+					<text>{{content.attr_groupType}}</text>
 				</view>
-				<view class="major_box_text">
+				<view class="major_box_text" v-if="channelIds!=127">
+					招募人数：
+					<text>{{content.group&&content.group.toplimit?content.group.toplimit:''}}人</text>
+				</view>
+				<view class="major_box_text" v-if="channelIds==127">
+					招募截止日期：<text>
+						{{content.registrationEnd?content.registrationEnd.slice(0,10):''}}</text>
+				</view>
+				<view class="major_box_text" v-else>
+					招募日期：<text>
+						{{content.group&&content.group.dateLimit?content.group.dateLimit:''}}</text>
+				</view>
+				<view class="major_box_text" v-if="channelIds==127">
 					电话：<text>{{content.attr_phone?content.attr_phone:'暂无'}}</text>
 				</view>
 			</view>
@@ -67,14 +79,15 @@
 			</view>
 			<block v-if="channelIds==127">
 				<view class="public_btn" @tap="signUp" v-if='status == 0'>成为志愿者</view>
-				<view class="public_btn public_btn_g" @tap="cancel" v-if="status == 1">取消申请</view>
-				<view class="public_btn public_btn_g" @tap="cancel" v-if="status == 2">退出</view>
+				<view class="public_btn" @tap="cancel" v-if="status == 1">取消申请</view>
+				<view class="public_btn" @tap="cancel" v-if="status == 2">退出</view>
 				<view class="public_btn public_btn_g" v-if="status == 3">报名已结束</view>
 				<view class="public_btn public_btn_g" v-if="status == 4">已退出不能参与</view>
 				<view class="public_btn public_btn_g" v-if="status == 5">已报名过</view>
 			</block>
 			<block v-else>
-				<view class="public_btn" @tap="signUp" v-if='status == 0'>加入社团</view>
+				<view class="public_btn" @tap="signUp" v-if='status == 0&&can_join'>加入社团</view>
+				<view class="public_btn public_btn_g" v-if="status == 0&&!can_join">人数已满</view>
 				<view class="public_btn" @tap="cancel" v-if="status == 1">取消申请</view>
 				<view class="public_btn public_btn_g" v-if="status == 2||status == 3">已加入社团</view>
 			</block>
@@ -94,6 +107,8 @@
 				content: {},
 				teersList: [],
 				status: 0,
+				can_join: false,
+				isJoin: false,
 				
 				comment_show: false,
 				commentList: [],
@@ -121,11 +136,27 @@
 						text: 'QQ空间'
 					}
 				],
+				is_Certification: false,
 			};
 		},
 		onLoad(e) {
 			this.id = e.id
 			this.channelIds = e.channelIds
+			if(e.scene){
+				console.log(e.scene);
+				let params = decodeURIComponent(e.scene).split('&');
+				if(params.length == 2){
+					this.id = params[0];
+					this.channelIds = params[0];
+				}
+			}
+			if(this.isLogin){
+				this.getUser()
+				this.homeRequest({url:'/view',method:'GET',data:{}})
+				if(this.channelIds==127){
+					this.getJoinStatus()
+				}
+			}
 		},
 		onShow() {
 			this.getDetail()
@@ -205,6 +236,17 @@
 				this.$refs.share.toggleMask();	
 				// #endif
 			},
+			getUser(){
+				let username = uni.getStorageSync('user_info').username
+				this.homeRequest({
+					url: '/user/get',
+					method: 'get',
+					data: {username:username},
+				}).then(res=>{
+					console.log(res);
+					this.is_Certification = res.body.isCertification
+				})
+			},
 			getCommentList(){
 				let params = {
 					contentId: this.id, 
@@ -229,14 +271,30 @@
 					uni.setNavigationBarTitle({
 						title: content.title
 					})
+					if(this.channelIds == 142){
+						if(content.group.memberCount<content.group.toplimit){
+							this.can_join = true
+						}else{
+							this.can_join = false
+						}
+					}
 					if(this.status == 0 && this.content.registrationEnd){
 						var date = new Date(),end = Date.parse(this.content.registrationEnd);
 						if(end < date.getTime()){
 							this.status = 3;
 						}
 					}
-					
-					console.log(this.isLogin);
+				})
+			},
+			getJoinStatus(){
+				this.homeRequest({url:'/volunteerInfo/check',method:'GET',data:{}}).then(res=>{
+					console.log(res);
+					if(res.code==101){
+						this.isJoin = false
+					}
+					if(res.code==200){
+						this.isJoin = true
+					}
 				})
 			},
 			getTeersList(){
@@ -271,38 +329,60 @@
 					})
 					return
 				}
-				if(!this.isCertification){
-					this.toast('您还没有实名认证，请先实名认证！','none')
+				if(!this.is_Certification){
+					this.toast('您还没有实名认证或认证正在审核中，请检查','none')
 					return
 				}
 				if(this.channelIds==127){
-					uni.navigateTo({
-						url: './volunteers-booking?id='+this.id
-					})
-					return
-					this.homeRequest({
-						url: '/volunteer/add',
-						method: 'GET',
-						data: {contentId: this.id},
-					}).then(res=>{
-						if(res.code == 200){
-							this.toast('报名成功！')
-							this.status = 1
-						}else{
-							this.toast(res.message,'none')
+					if(!this.isJoin){
+						this.toast('请先成为志愿者！','none')
+						return
+					}
+					uni.showModal({
+						title: "提示",
+						content: "确定要加入该志愿者活动吗？",
+						showCancel: true,
+						confirmText: "确定",
+						success: (res)=>{
+							if (res.confirm) {
+								this.homeRequest({
+									url: '/volunteer/add',
+									method: 'GET',
+									data: {contentId: this.id},
+								}).then(res=>{
+									if(res.code == 200){
+										this.toast('报名成功！')
+										this.status = 1
+									}else{
+										this.toast(res.message,'none')
+									}
+								})
+							} else if (res.cancel) {
+							}
 						}
 					})
 				}else{
-					this.homeRequest({
-						url: '/group/join',
-						method: 'GET',
-						data: {groupId: this.id},
-					}).then(res=>{
-						if(res.code == 200){
-							this.toast('报名成功！')
-							this.status = 1
-						}else{
-							this.toast(res.message,'none')
+					uni.showModal({
+						title: "提示",
+						content: "确定要加入该社团吗？",
+						showCancel: true,
+						confirmText: "确定",
+						success: (res)=>{
+							if (res.confirm) {
+								this.homeRequest({
+									url: '/group/join',
+									method: 'GET',
+									data: {groupId: this.id},
+								}).then(res=>{
+									if(res.code == 200){
+										this.toast('报名成功！')
+										this.status = 1
+									}else{
+										this.toast(res.message,'none')
+									}
+								})
+							} else if (res.cancel) {
+							}
 						}
 					})
 				}

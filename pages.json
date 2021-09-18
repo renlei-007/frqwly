@@ -114,7 +114,7 @@
             "path" : "pages/cate/venues-list",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "场馆服务",
+                "navigationBarTitleText": "场馆预约",
                 "enablePullDownRefresh": false
             }
             
@@ -168,7 +168,7 @@
             "path" : "pages/cate/nonlegacy",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "非遗保护",
+                "navigationBarTitleText": "非遗文博",
                 "enablePullDownRefresh": false
             }
             

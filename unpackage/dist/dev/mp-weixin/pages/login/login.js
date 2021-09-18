@@ -156,6 +156,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
 var _random = _interopRequireDefault(__webpack_require__(/*! @/common/random.js */ 12));
 var _sign = _interopRequireDefault(__webpack_require__(/*! @/common/sign.js */ 13));
 var _aes = _interopRequireDefault(__webpack_require__(/*! @/common/aes.js */ 14));
@@ -184,14 +192,15 @@ var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _i
 //
 //
 //
-var _default = { data: function data() {return { userform: { username: '', password: '', is_thing: false }, is_click_login: false, session_key: '', id: '', user_info: {} };}, onLoad: function onLoad(e) {this.is_thing = e.is_thing;}, methods: { goBindTel: function goBindTel(e) {var _this = this;console.log(e);var userInfo = e.detail.userInfo;console.log(userInfo);uni.login({ provider: 'weixin', success: function success(loginRes) {
-          console.log(loginRes);
-          _this.doLogin(userInfo, loginRes.code);
-        },
-        fail: function fail(err) {
-          console.log(err);
-        } });
-
+//
+//
+//
+//
+//
+//
+//
+//
+var _default = { data: function data() {return { userform: { username: '', password: '', is_thing: false }, is_phone: false, is_click_login: false, session_key: '', id: '', user_info: {} };}, onLoad: function onLoad(e) {this.is_thing = e.is_thing;}, methods: { goBindTel: function goBindTel(e) {var _this = this;console.log(e);var userInfo = e.detail.userInfo;console.log(userInfo);uni.login({ provider: 'weixin', success: function success(loginRes) {console.log(loginRes);_this.doLogin(userInfo, loginRes.code);}, fail: function fail(err) {console.log(err);} });
     },
     getphone: function getphone(e) {var _this2 = this;
       console.log(e);
@@ -252,6 +261,10 @@ var _default = { data: function data() {return { userform: { username: '', passw
 
                 }, 500);
               }
+            } else if (res.code == 357) {
+              _this2.toast('该手机号已被注册，请使用手机号登录！', 'none');
+            } else {
+              _this2.toast(res.message, 'none');
             }
           } });
 
@@ -311,12 +324,13 @@ var _default = { data: function data() {return { userform: { username: '', passw
                 _this3.id = user.body.id;
                 var user_info = user.body;
                 _this3.user_info = user.body;
-                if (user.phone != undefined && user.phone != null && user.phone.length > 0) {
-                  uni.setStorageSync('user_info', user_info);
+                uni.setStorageSync('session_key', res.body.session_key);
+                uni.setStorageSync('user_info', user_info);
+                _vue.default.prototype.isLogin = true;
+                if (user.body.phone != undefined && user.body.phone != null && user.body.phone.length > 0) {
                   uni.showToast({
                     title: '登录成功' });
 
-                  _vue.default.prototype.isLogin = true;
                   if (_this3.is_thing) {
                     setTimeout(function () {
                       uni.navigateBack({
@@ -332,6 +346,7 @@ var _default = { data: function data() {return { userform: { username: '', passw
                   }
                 } else {
                   _this3.is_click_login = true;
+                  _this3.toast('请点击绑定手机授权登录');
                 }
               } else {
                 _this3.toast(user.message, 'none');
@@ -350,6 +365,14 @@ var _default = { data: function data() {return { userform: { username: '', passw
 
     },
     login: function login() {var _this4 = this;
+      if (this.userform.username == '') {
+        this.toast('用户名不能为空！', 'none');
+        return;
+      }
+      if (this.userform.password == '') {
+        this.toast('密码不能为空！', 'none');
+        return;
+      }
       var globalData = {
         appId: "1580387213331704",
         appKey: "Sd6qkHm9o4LaVluYRX5pUFyNuiu2a8oi",

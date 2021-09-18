@@ -96,7 +96,7 @@ var components
 try {
   components = {
     ysScroll: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 658))
+      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 660))
     }
   }
 } catch (e) {
@@ -179,6 +179,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var _default =
 {
   data: function data() {
@@ -232,6 +233,7 @@ var _default =
       this.getList();
     },
     getList: function getList() {var _this2 = this;
+      var nowTime = new Date().getTime();
       var params = {
         channelIds: 113, count: 10, first: this.page, format: 0, s_category_like: this.type ? this.type : '', orderBy: 4 };
 
@@ -240,6 +242,15 @@ var _default =
           console.log(111111);
           _this2.$refs.scroll.setLoadStatus('no_data');
         } else {
+          res.data.body.map(function (item) {
+            item.liveRecord.isLive = false;
+            if (item.liveRecord.type == 1 && item.liveRecord.startTime && item.liveRecord.endTime) {
+              if (nowTime > _this2.getTimeSec(item.liveRecord.startTime) && nowTime < _this2.getTimeSec(item.liveRecord.endTime)) {
+                item.liveRecord.isLive = true;
+              }
+            }
+          });
+          console.log(res.data.body);
           _this2.liveList = _this2.liveList.concat(res.data.body);
           if (res.data.body.length < 10) {
             _this2.$refs.scroll.setLoadStatus('no_more');
@@ -248,6 +259,10 @@ var _default =
           }
         }
       });
+    },
+    getTimeSec: function getTimeSec(val) {
+      var time = new Date(val).getTime();
+      return time;
     },
     toDetail: function toDetail(id) {
       uni.navigateTo({

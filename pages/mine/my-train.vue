@@ -17,6 +17,8 @@
 						<view class="data_list_info_text">报名时间:{{item.createTime}}</view>
 						<view class="data_list_info_text">上课时间:{{item.content.attr_startTime}}</view>
 						<view class="data_list_info_text">培训地址:{{item.content.attr_address}}</view>
+						<view class="data_list_info_text">总课时:{{item.content.attr_classHours}}</view>
+						<view class="data_list_info_text" v-if="item.content.liveTrainRecord.online==0">已上课时:{{item.count}}</view>
 					</view>
 				</view>
 			</view>

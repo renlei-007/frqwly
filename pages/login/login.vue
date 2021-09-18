@@ -11,8 +11,16 @@
 			<button class="log_btn wxphone_btn" open-type="getPhoneNumber" lang="zh_CN" @getphonenumber="getphone" v-if="is_click_login">绑定手机授权</button>
 		</view>
 		<view class="orthers">
-			<view class="wx_btn">微信快捷登录</view>
-			<button class="circle" hover-class="none" open-type="getUserInfo" lang="zh_CN" @getuserinfo="goBindTel"></button>
+			<!-- #ifdef MP-WEIXIN -->
+				<block v-if="!is_click_login">
+					<view class="wx_btn">微信快捷登录</view>
+					<button class="circle" hover-class="none" open-type="getUserInfo" lang="zh_CN" @getuserinfo="goBindTel">
+						<image class="circle_img" src="/static/share_wechat.png" mode=""></image>
+					</button>
+					<!-- <view class="circle_box">
+					</view> -->
+				</block>
+			<!-- #endif -->
 			<!-- <view class="circle" @tap="getPhoness"></view> -->
 			<view class="action">
 				<text @tap="toforget">找回密码</text>
@@ -36,6 +44,7 @@
 					password: '',
 					is_thing: false,
 				},
+				is_phone: false,
 				is_click_login: false,
 				session_key: '',
 				id: '',
@@ -104,22 +113,26 @@
 								this.user_info.phone = res.body.phoneNumber
 								uni.setStorageSync('user_info',this.copyData(this.user_info));
 								uni.showToast({
-								  title:'登录成功'
+									title:'登录成功'
 								});
 								Vue.prototype.isLogin = true
 								if(this.is_thing){
 									setTimeout(()=>{
-									  uni.navigateBack({
-										delta: 1
-									  })
+										uni.navigateBack({
+											delta: 1
+										})
 									},500)
 								}else{
 									setTimeout(()=>{
-									  uni.reLaunch({
-										url:'/pages/index/index'
-									  })
+										uni.reLaunch({
+											url:'/pages/index/index'
+										})
 									},500)
 								}
+							}else if(res.code==357){
+								this.toast('该手机号已被注册，请使用手机号登录！','none')
+							}else{
+								this.toast(res.message,'none')
 							}
 						}
 					})
@@ -179,12 +192,13 @@
 									this.id = user.body.id
 									let user_info = user.body
 									this.user_info = user.body
-									if(user.phone!=undefined&&user.phone!=null&&user.phone.length>0){
-										uni.setStorageSync('user_info',user_info);
+									uni.setStorageSync('session_key',res.body.session_key)
+									uni.setStorageSync('user_info',user_info);
+									Vue.prototype.isLogin = true
+									if(user.body.phone!=undefined&&user.body.phone!=null&&user.body.phone.length>0){
 										uni.showToast({
 										  title:'登录成功'
 										});
-										Vue.prototype.isLogin = true
 										if(this.is_thing){
 											setTimeout(()=>{
 											  uni.navigateBack({
@@ -200,6 +214,7 @@
 										}
 									}else{
 										this.is_click_login = true
+										this.toast('请点击绑定手机授权登录')
 									}
 								}else{
 									this.toast(user.message,'none')
@@ -218,6 +233,14 @@
 				
 			},
 			login(){
+				if(this.userform.username==''){
+					this.toast('用户名不能为空！','none')
+					return
+				}
+				if(this.userform.password==''){
+					this.toast('密码不能为空！','none')
+					return
+				}
 				let globalData = {
 					appId:"1580387213331704",
 					appKey:"Sd6qkHm9o4LaVluYRX5pUFyNuiu2a8oi",
@@ -366,9 +389,13 @@
 		.circle{
 			width: 100rpx;
 			height: 100rpx;
-			border: 2rpx solid #707070;
 			border-radius: 50%;
 			margin: 20rpx auto 0;
+			padding: 0;
+		}
+		.circle_img{
+			width: 100%;
+			height: 100%;
 		}
 		.action{
 			width: 100%;

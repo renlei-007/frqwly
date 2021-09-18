@@ -96,7 +96,7 @@ var components
 try {
   components = {
     ysScroll: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 658))
+      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 660))
     }
   }
 } catch (e) {
@@ -190,11 +190,11 @@ var _default =
   data: function data() {
     return {
       cutList: [{
-        id: '198',
-        name: '剧场' },
-      {
         id: '179',
         name: '文化馆' },
+      {
+        id: '198',
+        name: '芙蓉剧场' },
       {
         id: '180',
         name: '图书馆' },
@@ -229,7 +229,7 @@ var _default =
     if (e.title) {
       switch (e.title) {
         case '文化馆':
-          this.cutIndex = 1;
+          this.cutIndex = 0;
           break;
         case '图书馆':
           this.cutIndex = 2;

@@ -9,7 +9,7 @@
 				</view>
 			</ys-scroll>
 		</view>
-		<view class="cate_box" v-if="Index!=3" :style="'height:'+(Index==4?'calc(100% - 98rpx)':'100%')">
+		<view class="cate_box" v-if="Index!=3&&Index!=5" :style="'height:'+(Index==4?'calc(100% - 98rpx)':'100%')">
 			<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
 				<view class="scenic_box" v-if="Index==1" style="justify-content: space-between;box-sizing: border-box;padding: 0 30rpx;">
 					<view class="scenic_point" v-for="(item,index) in scenicList" :key="index">
@@ -25,6 +25,50 @@
 					</view>
 				</view>
 				<view style="display: flex;width: 100%;box-sizing: border-box;padding: 0 30rpx;justify-content: space-between;" v-else>
+					<view class="scenic_boxs">
+						<view class="scenic_point" v-for="(item,index) in scenicLeftList" :key="index">
+							<!-- <rich-text class="scenic_point_img" style="height: auto;" :nodes="item.imgString"></rich-text> -->
+							<view style="position: relative;">
+								<image class="scenic_point_img" v-if="item.titleImg" :src="item.titleImg" mode="widthFix" @load="onImageLoad" @tap="todetail(item,1)"></image>
+								<image class="scenic_point_img" v-else src="/static/default.png" mode="widthFix" @load="onImageLoad" @tap="todetail(item,1)"></image>
+								<view class="stars" v-if="item.attr_start>0">
+									<view v-for="(item,index) in item.starList" :key="index">★</view>
+								</view>
+							</view>
+							<view class="scenic_point_info">
+								<view class="scenic_point_info_name">{{item.stitle}}</view>
+								<view class="scenic_point_info_position">
+									<image src="/static/position.png" class="scenic_point_info_position_icon" mode=""></image>
+									<view class="scenic_point_info_position_txt">{{item.attr_address}}</view>
+								</view>
+							</view>
+						</view>
+					</view>
+					<view class="scenic_boxs">
+						<view class="scenic_point" v-for="(item,index) in scenicRightList" :key="index">
+							<!-- <rich-text class="scenic_point_img" style="height: auto;" :nodes="item.imgString"></rich-text> -->
+							<view style="position: relative;">
+								<image class="scenic_point_img" v-if="item.titleImg" :src="item.titleImg" mode="widthFix" @load="onImageLoad" @tap="todetail(item,1)"></image>
+								<image class="scenic_point_img" v-else src="/static/default.png" mode="widthFix" @load="onImageLoad" @tap="todetail(item,1)"></image>
+								<view class="stars" v-if="item.attr_start>0">
+									<view v-for="(item,index) in item.starList" :key="index">★</view>
+								</view>
+							</view>
+							<view class="scenic_point_info">
+								<view class="scenic_point_info_name">{{item.stitle}}</view>
+								<view class="scenic_point_info_position">
+									<image src="/static/position.png" class="scenic_point_info_position_icon" mode=""></image>
+									<view class="scenic_point_info_position_txt">{{item.attr_address}}</view>
+								</view>
+							</view>
+						</view>
+					</view>
+				</view>
+			</ys-scroll>			
+		</view>
+		<view class="cate_box" v-if="Index==5" style="height:100%">
+			<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
+				<view style="display: flex;width: 100%;box-sizing: border-box;padding: 0 30rpx;justify-content: space-between;">
 					<view class="scenic_boxs">
 						<view class="scenic_point" v-for="(item,index) in scenicLeftList" :key="index">
 							<!-- <rich-text class="scenic_point_img" style="height: auto;" :nodes="item.imgString"></rich-text> -->
@@ -159,7 +203,8 @@
 				lineList3: [],
 				lineList4: [],
 				
-				starsList: []
+				starsList: [],
+				orderBy: 9,
 			};
 		},
 		onLoad(e) {
@@ -179,6 +224,10 @@
 				title = '精品路线'
 			}else if(this.Index==4){
 				title = '旅游服务'
+				this.orderBy = 25
+			}else if(this.Index==5){
+				title = '综合'
+				this.channelIds = '200,201,204,205,206'
 			}
 			uni.setNavigationBarTitle({
 				title: title
@@ -249,7 +298,7 @@
 			},
 			getList(){
 				let params={
-					channelIds: this.channelIds, first: this.page, count: 10, format:0, orderBy: 9,
+					channelIds: this.channelIds, first: this.page, count: 10, format:0, orderBy: this.orderBy,
 				}
 				//星级的orderBy传25,线路orderby传5
 				this.indexRequest({url:'/content/list.jspx',data:params}).then(res=>{
@@ -268,7 +317,6 @@
 						this.scenicList = this.scenicList.concat(res.data.body)
 						// this.scenicLeftList.push(res.data.body[0])
 						if(this.Index!=1&&res.data.body.length>0){
-							console.log('000000000000000');
 							if(this.scenicLeftListHeight > this.scenicRightListHeight){
 								this.scenicRightList.push(res.data.body[0]);
 							}else{
@@ -310,9 +358,12 @@
 				let oImgH = e.detail.height+112; //图片原始高度
 				let rImgH = divWidth*oImgH/oImgW; //根据宽高比计算当前载入的图片的高度
 				if(this.scenicListCount==0){
-					this.scenicLeftListHeight += rImgH;	//第一张图片高度加到goodsLeftListHeight 
-					this.scenicListCount++;	//图片索引加1
-					this.scenicRightList.push(this.scenicList[this.scenicListCount]);	//添加第二张图片到goodsRightList数组，因为第一张已经初始化到左侧列表中
+					setTimeout(()=>{
+						this.scenicLeftListHeight += rImgH;	//第一张图片高度加到goodsLeftListHeight 
+						this.scenicListCount++;	//图片索引加1
+						this.scenicRightList.push(this.scenicList[this.scenicListCount]);	//添加第二张图片到goodsRightList数组，因为第一张已经初始化到左侧列表中
+						console.log(this.scenicList,this.scenicListCount,this.scenicRightList);
+					},300)
 				}else{
 					this.scenicListCount++;	//图片索引加1
 					if(this.scenicLeftListHeight > this.scenicRightListHeight){		//把图片的高度加到目前高度更低的栏中

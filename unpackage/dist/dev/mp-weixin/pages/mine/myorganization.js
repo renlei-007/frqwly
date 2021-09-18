@@ -96,7 +96,7 @@ var components
 try {
   components = {
     ysScroll: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 658))
+      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 660))
     }
   }
 } catch (e) {
@@ -261,7 +261,7 @@ var _default =
           url: './creat-organization' });
 
       } else {
-        this.tosat('您还没有实名认证，请先进行实名认证！');
+        this.toast('您还没有实名认证，请先进行实名认证！');
       }
     },
     getList: function getList() {var _this2 = this;
@@ -273,8 +273,18 @@ var _default =
         console.log(res);
         if (_this2.cutIndex == 0) {
           _this2.orgList = res.body;
+          if (_this2.orgList.length == 0) {
+            console.log(1111111111);
+            _this2.$refs.scroll.setLoadStatus('no_data');
+          }
         } else {
           _this2.teamList = res.body;
+          if (_this2.teamList.length == 0) {
+            console.log(1111111111);
+            _this2.$refs.scroll.setLoadStatus('no_data');
+          } else {
+            _this2.$refs.scroll.setLoadStatus('no_more');
+          }
         }
       });
     },

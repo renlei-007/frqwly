@@ -96,10 +96,10 @@ var components
 try {
   components = {
     ysBottom: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-bottom */ "components/base/ys-bottom").then(__webpack_require__.bind(null, /*! @/components/base/ys-bottom.vue */ 687))
+      return __webpack_require__.e(/*! import() | components/base/ys-bottom */ "components/base/ys-bottom").then(__webpack_require__.bind(null, /*! @/components/base/ys-bottom.vue */ 689))
     },
     ysComment: function() {
-      return Promise.all(/*! import() | components/base/ys-comment */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/base/ys-comment")]).then(__webpack_require__.bind(null, /*! @/components/base/ys-comment.vue */ 672))
+      return Promise.all(/*! import() | components/base/ys-comment */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/base/ys-comment")]).then(__webpack_require__.bind(null, /*! @/components/base/ys-comment.vue */ 674))
     }
   }
 } catch (e) {
@@ -198,20 +198,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var _default =
 {
   data: function data() {
@@ -231,6 +217,9 @@ var _default =
     this.getNonlegacyList();
 
     this.getCommentList();
+    if (this.isLogin) {
+      this.homeRequest({ url: '/view', method: 'GET', data: {} });
+    }
   },
   methods: {
     /**

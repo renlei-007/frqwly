@@ -44,7 +44,7 @@
 				},
 				type: '',
 				page: 0,
-				orderBy: 4,
+				orderBy: 1,
 			};
 		},
 		onLoad() {
@@ -80,7 +80,7 @@
 				}
 				if(index==0){
 					this.type = ''
-					this.orderBy = 4
+					this.orderBy = 1
 				}
 				this.page = 0;
 				this.artList = [];

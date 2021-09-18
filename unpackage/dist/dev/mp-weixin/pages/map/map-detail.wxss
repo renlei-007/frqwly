@@ -33,7 +33,7 @@ page {
 }
 .map_content {
   width: 690rpx;
-  margin: 0 auto;
+  margin: 30rpx auto 0;
   border: 1px solid #ddd;
 }
 .map_content_img {

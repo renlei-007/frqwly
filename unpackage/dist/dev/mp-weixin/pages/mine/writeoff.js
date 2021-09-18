@@ -97,17 +97,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var m0 = _vm.type == 4 ? _vm.formatTime(_vm.record) : null
-  var m1 = _vm.type == 4 ? _vm.formatTime(_vm.record) : null
-  _vm.$mp.data = Object.assign(
-    {},
-    {
-      $root: {
-        m0: m0,
-        m1: m1
-      }
-    }
-  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -223,10 +212,10 @@ var _default =
       } else if (this.type == 2) {//场馆核销
         params.recordId = this.value;
         url = '/bookings/detail';
-      } else if (this.type == 3) {//培训核销
+      } else if (this.type == 5) {//培训核销
         params.recordId = this.value;
         url = '/train/detail';
-      } else if (this.type == 4) {//自愿活动核销
+      } else if (this.type == 6) {//自愿活动核销
         params.recordId = this.value;
         url = '/volunteer/detail';
       }
@@ -255,10 +244,10 @@ var _default =
       } else if (this.type == 2) {//场馆核销
         params.recordId = this.value;
         url = '/booking_record/writeoff';
-      } else if (this.type == 3) {//培训核销
+      } else if (this.type == 5) {//培训核销
         params.ids = this.value;
         url = '/train_record/writeoff';
-      } else if (this.type == 4) {//自愿活动核销
+      } else if (this.type == 6) {//自愿活动核销
         params.recordId = this.value;
         url = '/volunteer/writeoff';
       }
@@ -270,9 +259,9 @@ var _default =
           _this2.toast('核销成功！');
           setTimeout(function () {
             uni.navigateBack({
-              delta: 1 },
-            1500);
-          });
+              delta: 1 });
+
+          }, 1500);
         } else {
           _this2.toast(res.message, 'none');
         }

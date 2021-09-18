@@ -58,6 +58,7 @@
 
 <script>
 import slFilter from '@/components/sl-filter/sl-filter.vue';
+import {Throttle} from '@/common/tool.js'
 export default {
 	components: {
 		slFilter
@@ -121,15 +122,19 @@ export default {
 			],
 			type: '',
 			sort: '',
-			lat: '',
-			lng: '',
+			lat: 28.141998,
+			lng: 113.044478,
 			mapTitle: '',
 			countPage: 0,
+			position: {
+				latitude : 28.141998,
+				longitude : 113.044478,
+			},
 		};
 	},
 	onLoad() {
 		this.getCateList()
-		
+		this.getLocation()
 	},
 	onShow() {
 		if(uni.getStorageSync('mapTitle')){
@@ -137,15 +142,16 @@ export default {
 			console.log(this.mapTitle);
 			uni.removeStorageSync('mapTitle')
 			this.type = this.mapTitle
-			this.$refs.slFilter.titleList = [{
-				title: this.type,
-				key: 'type'
-			},{
-				title: '方式',
-				key: 'sort'
-			},]
+			this.$nextTick(()=>{
+				this.$refs.slFilter.titleList = [{
+					title: this.type,
+					key: 'type'
+				},{
+					title: '方式',
+					key: 'sort'
+				},]
+			})
 		}
-		this.getCatePointList()
 	},
 	methods: {
 		/**
@@ -167,6 +173,9 @@ export default {
 		},
 		result(val) {
 			console.log(val);
+			uni.showLoading({
+				mask: true
+			})
 			this.cateList.map((item,index)=>{
 				if(item.title==val.type){
 					this.cate_index = index
@@ -181,18 +190,30 @@ export default {
 			this.pages = 0
 			this.loadMorePoints()
 		},
-		changeCate(index){
+		changeCate:Throttle(function(index){
 			this.cate_index = index
 			this.pointList = [];
 			this.type = this.cateList[index].title
+			let typeName = this.type
 			this.countPage = 0
 			console.log(this.type);
 			if(index==0){
 				this.type = ''
+				typeName = '全部'
 			}
+			this.$refs.slFilter.titleList = [{
+				title: typeName,
+				key: 'type'
+			},{
+				title: '方式',
+				key: 'sort'
+			},]
 			this.pages = 0;
+			uni.showLoading({
+				mask: true
+			})
 			this.getCatePointList();
-		},
+		}),
 		getCateList(){
 			let params = {
 				channelId : 147,
@@ -236,27 +257,27 @@ export default {
 				params['type'] = this.type
 			}
 			params['orderBy'] = this.sort
-			let position = this.getLocation()
-			position.then(res=>{
+			// let position = this.getLocation()
+			
+			params['lat'] = this.lat;
+			params['lng'] = this.lng;
+			this.indexRequest({url:'/query/position',data:params}).then(res=>{
 				console.log(res);
-				this.lat = res.latitude;
-				this.lng = res.longitude;
-				params['lat'] = this.lat;
-				params['lng'] = this.lng;
-				this.indexRequest({url:'/query/position',data:params}).then(res=>{
-					console.log(res);
-					if(res.data.body.data.length == 0 && this.pointList.length == 0){
-						this.$refs.scroll.setLoadStatus('no_data');
+				uni.hideLoading()
+				if(res.data.body.data.length == 0 && this.pointList.length == 0){
+					this.$refs.scroll.setLoadStatus('no_data');
+				}else{
+					this.pointList = this.pointList.concat(res.data.body.data)
+					if(res.data.body.data.length<25){
+						this.$refs.scroll.setLoadStatus('no_more');
 					}else{
-						this.pointList = this.pointList.concat(res.data.body.data)
-						if(res.data.body.data.length<25){
-							this.$refs.scroll.setLoadStatus('no_more');
-						}else{
-							this.$refs.scroll.setLoadStatus('more');
-						}
+						this.$refs.scroll.setLoadStatus('more');
 					}
-				})
+				}
 			})
+			// position.then(res=>{
+			// 	console.log(res);
+			// })
 		},
 		calDistance(item){
 			if(item && item.position && this.lat){
@@ -276,24 +297,21 @@ export default {
 			return s.toFixed(2);
 		},
 		getLocation(){
-			return new Promise((resolve, reject)=>{
-				uni.getLocation({
-					type: 'gcj02',
-					success: (res)=>{
-						console.log(res);
-						resolve(res);
-					},
-					fail:(res)=>{
-						console.log(res);
-						this.toast('获取地址失败','none')
-						//没有获取到位置，使用默认地址
-						resolve({
-							latitude : 28.141998,
-							longitude : 113.044478,
-						});
-					}
-				})
-			});
+			uni.getLocation({
+				type: 'gcj02',
+				success: (res)=>{
+					console.log(res);
+					this.lat = res.latitude
+					this.lng = res.longitude
+					this.getCatePointList();
+				},
+				fail:(res)=>{
+					console.log(res);
+					this.toast('获取地址失败','none')
+					this.getCatePointList();
+					return false
+				}
+			})
 		},
 		todetail(item){
 			uni.setStorageSync('maps',item)

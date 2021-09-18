@@ -96,10 +96,10 @@ var components
 try {
   components = {
     ysScroll: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 658))
+      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 660))
     },
     ysSwipeAction: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-swipe-action */ "components/base/ys-swipe-action").then(__webpack_require__.bind(null, /*! @/components/base/ys-swipe-action.vue */ 694))
+      return __webpack_require__.e(/*! import() | components/base/ys-swipe-action */ "components/base/ys-swipe-action").then(__webpack_require__.bind(null, /*! @/components/base/ys-swipe-action.vue */ 696))
     }
   }
 } catch (e) {

@@ -96,7 +96,7 @@ var components
 try {
   components = {
     ysScroll: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 658))
+      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 660))
     }
   }
 } catch (e) {
@@ -197,6 +197,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -210,11 +215,20 @@ var _default =
 
       type: '',
       page: 0,
-      teersList: [] };
+      teersList: [],
+      isJoin: false,
+      is_login: false,
+      checkCode: 0 };
 
   },
   onLoad: function onLoad() {
     this.getList();
+  },
+  onShow: function onShow() {
+    this.is_login = this.isLogin;
+    if (this.isLogin) {
+      this.getStatus();
+    }
   },
   methods: {
     /**
@@ -237,19 +251,47 @@ var _default =
       this.page += 10;
       this.getList();
     },
-    getList: function getList() {var _this2 = this;
+    getStatus: function getStatus() {var _this2 = this;
+      this.homeRequest({ url: '/volunteerInfo/check', method: 'GET', data: {} }).then(function (res) {
+        console.log(res);
+        _this2.checkCode = res.code;
+      });
+    },
+    toJoin: function toJoin() {
+      if (this.isLogin) {
+        uni.navigateTo({
+          url: '/pages/cate/volunteers-booking' });
+
+      } else {
+        uni.showModal({
+          title: "提示",
+          content: "您还未登录，确定先登录吗？",
+          showCancel: true,
+          confirmText: "确定",
+          success: function success(res) {
+            if (res.confirm) {
+              uni.navigateTo({
+                url: '/pages/login/login?is_thing=' + true });
+
+            } else if (res.cancel) {
+            }
+          } });
+
+      }
+    },
+    getList: function getList() {var _this3 = this;
       var params = {
         channelIds: 127, count: 10, first: this.page, format: 0 };
 
       this.indexRequest({ url: '/content/list.jspx', data: params }).then(function (res) {
-        if (res.data.body.length == 0 && _this2.teersList.length == 0) {
-          _this2.$refs.scroll.setLoadStatus('no_data');
+        if (res.data.body.length == 0 && _this3.teersList.length == 0) {
+          _this3.$refs.scroll.setLoadStatus('no_data');
         } else {
-          _this2.teersList = _this2.teersList.concat(res.data.body);
+          _this3.teersList = _this3.teersList.concat(res.data.body);
           if (res.data.body.length < 10) {
-            _this2.$refs.scroll.setLoadStatus('no_more');
+            _this3.$refs.scroll.setLoadStatus('no_more');
           } else {
-            _this2.$refs.scroll.setLoadStatus('more');
+            _this3.$refs.scroll.setLoadStatus('more');
           }
         }
       });

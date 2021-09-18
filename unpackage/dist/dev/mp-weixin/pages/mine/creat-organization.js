@@ -96,7 +96,7 @@ var components
 try {
   components = {
     ysPicker: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-picker */ "components/base/ys-picker").then(__webpack_require__.bind(null, /*! @/components/base/ys-picker.vue */ 665))
+      return __webpack_require__.e(/*! import() | components/base/ys-picker */ "components/base/ys-picker").then(__webpack_require__.bind(null, /*! @/components/base/ys-picker.vue */ 667))
     }
   }
 } catch (e) {
@@ -215,12 +215,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
     return {
       pickTitle: '',
       teamImg: '',
+      registerImg: '',
       isCheck: false,
       team: {
         name: '',
@@ -233,7 +241,7 @@ var _default =
 
       remark: '',
       Index: 0,
-      typeList: ['舞蹈', '音乐', '戏剧', '，曲艺', '美术', '摄影', '文学', '其它'] };
+      typeList: ['舞蹈', '音乐', '戏剧', '曲艺', '美术', '摄影', '文学', '其它'] };
 
 
   },
@@ -279,9 +287,28 @@ var _default =
         } });
 
     },
+    uploadImg: function uploadImg() {
+      var _this = this;
+      uni.chooseImage({
+        count: 1, //默认9
+        sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+        sourceType: ['album'], //从相册选择
+        success: function success(res) {
+          var url = res.tempFilePaths[0];
+          _this.upload(url).then(function (r) {
+            console.log(r);
+            _this.registerImg = r.body.uploadPath;
+          });
+        } });
+
+    },
     submit: function submit() {var _this2 = this;
       if (!this.teamImg) {
         this.toast('请选择封面图片', 'none');
+        return;
+      }
+      if (!this.registerImg) {
+        this.toast('请选择法人登记证书', 'none');
         return;
       }
       if (!this.team.name || !this.team.groupType || !this.team.address || !this.team.founded || !this.team.toplimit || !this.team.dateLimit) {
@@ -300,7 +327,8 @@ var _default =
           founded: this.team.founded,
           dateLimit: this.team.dateLimit,
           address: this.team.address,
-          legal: this.isCheck ? '是' : '否' } }).
+          legal: this.isCheck ? '是' : '否',
+          registerImg: this.registerImg } }).
 
       then(function (res) {
         if (res.code == 200) {

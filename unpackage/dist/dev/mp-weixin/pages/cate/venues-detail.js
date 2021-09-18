@@ -96,10 +96,10 @@ var components
 try {
   components = {
     ysComment: function() {
-      return Promise.all(/*! import() | components/base/ys-comment */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/base/ys-comment")]).then(__webpack_require__.bind(null, /*! @/components/base/ys-comment.vue */ 672))
+      return Promise.all(/*! import() | components/base/ys-comment */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/base/ys-comment")]).then(__webpack_require__.bind(null, /*! @/components/base/ys-comment.vue */ 674))
     },
     ysShare: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-share */ "components/base/ys-share").then(__webpack_require__.bind(null, /*! @/components/base/ys-share.vue */ 680))
+      return __webpack_require__.e(/*! import() | components/base/ys-share */ "components/base/ys-share").then(__webpack_require__.bind(null, /*! @/components/base/ys-share.vue */ 682))
     }
   }
 } catch (e) {
@@ -259,6 +259,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var _default =
 {
   data: function data() {
@@ -273,6 +274,8 @@ var _default =
 
 
       venuesList: [],
+
+      canBooking: true,
 
       comment_show: false,
       commentList: [],
@@ -314,7 +317,7 @@ var _default =
       this.isFabulous = true;
     }
     if (this.isLogin) {
-
+      this.homeRequest({ url: '/view', method: 'GET', data: {} });
       this.homeRequest({
         url: '/content/collectExit',
         method: 'GET',
@@ -386,6 +389,13 @@ var _default =
         var content = res.data.body;
         content.txt = _this3.replaceSpecialChar(content.txt);
         _this3.content = content;
+        if (_this3.channelId == 198) {
+          var time = new Date().getTime();
+          var _time = new Date(content.seatSetting.registrationTime[1]).getTime();
+          if (time > _time) {
+            _this3.canBooking = false;
+          }
+        }
         uni.setNavigationBarTitle({
           title: content.title });
 

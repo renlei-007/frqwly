@@ -97,6 +97,14 @@
 					if(res.data.body.length==0&&this.trainList.length == 0){
 						this.$refs.scroll.setLoadStatus('no_data');
 					}else{
+						res.data.body.map(item=>{
+							item.liveRecord.isLive = false
+							if(item.liveRecord.type==1&&item.liveRecord.startTime&&item.liveRecord.endTime){
+								if(nowTime>this.getTimeSec(item.liveRecord.startTime)&&nowTime<this.getTimeSec(item.liveRecord.endTime)){
+									item.liveRecord.isLive = true
+								}
+							}
+						})
 						this.trainList = this.trainList.concat(res.data.body)
 						if(res.data.body.length<10){
 						  this.$refs.scroll.setLoadStatus('no_more');
@@ -105,6 +113,10 @@
 						}
 					}
 				})
+			},
+			getTimeSec(val){
+				let time = new Date(val).getTime()
+				return time
 			},
 			getCateList(){
 				let params = {
@@ -147,6 +159,7 @@
 			margin-top: 30rpx;
 			display: flex;
 			flex-direction: column;
+			position: relative;
 			&_img{
 				width: 100%;
 				height: 196rpx;
@@ -156,7 +169,7 @@
 			&_box{
 				width: 100%;
 				box-sizing: border-box;
-				padding: 20rpx 30rpx 20rpx 15rpx;
+				padding: 10rpx 30rpx 20rpx 15rpx;
 				&_name{
 					font-size: 28rpx;
 					line-height: 40rpx;
@@ -184,5 +197,18 @@
 			}
 		}
 	}
+}
+.is_live{
+	box-sizing: border-box;
+	padding: 0 20rpx;
+	height: 44rpx;
+	font-size: 22rpx;
+	line-height: 44rpx;
+	color: #fff;
+	background: #FF3616;
+	border-radius: 24px 0px 0px 24px;
+	position: absolute;
+	top: 30rpx;
+	right: 0;
 }
 </style>

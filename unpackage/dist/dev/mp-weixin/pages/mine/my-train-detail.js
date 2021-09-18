@@ -98,7 +98,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var m0 =
-    _vm.record.status != 1 && _vm.record.status != 3 ? _vm.qrcodeCotent() : null
+    _vm.record.status == 1 || _vm.record.status == 3 ? _vm.qrcodeCotent() : null
   _vm.$mp.data = Object.assign(
     {},
     {
@@ -175,7 +175,8 @@ var _default =
         content: {} },
 
       verifyImg: '/static/verify_img.png',
-      id: '' };
+      id: '',
+      globalUrl: 'https://furong.culturalcloud.net/' };
 
   },
   onLoad: function onLoad(e) {
@@ -185,7 +186,7 @@ var _default =
   methods: {
     qrcodeCotent: function qrcodeCotent() {
       var params = {
-        type: 3,
+        type: 5,
         value: this.id };
 
       return encodeURIComponent(JSON.stringify(params));
@@ -247,6 +248,7 @@ var _default =
         console.log(res);
         if (res.code == 200) {
           _this3.record = res.body;
+          console.log(res.body.status);
           _this3.indexRequest({ url: '/content/get.jspx', data: {
               format: 0,
               id: _this3.record.content.id } }).

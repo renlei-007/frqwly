@@ -96,7 +96,7 @@ var components
 try {
   components = {
     ysScroll: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 658))
+      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 660))
     }
   }
 } catch (e) {
@@ -334,6 +334,50 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _line = _interopRequireDefault(__webpack_require__(/*! ../../common/line.js */ 174));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
 {
   data: function data() {
@@ -381,7 +425,8 @@ var _line = _interopRequireDefault(__webpack_require__(/*! ../../common/line.js 
       lineList3: [],
       lineList4: [],
 
-      starsList: [] };
+      starsList: [],
+      orderBy: 9 };
 
   },
   onLoad: function onLoad(e) {
@@ -401,6 +446,10 @@ var _line = _interopRequireDefault(__webpack_require__(/*! ../../common/line.js 
       title = '精品路线';
     } else if (this.Index == 4) {
       title = '旅游服务';
+      this.orderBy = 25;
+    } else if (this.Index == 5) {
+      title = '综合';
+      this.channelIds = '200,201,204,205,206';
     }
     uni.setNavigationBarTitle({
       title: title });
@@ -471,7 +520,7 @@ var _line = _interopRequireDefault(__webpack_require__(/*! ../../common/line.js 
     },
     getList: function getList() {var _this2 = this;
       var params = {
-        channelIds: this.channelIds, first: this.page, count: 10, format: 0, orderBy: 9 };
+        channelIds: this.channelIds, first: this.page, count: 10, format: 0, orderBy: this.orderBy };
 
       //星级的orderBy传25,线路orderby传5
       this.indexRequest({ url: '/content/list.jspx', data: params }).then(function (res) {
@@ -490,7 +539,6 @@ var _line = _interopRequireDefault(__webpack_require__(/*! ../../common/line.js 
           _this2.scenicList = _this2.scenicList.concat(res.data.body);
           // this.scenicLeftList.push(res.data.body[0])
           if (_this2.Index != 1 && res.data.body.length > 0) {
-            console.log('000000000000000');
             if (_this2.scenicLeftListHeight > _this2.scenicRightListHeight) {
               _this2.scenicRightList.push(res.data.body[0]);
             } else {
@@ -532,9 +580,12 @@ var _line = _interopRequireDefault(__webpack_require__(/*! ../../common/line.js 
                 oImgH = e.detail.height + 112; //图片原始高度
                 rImgH = divWidth * oImgH / oImgW; //根据宽高比计算当前载入的图片的高度
                 if (_this4.scenicListCount == 0) {
-                  _this4.scenicLeftListHeight += rImgH; //第一张图片高度加到goodsLeftListHeight 
-                  _this4.scenicListCount++; //图片索引加1
-                  _this4.scenicRightList.push(_this4.scenicList[_this4.scenicListCount]); //添加第二张图片到goodsRightList数组，因为第一张已经初始化到左侧列表中
+                  setTimeout(function () {
+                    _this4.scenicLeftListHeight += rImgH; //第一张图片高度加到goodsLeftListHeight 
+                    _this4.scenicListCount++; //图片索引加1
+                    _this4.scenicRightList.push(_this4.scenicList[_this4.scenicListCount]); //添加第二张图片到goodsRightList数组，因为第一张已经初始化到左侧列表中
+                    console.log(_this4.scenicList, _this4.scenicListCount, _this4.scenicRightList);
+                  }, 300);
                 } else {
                   _this4.scenicListCount++; //图片索引加1
                   if (_this4.scenicLeftListHeight > _this4.scenicRightListHeight) {//把图片的高度加到目前高度更低的栏中

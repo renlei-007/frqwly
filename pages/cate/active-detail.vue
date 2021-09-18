@@ -159,6 +159,14 @@
 		},
 		onLoad(e) {
 			this.id = e.id
+			if(e.scene){
+				console.log(e.scene);
+				let params = decodeURIComponent(e.scene).split('&');
+				console.log(params);
+				if(params.length == 1){
+					this.id = params[0];
+				}
+			}
 			this.getDetail()
 			this.getActiveList()
 			this.getCommentList()
@@ -168,7 +176,7 @@
 			}
 			if(this.isLogin){
 				this.getTicketStatus()
-				
+				this.homeRequest({url:'/view',method:'GET',data:{}})
 				this.homeRequest({
 					url: '/content/collectExit',
 					method: 'GET',

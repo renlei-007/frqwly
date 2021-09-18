@@ -1,11 +1,11 @@
 <template>
 	<view class="volunteers-booking content">
-		<view class="signin">
+		<!-- <view class="signin">
 			<image class="detail_img" :src="content.titleImg" mode=""></image>
 			<view class="detail">
 				<rich-text :nodes="content.title"></rich-text>
 			</view>
-		</view>
+		</view> -->
 		<view class="input_box">
 			<view class="input_box_tit">填写志愿信息</view>
 			<view class="input_box_item">
@@ -107,8 +107,8 @@
 			};
 		},
 		onLoad(e) {
-			this.id = e.id
-			this.getDetail()
+			// this.id = e.id
+			// this.getDetail()
 		},
 		methods: {
 			getDetail(){
@@ -122,7 +122,7 @@
 				})
 			},
 			selected(val){//调起选择器组件
-				this.$refs.ysPicker.showModal('time', 'y-M-d')
+				this.$refs.ysPicker.showModal('time', 'b-y-M-d')
 			},
 			callPicker(res) {
 				console.log(res);
@@ -130,8 +130,24 @@
 			},
 			submit(){
 				let params = this.form
-				params.contentId = this.id
 				params.birthday = this.birthday
+				this.homeRequest({
+					url: '/volunteerInfo/add',
+					method: 'GET',
+					data: params,
+				}).then(res=>{
+					if(res.code == 200){
+						this.toast('申请成功,管理员审核通过后即可报名志愿者活动！')
+						setTimeout(()=>{
+							uni.navigateBack({
+								delta: 1
+							})
+						},1000)
+					}else{
+						this.toast(res.message,'none')
+					}
+				})
+				return
 				this.homeRequest({
 					url: '/volunteer/add',
 					method: 'GET',

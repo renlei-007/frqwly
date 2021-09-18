@@ -96,10 +96,10 @@ var components
 try {
   components = {
     ysComment: function() {
-      return Promise.all(/*! import() | components/base/ys-comment */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/base/ys-comment")]).then(__webpack_require__.bind(null, /*! @/components/base/ys-comment.vue */ 672))
+      return Promise.all(/*! import() | components/base/ys-comment */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/base/ys-comment")]).then(__webpack_require__.bind(null, /*! @/components/base/ys-comment.vue */ 674))
     },
     ysShare: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-share */ "components/base/ys-share").then(__webpack_require__.bind(null, /*! @/components/base/ys-share.vue */ 680))
+      return __webpack_require__.e(/*! import() | components/base/ys-share */ "components/base/ys-share").then(__webpack_require__.bind(null, /*! @/components/base/ys-share.vue */ 682))
     }
   }
 } catch (e) {
@@ -266,6 +266,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -276,7 +291,13 @@ var _default =
         registrationEnd: '',
         attr_startTime: '',
         attr_endTime: '',
-        quota: null },
+        quota: null,
+        liveTrainRecord: {
+          online: 0, //是否线上
+          type: 0, //是否直播  1为直播 2为录播
+          recordUrl: '',
+          pullUrl: '' } },
+
 
       trainList: [],
       status: 0,
@@ -324,7 +345,7 @@ var _default =
     if (this.isLogin) {
       console.log(111111111);
       // this.getTicketStatus()
-
+      this.homeRequest({ url: '/view', method: 'GET', data: {} });
       this.homeRequest({
         url: '/content/collectExit',
         method: 'GET',
@@ -511,6 +532,15 @@ var _default =
       var time = t.replace(/-/g, "/");
       //uni.showToast({ title: time, duration: 2000 }); 
       return new Date(time);
+    },
+    openMap: function openMap(item) {
+      var pos = this.bMapToQQMap(item.position.lng, item.position.lat);
+      uni.openLocation({
+        latitude: pos.lat,
+        longitude: pos.lng,
+        name: item.title,
+        address: item.attr_address });
+
     },
     btnFabulous: function btnFabulous() {var _this8 = this;
       if (this.isFabulous) {

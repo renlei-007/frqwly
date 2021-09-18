@@ -1,9 +1,9 @@
 <template>
 	<view class="active-signin-result content">
 		<image class="sign_icon" src="/static/sign-success.png" mode=""></image>
-		<view class="sign_result">{{status==0?'预约成功(请到我的活动页面等待审核结果)':status==1?'预约成功':'预约失败'}}</view>
+		<view class="sign_result">预约成功</view>
 		<view class="sign_tips">入场时请携带【身份证】</view>
-		<view class="sub" v-if="status==1" @tap="submit">{{status==0?'到我的活动页面':status==1?'点击查看':'返回'}}</view>
+		<view class="sub" @tap="submit">到我的活动页面</view>
 	</view>
 </template>
 
@@ -17,7 +17,7 @@
 		},
 		onLoad(e) {
 			this.id = e.id
-			this.getStatus()
+			// this.getStatus()
 		},
 		methods: {
 			getStatus(){
@@ -31,19 +31,22 @@
 				})
 			},
 			submit(){
-				if(this.status==0){
-					uni.navigateTo({
-						url: '/pages/mine/myactive'
-					})
-				}else if(this.status==1){
-					uni.navigateTo({
-						url: './active-code?id='+this.id
-					})
-				}else{
-					uni.navigateBack({
-						delta: 1
-					})
-				}
+				uni.navigateTo({
+					url: '/pages/mine/myactive'
+				})
+				// if(this.status==0){
+				// 	uni.navigateTo({
+				// 		url: '/pages/mine/myactive'
+				// 	})
+				// }else if(this.status==1){
+				// 	uni.navigateTo({
+				// 		url: './active-code?id='+this.id
+				// 	})
+				// }else{
+				// 	uni.navigateBack({
+				// 		delta: 1
+				// 	})
+				// }
 			},
 		},
 	}

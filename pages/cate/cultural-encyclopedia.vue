@@ -130,8 +130,10 @@
 			},
 			tosearch(){
 				if(!this.title){
+					this.toast('请输入内容！')
 					return
 				}
+				this.culturalList = []
 				this.getList()
 			},
 		},

@@ -1,18 +1,18 @@
 <template>
 	<view class="check-team content">
 		<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore" style="height: 100%;">
-			<view class="org_box">
+			<view class="org_box" v-if="orgList.length>0">
 				<view class="org_box_list" v-for="(item,index) in orgList" :key="index">
 					<view class="org_box_list_left">
 						<view class="org_box_list_left_name">{{item.user.realname||item.user.authRealName}}</view>
 						<view class="org_box_list_left_person">
 							<image class="org_box_list_left_person_icon" src="../../static/phone.png" mode=""></image>
-							<text>人数：{{item.user.phone}}人</text>
+							<text>{{item.user.phone}}</text>
 						</view>
 					</view>
 					<view>
-						<view class="org_box_list_right" @tap="lookup(item.group.id,true)">审核通过</view>
-						<view class="org_box_list_right org_box_list_right2" style="margin-top: 20rpx;" @tap="lookup(item.group.id,false)">不通过</view>
+						<view class="org_box_list_right" @tap="lookup(item.record.id,true)">审核通过</view>
+						<view class="org_box_list_right org_box_list_right2" style="margin-top: 20rpx;" @tap="lookup(item.record.id,false)">不通过</view>
 					</view>
 				</view>
 			</view>
@@ -47,7 +47,7 @@
 				console.log('刷新');
 				this.page = 0;
 				this.orgList = [];
-				this.getList();
+				this.getDetail();
 				setTimeout(()=>{
 				    this.$refs.scroll.endRefresh()
 				},800)
@@ -58,7 +58,7 @@
 			loadMore(){
 			    console.log('上拉加载');
 			    this.page += 10
-				this.getList();
+				this.getDetail();
 			},
 			getDetail(){
 				this.homeRequest({
@@ -67,12 +67,14 @@
 					data: {groupId:this.id,pageSize:1000,pageNo:1,},
 				}).then(res=>{
 					console.log(res);
-					if(res.code==200){
-						res.body.map(item=>{
-							if(item.record.status==1){
-								this.orgList.push(item)
-							}
-						})
+					res.body.map(item=>{
+						if(item.record.status==0){
+							this.orgList.push(item)
+						}
+					})
+					if(this.orgList.length==0){
+						console.log(1111111111);
+						this.$refs.scroll.setLoadStatus('no_data');
 					}
 				});
 			},
@@ -80,11 +82,13 @@
 				this.homeRequest({
 					url:'/group/user/verify',
 					method: 'GET',
-					data: {guid:this.id,pass:is_pass,refuseReason:''},
+					data: {guId:id,pass:is_pass,refuseReason:''},
 				}).then(res=>{
 					console.log(res);
 					if(res.code==200){
 						this.toast('审核成功！')
+						this.orgList = []
+						this.getDetail()
 					}else{
 						this.toast(res.message,'none')
 					}

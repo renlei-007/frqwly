@@ -278,11 +278,23 @@ var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _i
 //
 //
 //
-var _default = { data: function data() {return { is_sign: false, user: {}, score: 0, messageCount: 0, commentCount: 0, function_menu: [{ src: __webpack_require__(/*! ../../static/active-icon/wdsc.png */ 37), title: '我的收藏' }, { src: __webpack_require__(/*! ../../static/active-icon/wdjc.png */ 38), title: '我的剧场' }, { src: __webpack_require__(/*! ../../static/active-icon/wdpx.png */ 39), title: '我的培训' }, { src: __webpack_require__(/*! ../../static/active-icon/hdjl.png */ 40), title: '互动交流' }, { src: __webpack_require__(/*! ../../static/active-icon/zyhd.png */ 41), title: '志愿活动' }, { src: __webpack_require__(/*! ../../static/active-icon/smrz.png */ 42), title: '实名认证' }, { src: __webpack_require__(/*! ../../static/active-icon/xgsj.png */ 43), title: '修改手机' }, { src: __webpack_require__(/*! ../../static/active-icon/grsz.png */ 44), title: '个人设置' }, { src: __webpack_require__(/*! ../../static/active-icon/yjfk.png */ 45), title: '意见反馈' }, { src: __webpack_require__(/*! ../../static/active-icon/gywm.png */ 46), title: '关于我们' }], active_menu: [{ src: __webpack_require__(/*! ../../static/active-icon/wdhd.png */ 47), title: '我的活动' }, { src: __webpack_require__(/*! ../../static/active-icon/wdcg.png */ 48), title: '我的场馆' }, { src: __webpack_require__(/*! ../../static/active-icon/wdst.png */ 49), title: '我的社团' }], is_Login: false };}, onLoad: function onLoad() {this.is_Login = this.isLogin;if (this.is_Login) {// this.user = uni.getStorageSync('user_info')
+var _default = { data: function data() {return { is_sign: false, today_sign: false, signDays: 0, user: {}, score: 0, messageCount: 0, commentCount: 0, function_menu: [{ src: __webpack_require__(/*! ../../static/active-icon/wdsc.png */ 37), title: '我的收藏' }, { src: __webpack_require__(/*! ../../static/active-icon/wdjc.png */ 38), title: '我的剧场' }, { src: __webpack_require__(/*! ../../static/active-icon/wdpx.png */ 39), title: '我的培训' }, { src: __webpack_require__(/*! ../../static/active-icon/hdjl.png */ 40), title: '互动交流' }, { src: __webpack_require__(/*! ../../static/active-icon/zyhd.png */ 41), title: '志愿活动' }, { src: __webpack_require__(/*! ../../static/active-icon/smrz.png */ 42), title: '实名认证' }, { src: __webpack_require__(/*! ../../static/active-icon/xgsj.png */ 43), title: '修改/绑定手机' }, { src: __webpack_require__(/*! ../../static/active-icon/grsz.png */ 44), title: '个人设置' }, { src: __webpack_require__(/*! ../../static/active-icon/yjfk.png */ 45), title: '意见反馈' }, { src: __webpack_require__(/*! ../../static/active-icon/gywm.png */ 46), title: '关于我们' }], active_menu: [{ src: __webpack_require__(/*! ../../static/active-icon/wdhd.png */ 47), title: '我的活动' }, { src: __webpack_require__(/*! ../../static/active-icon/wdcg.png */ 48), title: '我的场馆' }, { src: __webpack_require__(/*! ../../static/active-icon/wdst.png */ 49), title: '我的社团' }], is_Login: false };}, onLoad: function onLoad() {
+  },
+  onShow: function onShow() {
+    this.is_Login = this.isLogin;
+    if (this.is_Login) {
+      // this.user = uni.getStorageSync('user_info')
       this.getMessageNumber();
+      this.getSignDay();
     }
   },
   methods: {
+    getSignDay: function getSignDay() {var _this = this;
+      this.homeRequest({ url: '/continuousSigin', methods: 'GET', data: {} }).then(function (res) {
+        console.log(res);
+        _this.signDays = res.body;
+      });
+    },
     goPage: function goPage(val, index) {
       if (this.is_Login) {
         if (val == 'function') {
@@ -413,7 +425,7 @@ var _default = { data: function data() {return { is_sign: false, user: {}, score
 
       }
     },
-    getMessageNumber: function getMessageNumber() {var _this = this;
+    getMessageNumber: function getMessageNumber() {var _this2 = this;
       var username = uni.getStorageSync('user_info').username;
       this.homeRequest({
         url: '/user/get',
@@ -421,8 +433,8 @@ var _default = { data: function data() {return { is_sign: false, user: {}, score
         data: { username: username } }).
       then(function (res) {
         console.log(res);
-        _this.user = res.body;
-        _this.score = res.body.score;
+        _this2.user = res.body;
+        _this2.score = res.body.score;
       });
 
       this.homeRequest({
@@ -431,7 +443,7 @@ var _default = { data: function data() {return { is_sign: false, user: {}, score
         data: {} }).
       then(function (res) {
         console.log(res);
-        _this.messageCount = res.body;
+        _this2.messageCount = res.body;
       });
       this.homeRequest({
         url: '/comment/count',
@@ -439,13 +451,13 @@ var _default = { data: function data() {return { is_sign: false, user: {}, score
         data: {} }).
       then(function (res) {
         console.log(res);
-        _this.commentCount = res.body;
+        _this2.commentCount = res.body;
       });
     },
     signIn: function signIn() {
       this.is_sign = true;
     },
-    toSign: function toSign() {var _this2 = this;
+    toSign: function toSign() {var _this3 = this;
       this.homeRequest({
         url: '/signin',
         method: 'POST',
@@ -453,10 +465,12 @@ var _default = { data: function data() {return { is_sign: false, user: {}, score
       then(function (res) {
         console.log(res);
         if (res.code == 200) {
-          _this2.is_sign = false;
+          _this3.toast('签到成功！', 'none');
+          _this3.signDays++;
         } else {
-          _this2.toast(res.message, 'none');
+          _this3.toast(res.message, 'none');
         }
+        _this3.is_sign = false;
       });
     },
     logout: function logout() {
@@ -474,16 +488,16 @@ var _default = { data: function data() {return { is_sign: false, user: {}, score
         } });
 
     },
-    scan: function scan() {var _this3 = this;
+    scan: function scan() {var _this4 = this;
       uni.scanCode({
         success: function success(res) {
           var result = JSON.parse(res.result.replace(/“/g, '"'));
-          if (_this3.user.admin && result.type) {//核销
+          if (_this4.user.admin && result.type) {//核销
             uni.navigateTo({
               url: '/pages/mine/writeoff?type=' + result.type + "&value=" + result.value });
 
           } else {
-            _this3.toast('该二维码无法核销');
+            _this4.toast('该二维码无法核销');
           }
         } });
 

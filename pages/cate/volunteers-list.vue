@@ -21,6 +21,11 @@
 				</view>
 			</ys-scroll>			
 		</view>
+		<view class="join_box" v-if="checkCode==101||checkCode==365||checkCode==362">
+			<view class="join_box_btn" v-if="checkCode==101" @tap="toJoin">成为志愿者</view>
+			<view class="join_box_btn " v-if="checkCode==365">审核中</view>
+			<view class="join_box_btn" v-if="checkCode==362" @tap="toJoin">审核不通过,重新申请</view>
+		</view>
 	</view>
 </template>
 
@@ -38,10 +43,19 @@
 				type: '',
 				page: 0,
 				teersList: [],
+				isJoin: false,
+				is_login: false,
+				checkCode: 0,
 			};
 		},
 		onLoad() {
 			this.getList()
+		},
+		onShow() {
+			this.is_login = this.isLogin
+			if(this.isLogin){
+				this.getStatus()
+			}
 		},
 		methods: {
 			/**
@@ -63,6 +77,34 @@
 			    console.log('上拉加载');
 			    this.page += 10
 				this.getList();
+			},
+			getStatus(){
+				this.homeRequest({url:'/volunteerInfo/check',method:'GET',data:{}}).then(res=>{
+					console.log(res);
+					this.checkCode = res.code
+				})
+			},
+			toJoin(){
+				if(this.isLogin){
+					uni.navigateTo({
+						url: '/pages/cate/volunteers-booking'
+					})
+				}else{
+					uni.showModal({
+						title: "提示",
+						content: "您还未登录，确定先登录吗？",
+						showCancel: true,
+						confirmText: "确定",
+						success: (res)=>{
+							if (res.confirm) {
+								uni.navigateTo({
+									url: '/pages/login/login?is_thing='+true
+								})
+							} else if (res.cancel) {
+							}
+						}
+					})
+				}
 			},
 			getList(){
 				let params={
@@ -105,6 +147,24 @@ page{
 	width: 100%;
 	height: 100%;
 	box-sizing: border-box;
-	padding: 0 30rpx;
+	padding: 0 30rpx 100rpx;
+}
+.join_box{
+	width: 100%;
+	height: 100rpx;
+	box-sizing: border-box;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	background-color: rgb(104, 81, 226);
+	&_btn{
+		width: 100%;
+		height: 100%;
+		color: #fff;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 32rpx;
+	}
 }
 </style>

@@ -191,7 +191,8 @@ var _default =
         userName: '',
         reason: '' },
 
-      id: null };
+      id: null,
+      globalUrl: 'https://furong.culturalcloud.net/' };
 
   },
   onLoad: function onLoad(e) {

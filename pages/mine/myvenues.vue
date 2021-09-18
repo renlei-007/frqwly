@@ -1,6 +1,6 @@
 <template>
 	<view class="myvenues content">
-		<ys-scroll :param="param" ref="scroll" @refresh="refresh" @loadMore = "loadMore" v-show="venuesList.length>0">
+		<ys-scroll :param="param" ref="scroll" @refresh="refresh" @loadMore = "loadMore">
 			<view class="data_box">
 				<view class="data_list" v-for="(item,index) in venuesList" :key="index" @tap="toDetail(item.id)">
 					<view class="data_list_img">
@@ -21,10 +21,6 @@
 				</view>
 			</view>
 		</ys-scroll>
-		<view class="no_data" v-show="venuesList.length==0">
-			<image class="no_data_icon" src="/static/kong.png" mode=""></image>
-			<view class="no_data_text">空荡荡的。。。</view>
-		</view>
 	</view>
 </template>
 
@@ -87,6 +83,7 @@
 						  this.$refs.scroll.setLoadStatus('more');
 						}
 					}
+					console.log(this.venuesList);
 				})
 			},
 			toDetail(id){

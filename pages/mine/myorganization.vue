@@ -11,7 +11,7 @@
 		</view>
 		<view style="height: calc(100% - 188rpx);">
 			<ys-scroll :param="param" ref = "scroll" @refresh="refresh" @loadMore = "loadMore">
-				<view class="org_box" v-if="cutIndex==0">
+				<view class="org_box" v-if="cutIndex==0&&orgList.length>0">
 					<view class="org_box_list" v-for="(item,index) in orgList" :key="index">
 						<view class="org_box_list_left">
 							<view class="org_box_list_left_name">{{item.group.content.title}}</view>
@@ -23,7 +23,7 @@
 						<view class="org_box_list_right" @tap="lookup(item.group.id)">点击查看</view>
 					</view>
 				</view>
-				<view class="org_box" v-else>
+				<view class="org_box" v-if="cutIndex==1&&teamList.length>0">
 					<view class="org_box_list" v-for="(item,index) in teamList" :key="index">
 						<view class="org_box_list_left">
 							<view class="org_box_list_left_name">{{item.content.title}}</view>
@@ -106,7 +106,7 @@
 						url:'./creat-organization'
 					})
 				}else{
-					this.tosat('您还没有实名认证，请先进行实名认证！')
+					this.toast('您还没有实名认证，请先进行实名认证！')
 				}
 			},
 			getList(){
@@ -118,8 +118,18 @@
 					console.log(res);
 					if(this.cutIndex==0){
 						this.orgList = res.body
+						if(this.orgList.length==0){
+							console.log(1111111111);
+							this.$refs.scroll.setLoadStatus('no_data');
+						}
 					}else{
 						this.teamList = res.body
+						if(this.teamList.length==0){
+							console.log(1111111111);
+							this.$refs.scroll.setLoadStatus('no_data');
+						}else{
+							this.$refs.scroll.setLoadStatus('no_more');
+						}
 					}
 				});
 			},

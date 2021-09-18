@@ -96,7 +96,7 @@ var components
 try {
   components = {
     ysScroll: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 658))
+      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 660))
     }
   }
 } catch (e) {
@@ -207,6 +207,11 @@ var _default =
         console.log(11111111);
         _this.scrollLefts = 500;
       });
+      if (e.type == '体育') {
+        uni.setNavigationBarTitle({
+          title: '体育社团' });
+
+      }
     }
     this.getCateList();
     this.getList();

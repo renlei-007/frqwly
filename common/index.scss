@@ -166,12 +166,12 @@ page{
 		padding-top: 30rpx;
 		&_box{
 			width: 306rpx;
-			height: 250rpx;
+			height: 256rpx;
 			color: #1B1C1E;
 			font-size: 24rpx;
 			&_img{
 				width: 100%;
-				height: 178rpx;
+				height: 184rpx;
 				background-color: #E5E5E5;
 				border: 8rpx;
 				background: url(@/static/default.png) no-repeat center center;
@@ -210,9 +210,17 @@ page{
 			font-size: 16rpx;
 			text-align: center;
 			color: #fff;
+			position: relative;
 			.img{
 				width: 100%;
 				height: 100%;
+			}
+			.screen{
+				width: 40rpx;
+				height: 40rpx;
+				position: absolute;
+				right: 20rpx;
+				bottom: 20rpx;
 			}
 		}
 	}

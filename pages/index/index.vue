@@ -21,7 +21,7 @@
 			<ys-top-bar title="芙蓉区文旅体云" :point="point" :isChange="isChange"></ys-top-bar>
 			<!-- #endif -->
 			<!-- #ifndef MP-WEIXIN --> 
-			<view class="search_box">
+			<view class="search_box" :class="{'isChange':isChange}">
 				<view class="search_box_input" @tap="toSearch">
 					<image class="search_img" src="/static/icon/search.png" mode=""></image>
 					<input type="text" disabled class="search_box_input_wri" placeholder="请输入关键词搜索"/>
@@ -82,7 +82,7 @@
 				</view>
 				<view class="panel_box_hide">
 					<view class="panel_box_hide_part" v-for="(item,index) in panelList" :key="index">
-						<view class="panel_box_hide_part_one" v-for="(ite,ind) in item" :key="ind" @tap="navigateTo(ite.url)">
+						<view class="panel_box_hide_part_one" v-for="(ite,ind) in item" :key="ind" @tap="navigateToUrl(ite.url,index,ind)">
 							<image :src="ite.img" class="panel_box_hide_part_one_img" mode=""></image>
 							<view class="panel_box_hide_part_one_name">{{ite.name}}</view>
 						</view>
@@ -91,7 +91,7 @@
 			</view>
 			
 			<!-- 我的活动 -->
-			<view class="news" v-if="activeShow">
+			<view class="news" v-if="activeShow" style="margin: 0;padding: 30rpx;">
 				<view class="news_title">
 					<view class="news_titles">
 						<image class="news_title_img" src="/static/home/wdsc.png" mode=""></image>
@@ -116,7 +116,7 @@
 						<image class="news_title_img" src="/static/home/wlzx.png" mode=""></image>
 						<view class="news_title_txt">文旅资讯</view>
 					</view>
-					<view class="more" @tap="navigateTo('/pages/cate/information-list')">更多></view>
+					<view class="more" @tap="navigateTo('/pages/cate/information-choose')">更多></view>
 				</view>
 				<view class="news_content">
 					<view class="zx_news">
@@ -132,12 +132,26 @@
 									<view class="zx_news_li_content_source_right">{{item.releaseDate.slice(0,10)}}</view>
 								</view>
 							</view>
-							<view class="zx_news_li_img">
+							<view class="zx_news_li_img bacImg">
 								<image class="zximgs" :src="item.titleImg" mode="aspectFill"></image>
 							</view>
 						</view>
 					</view>
 				</view>
+			</view>
+			
+			<view class="news">
+				<view class="news_title">
+					<view class="news_titles">
+						<image class="news_title_img" src="/static/home/wlzx.png" mode=""></image>
+						<view class="news_title_txt">精品线路</view>
+					</view>
+				</view>
+				<swiper class="ly_line" :indicator-dots="true" circular :autoplay="true" :interval="3000" :duration="1000">
+					<swiper-item class="swiper-item" @tap="navigateTo('/pages/cate/scenic-list?type=精品线路&&cutIndex=3&&channelIds=202')" v-for="(item,index) in lineList" :key="index">
+						<image class="swiper-item_img" :src="item" mode=""></image>
+					</swiper-item>
+				</swiper>
 			</view>
 			
 			<!-- 精彩推荐 -->
@@ -150,7 +164,7 @@
 					<view class="more" @tap="navigateTo('/pages/cate/active-list')">更多></view>
 				</view>
 				<view class="news_content" style="box-sizing: border-box;padding: 30rpx 0;">
-					<scroll-view scroll-x="true" style="width: 100%;overflow:hidden;white-space:nowrap;">
+					<scroll-view scroll-x="true">
 						<view class="tj_list_box">
 							<view class="tj_list" v-for="(item,index) in activityList" :key="index" @tap="gopage(item.id,index)">
 								<image class="tj_list_img" :src="item.titleImg" mode="aspectFill"></image>
@@ -173,12 +187,12 @@
 						<image class="news_title_img" src="/static/home/wlfw.png" mode=""></image>
 						<view class="news_title_txt">精品旅游</view>
 					</view>
-					<view class="more" @tap="navigateTo('/pages/cate/scenic-list?type=网红打卡&&cutIndex=2&&channelIds=201')">更多></view>
+					<view class="more" @tap="navigateTo('/pages/cate/scenic-list?type=综合&&cutIndex=5&&channelIds=207')">更多></view>
 				</view>
 				<view class="news_content">
 					<view class="tj_news">
 						<view class="tj_news_li" v-for="(item,index) in recommendList" :key="index" @tap="todetail(index,item.id)">
-							<view class="tj_news_li_img">
+							<view class="tj_news_li_img bacImg">
 								<image class="tjimgs" :src="item.titleImg" mode="aspectFill"></image>
 							</view>
 							<view class="tj_news_li_name">{{item.title}}</view>
@@ -223,6 +237,12 @@
 					},
 				},
 				activeShow: false,
+				lineList: [
+					'https://oss.culturalcloud.net/furong/202108/16083949k5gx.png',
+					'https://oss.culturalcloud.net/furong/202108/1909270714tw.png',
+					'https://oss.culturalcloud.net/furong/202108/19092805fzfn.png',
+					'https://oss.culturalcloud.net/furong/202108/19092746bohu.png',
+				],
 				panelList: [
 					[{
 						name: '场馆服务',
@@ -256,9 +276,9 @@
 						img: require('../../static/cate/wspx.png'),
 						url: '/pages/cate/nettrain-list',
 					},{
-						name: '联系我们',
+						name: '意见反馈',
 						img: require('../../static/cate/lxwm.png'),
-						url: '/pages/mine/communication',
+						url: '/pages/mine/feedback',
 					},],
 				],
 			}
@@ -267,8 +287,12 @@
 			this.getTime()
 			this.getList()
 			if(this.isLogin){
-				this.getPoint()
 				this.getMyActive()
+			}
+		},
+		onShow() {
+			if(this.isLogin){
+				this.getPoint()
 			}
 		},
 		onPageScroll(event) {
@@ -336,8 +360,15 @@
 				}).then(res=>{
 					console.log(res);
 					if(res.body.length>0){
-						this.actives = res.body[0]
-						this.activeShow = true
+						let actives = res.body[0]
+						let nowTime = new Date().getTime()
+						let bookTime = new Date(actives.createTime).getTime()
+						// this.actives = res.body[0]
+						// this.activeShow = true
+						if(bookTime - nowTime < 24 * 60 * 60 *1000 && bookTime - nowTime > 0){
+							this.actives = res.body[0]
+							this.activeShow = true
+						}
 					}
 				})
 			},
@@ -395,6 +426,28 @@
 				// 	this.navigateTo('/pages/cate/venues-detail?id='+id)
 				// }
 			},
+			navigateToUrl(url,index,ind){
+				if(index==3&&ind==1){
+					if(!this.isLogin){
+						uni.showModal({
+							title: '提示',
+							content: '您还没有登录，确认要先登录吗？',
+							success: (res) => {
+								if (res.confirm) {
+									uni.navigateTo({
+										url: '/pages/login/login'
+									})
+								} else if (res.cancel) {
+								}
+							}
+						});
+					}else{
+						this.navigateTo(url)
+					}
+				}else{
+					this.navigateTo(url)
+				}
+			},
 			toActive(id){
 				uni.navigateTo({
 					url: '/pages/mine/myactive-detail?id='+id
@@ -405,7 +458,7 @@
 					this.carouselList = res.data.body;
 				})
 				
-				this.indexRequest({url:'/content/list.jspx',data:{channelIds:'201', count:4, orderBy:4, format:0}}).then(res=>{
+				this.indexRequest({url:'/content/list.jspx',data:{channelIds:'200,201,204,205,206', first:0, count:4, orderBy:9, format:0}}).then(res=>{
 					this.recommendList = this.recommendList.concat(res.data.body);
 				})
 				
@@ -461,20 +514,23 @@
 	/* #ifndef MP-WEIXIN */
 		.search_box{
 			width: 100%;
-			height: 220rpx;
-			background: #3F444C;
-			border-radius: 0 0 10% 10%;
+			// background: #3F444C;
 			display: flex;
 			justify-content: space-between;
+			position: fixed;
+			top: 0;
+			left: 0;
+			z-index: 9999;
+			box-sizing: border-box;
 			/* #ifdef MP-WEIXIN */
 			padding-top: 158rpx;
 			/* #endif */
 			
 			/* #ifndef MP-WEIXIN */
-			padding-top: 60rpx;
+			padding: 30rpx;
 			/* #endif */
 			&_input{
-				width: 560rpx;
+				width: 500rpx;
 				height: 68rpx;
 				border-radius: 36rpx;
 				background-color: #F2F5FA;
@@ -513,10 +569,13 @@
 				}
 			}
 		}
+		.isChange{
+			background-color: #3F444C;
+		}
 	
 		.banner_box{
 			width: 100%;
-			height: 320rpx;
+			height: 750rpx;
 			// border-radius: 16rpx;
 			// margin: -60rpx auto 0;
 			/* #ifdef MP-WEIXIN */
@@ -708,6 +767,18 @@
 				font-weight: 400;
 				line-height: 100rpx;
 				color: #1B1C1E;
+			}
+		}
+		.ly_line{
+			width: 100%;
+			height: 380rpx;
+			.swiper-item{
+				width: 100%;
+				height: 100%;
+				&_img{
+					width: 100%;
+					height: 100%;
+				}
 			}
 		}
 		&_titles{

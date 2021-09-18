@@ -6,25 +6,11 @@
 			</view>
 			<view class="major_box">
 				<view class="major_box_name">{{content.title}}</view>
-				<view class="major_box_text">
-					类别：<text>{{content.attr_type&&content.attr_type.length>0?content.attr_type[0]:'暂无'}}</text>
-				</view>
-				<view class="major_box_text">
-					级别：<text>{{content.attr_level?content.attr_level:'暂无'}}</text>
-				</view>
-				<view class="major_box_text">
-					批次：<text>{{content.attr_batch?content.attr_batch:'暂无'}}</text>
-				</view>
-				<view class="major_box_text">
-					代表人：<text></text>
-				</view>
-				<view class="major_box_text">
-					地址：<text>{{content.attr_address?content.attr_address:'暂无'}}</text>
-				</view>
+				<view class="major_box_text">简介：{{content.description}}</view>
 			</view>
 			<view class="blank"></view>
 			<view class="tj_active">
-				<view class="tj_active_title">非遗详情</view>
+				<view class="tj_active_title">百科详情</view>
 				<view class="introduce">
 					<rich-text :nodes="content.txt"></rich-text>
 				</view>
@@ -68,6 +54,9 @@
 			this.getNonlegacyList()
 			
 			this.getCommentList()
+			if(this.isLogin){
+				this.homeRequest({url:'/view',method:'GET',data:{}})
+			}
 		},
 		methods: {
 			/**

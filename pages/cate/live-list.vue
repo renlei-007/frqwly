@@ -18,6 +18,7 @@
 							</view>
 						</view>
 					</view>
+					<view class="is_live" v-if="item.liveRecord.type==1&&item.liveRecord.isLive">正在直播</view>
 				</view>
 			</view>
 		</ys-scroll>
@@ -77,6 +78,7 @@
 				this.getList();
 			},
 			getList(){
+				let nowTime = new Date().getTime()
 				let params={
 					channelIds: 113, count: 10, first: this.page, format:0, s_category_like: this.type?this.type:'', orderBy: 4,
 				}
@@ -85,6 +87,15 @@
 						console.log(111111);
 						this.$refs.scroll.setLoadStatus('no_data');
 					}else{
+						res.data.body.map(item=>{
+							item.liveRecord.isLive = false
+							if(item.liveRecord.type==1&&item.liveRecord.startTime&&item.liveRecord.endTime){
+								if(nowTime>this.getTimeSec(item.liveRecord.startTime)&&nowTime<this.getTimeSec(item.liveRecord.endTime)){
+									item.liveRecord.isLive = true
+								}
+							}
+						})
+						console.log(res.data.body);
 						this.liveList = this.liveList.concat(res.data.body)
 						if(res.data.body.length<10){
 						  this.$refs.scroll.setLoadStatus('no_more');
@@ -93,6 +104,10 @@
 						}
 					}
 				})
+			},
+			getTimeSec(val){
+				let time = new Date(val).getTime()
+				return time
 			},
 			toDetail(id){
 				uni.navigateTo({
@@ -116,6 +131,7 @@
 		margin: 30rpx auto 0;
 		width: 100%;
 		background-color: #FFFFFF;
+		position: relative;
 		&_img{
 			width: 100%;
 			height: 414rpx;
@@ -163,5 +179,18 @@
 			}
 		}
 	}
+}
+.is_live{
+	box-sizing: border-box;
+	padding: 0 20rpx;
+	height: 44rpx;
+	font-size: 22rpx;
+	line-height: 44rpx;
+	color: #fff;
+	background: #FF3616;
+	border-radius: 24px 0px 0px 24px;
+	position: absolute;
+	top: 30rpx;
+	right: 0;
 }
 </style>

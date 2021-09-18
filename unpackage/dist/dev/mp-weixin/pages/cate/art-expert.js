@@ -96,10 +96,10 @@ var components
 try {
   components = {
     ysBottom: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-bottom */ "components/base/ys-bottom").then(__webpack_require__.bind(null, /*! @/components/base/ys-bottom.vue */ 687))
+      return __webpack_require__.e(/*! import() | components/base/ys-bottom */ "components/base/ys-bottom").then(__webpack_require__.bind(null, /*! @/components/base/ys-bottom.vue */ 689))
     },
     ysComment: function() {
-      return Promise.all(/*! import() | components/base/ys-comment */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/base/ys-comment")]).then(__webpack_require__.bind(null, /*! @/components/base/ys-comment.vue */ 672))
+      return Promise.all(/*! import() | components/base/ys-comment */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/base/ys-comment")]).then(__webpack_require__.bind(null, /*! @/components/base/ys-comment.vue */ 674))
     }
   }
 } catch (e) {
@@ -201,6 +201,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var _default =
 {
   data: function data() {
@@ -224,6 +225,7 @@ var _default =
     this.getArtList();
     if (this.isLogin) {
       this.getCommentList();
+      this.homeRequest({ url: '/view', method: 'GET', data: {} });
     }
   },
   methods: {
@@ -277,6 +279,12 @@ var _default =
         uni.setNavigationBarTitle({
           title: content.title });
 
+        if (_this2.content.picArr.length > 0) {
+          _this2.content.picArr.map(function (item) {
+            _this2.imgList.push(item.picPaths);
+          });
+        }
+        console.log(_this2.imgList);
         if (content.description.length > 48) {
           _this2.showText = content.description.slice(0, 42) + '...';
         } else {
@@ -303,11 +311,16 @@ var _default =
         url: '/pages/cate/art-expert?id=' + id });
 
     },
-    preview: function preview() {var _this4 = this;
+    preview: function preview(index) {var _this4 = this;
+      this.imgList = [];
       this.content.picArr.map(function (item) {
         _this4.imgList.push(item.picPaths);
       });
       this.previewImage(this.imgList);
+      // uni.previewImage({
+      // 	current: index,
+      // 	urls: this.imgList
+      // })
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

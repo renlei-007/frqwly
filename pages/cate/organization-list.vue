@@ -52,6 +52,11 @@
 					console.log(11111111);
 					this.scrollLefts = 500
 				})
+				if(e.type=='体育'){
+					uni.setNavigationBarTitle({
+						title: '体育社团'
+					})
+				}
 			}
 			this.getCateList()
 			this.getList()

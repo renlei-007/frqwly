@@ -52,8 +52,8 @@
       	success: (e)=> {
           let custom = uni.getMenuButtonBoundingClientRect();
           let head_box_height = custom.bottom + custom.top - e.statusBarHeight;
-          this.head_box_height = head_box_height;
-          let padding_top = e.statusBarHeight;
+          this.head_box_height = head_box_height; //导航栏高度
+          let padding_top = e.statusBarHeight; //电量条高度
           this.head_box_style = 'height:'+head_box_height+'px;'+'padding-top:'+padding_top+'px';
         }
       })

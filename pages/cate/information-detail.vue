@@ -42,7 +42,9 @@
 			}
 			this.getDetail()
 			this.getCommentList()
-			
+			if(this.isLogin){
+				this.homeRequest({url:'/view',method:'GET',data:{}})
+			}
 		},
 		methods: {
 			/**

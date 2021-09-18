@@ -81,9 +81,13 @@
 .login .orthers .circle {
   width: 100rpx;
   height: 100rpx;
-  border: 2rpx solid #707070;
   border-radius: 50%;
   margin: 20rpx auto 0;
+  padding: 0;
+}
+.login .orthers .circle_img {
+  width: 100%;
+  height: 100%;
 }
 .login .orthers .action {
   width: 100%;

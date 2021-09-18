@@ -71,6 +71,14 @@
                 "desc" : "需要计算距离"
             }
         }
+		// "plugins": {
+		// 	"live-player-plugin": {
+		// 		// 注意填写该直播组件最新版本号，微信开发者工具调试时可获取最新版本号（复制时请去掉注释）
+		// 		"version": "1.0.15", 
+		// 		// 必须填该直播组件appid，该示例值即为直播组件appid（复制时请去掉注释）
+		// 		"provider": "wxb4d06aec462b1f75" 
+		// 	}
+		// }
     },
     "mp-alipay" : {
         "usingComponents" : true
@@ -83,5 +91,12 @@
     },
     "uniStatistics" : {
         "enable" : false
+    },
+    "h5" : {
+        "title" : "芙蓉区文旅云",
+        "domain" : "https://furong.culturalcloud.net/",
+        "sdkConfigs" : {
+            "maps" : {}
+        }
     }
 }

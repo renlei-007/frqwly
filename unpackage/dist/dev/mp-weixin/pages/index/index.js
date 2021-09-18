@@ -107,7 +107,7 @@ var components
 try {
   components = {
     ysTopBar: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-top-bar */ "components/base/ys-top-bar").then(__webpack_require__.bind(null, /*! @/components/base/ys-top-bar.vue */ 644))
+      return __webpack_require__.e(/*! import() | components/base/ys-top-bar */ "components/base/ys-top-bar").then(__webpack_require__.bind(null, /*! @/components/base/ys-top-bar.vue */ 646))
     }
   }
 } catch (e) {
@@ -374,6 +374,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -405,6 +419,12 @@ var _default =
 
 
       activeShow: false,
+      lineList: [
+      'https://oss.culturalcloud.net/furong/202108/16083949k5gx.png',
+      'https://oss.culturalcloud.net/furong/202108/1909270714tw.png',
+      'https://oss.culturalcloud.net/furong/202108/19092805fzfn.png',
+      'https://oss.culturalcloud.net/furong/202108/19092746bohu.png'],
+
       panelList: [
       [{
         name: '场馆服务',
@@ -438,9 +458,9 @@ var _default =
         img: __webpack_require__(/*! ../../static/cate/wspx.png */ 27),
         url: '/pages/cate/nettrain-list' },
       {
-        name: '联系我们',
+        name: '意见反馈',
         img: __webpack_require__(/*! ../../static/cate/lxwm.png */ 28),
-        url: '/pages/mine/communication' }]] };
+        url: '/pages/mine/feedback' }]] };
 
 
 
@@ -449,8 +469,12 @@ var _default =
     this.getTime();
     this.getList();
     if (this.isLogin) {
-      this.getPoint();
       this.getMyActive();
+    }
+  },
+  onShow: function onShow() {
+    if (this.isLogin) {
+      this.getPoint();
     }
   },
   onPageScroll: function onPageScroll(event) {
@@ -518,8 +542,15 @@ var _default =
       then(function (res) {
         console.log(res);
         if (res.body.length > 0) {
-          _this3.actives = res.body[0];
-          _this3.activeShow = true;
+          var actives = res.body[0];
+          var nowTime = new Date().getTime();
+          var bookTime = new Date(actives.createTime).getTime();
+          // this.actives = res.body[0]
+          // this.activeShow = true
+          if (bookTime - nowTime < 24 * 60 * 60 * 1000 && bookTime - nowTime > 0) {
+            _this3.actives = res.body[0];
+            _this3.activeShow = true;
+          }
         }
       });
     },
@@ -577,6 +608,28 @@ var _default =
       // 	this.navigateTo('/pages/cate/venues-detail?id='+id)
       // }
     },
+    navigateToUrl: function navigateToUrl(url, index, ind) {
+      if (index == 3 && ind == 1) {
+        if (!this.isLogin) {
+          uni.showModal({
+            title: '提示',
+            content: '您还没有登录，确认要先登录吗？',
+            success: function success(res) {
+              if (res.confirm) {
+                uni.navigateTo({
+                  url: '/pages/login/login' });
+
+              } else if (res.cancel) {
+              }
+            } });
+
+        } else {
+          this.navigateTo(url);
+        }
+      } else {
+        this.navigateTo(url);
+      }
+    },
     toActive: function toActive(id) {
       uni.navigateTo({
         url: '/pages/mine/myactive-detail?id=' + id });
@@ -587,7 +640,7 @@ var _default =
         _this4.carouselList = res.data.body;
       });
 
-      this.indexRequest({ url: '/content/list.jspx', data: { channelIds: '201', count: 4, orderBy: 4, format: 0 } }).then(function (res) {
+      this.indexRequest({ url: '/content/list.jspx', data: { channelIds: '200,201,204,205,206', first: 0, count: 4, orderBy: 9, format: 0 } }).then(function (res) {
         _this4.recommendList = _this4.recommendList.concat(res.data.body);
       });
 

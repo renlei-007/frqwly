@@ -96,7 +96,7 @@ var components
 try {
   components = {
     ysPicker: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-picker */ "components/base/ys-picker").then(__webpack_require__.bind(null, /*! @/components/base/ys-picker.vue */ 665))
+      return __webpack_require__.e(/*! import() | components/base/ys-picker */ "components/base/ys-picker").then(__webpack_require__.bind(null, /*! @/components/base/ys-picker.vue */ 667))
     }
   }
 } catch (e) {
@@ -132,19 +132,6 @@ var render = function() {
           }
         })
       : null
-
-  if (!_vm._isMounted) {
-    _vm.e0 = function($event, item) {
-      var _temp = arguments[arguments.length - 1].currentTarget.dataset,
-        _temp2 = _temp.eventParams || _temp["event-params"],
-        item = _temp2.item
-
-      var _temp, _temp2
-
-      item.isCheck = !item.isCheck
-    }
-  }
-
   _vm.$mp.data = Object.assign(
     {},
     {
@@ -308,6 +295,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -336,8 +332,8 @@ var _default =
       remark: '',
 
       scale: 1,
-      x: 200,
-      y: 200,
+      x: 0,
+      y: 0,
       seatArray: [],
       maxTicket: 0,
       seatsList: [],
@@ -362,7 +358,8 @@ var _default =
       channelId: '',
       notSeatArr: [],
       tipArray: [],
-      height: '' };
+      height: '',
+      width: '' };
 
   },
   computed: {
@@ -381,10 +378,10 @@ var _default =
             is_reduce = true;
           }
           array[index][ind] = index + 1 + '-' + (ind + 1 - num);
+          if (!is_reduce && ind == item.length - 1) {
+            array[index][ind] = index + '-' + (ind + 1 - num);
+          }
         });
-        if (!is_reduce && ind == item.length - 1) {
-          array[index][ind] = index + '-' + (ind + 1 - num);
-        }
       });
       return array;
 
@@ -401,17 +398,13 @@ var _default =
       this.getTeam();
     }
     this.userInfo = uni.getStorageSync('user_info');
-    this.phone = this.userInfo.phone || this.userInfo.authPhone;
+    if (this.userInfo.phone) {
+      this.phone = this.userInfo.phone;
+    } else {
+      this.phone = this.userInfo.authPhone;
+    }
   },
   methods: {
-    dblclick: function dblclick() {
-      console.log(111111111);
-      if (this.scale == 2) {
-        this.scale = 1;
-      } else {
-        this.scale = 2;
-      }
-    },
     chooseSet: function chooseSet(value, ind) {var _this = this;
       console.log(ind);
       if (this.seatArray[value][ind] == 0) {
@@ -428,7 +421,7 @@ var _default =
           });
         });
         if (num == this.maxTicket) {
-          this.toast('最多可预定' + this.maxTicket + '张！', 'none');
+          this.toast('最多可预定' + this.maxTicket + '张,点击已选座位可取消！', 'none');
           return;
         }
         var _val = ind + 1;
@@ -505,6 +498,9 @@ var _default =
     getMember: function getMember(val) {
       this.memberList = this.teamList[val].userList;
     },
+    chooseMember: function chooseMember(item) {
+      item.isCheck = !item.isCheck;
+    },
     getDetail: function getDetail() {var _this2 = this;
       var params = {
         format: 0
@@ -521,10 +517,18 @@ var _default =
       this.indexRequest({ url: url, data: params }).then(function (res) {
         var content = res.data.body;
         _this2.content = content;
-        _this2.phone = res.data.body.phone || res.data.body.authPhone;
         if (_this2.channelId == 198) {
           _this2.seatArray = content.seatSetting.seatArray;
-          _this2.height = content.seatSetting.seatArray.length * 40 + 60;
+          var maxArr = [];
+          content.seatSetting.seatArray.map(function (item) {
+            maxArr.push(item.length);
+          });
+          var maxNum = Math.max.apply(Math, maxArr);
+          console.log(maxNum);
+          console.log((690 / (maxNum * 40 + 50)).toFixed(1));
+          _this2.scale = 690 / (maxNum * 40 + 50) > 1 ? 1 : (690 / (maxNum * 40 + 50)).toFixed(1);
+          _this2.height = content.seatSetting.seatArray.length * 40;
+          _this2.width = maxNum * 40 + 50;
           console.log(_this2.height);
           _this2.maxTicket = content.seatSetting.maxScheduled;
           res.data.body.seatSetting.seatArray.map(function (item, index) {
@@ -572,7 +576,6 @@ var _default =
       year = new Date().getFullYear();
       day = this.date.split('.');
       date = year + '-' + day[0] + '-' + day[1];
-      console.log(this.date);
       var params;
       var url, ids;
       if (this.channelId != 198) {
@@ -606,7 +609,7 @@ var _default =
           contentId: this.id,
           bookingDate: date,
           slot: this.slot,
-          phone: this.userInfo.authPhone || this.userInfo.phone,
+          phone: this.phone,
           contact: this.contacts,
           userName: this.user,
           purpose: this.purpose,
@@ -632,7 +635,7 @@ var _default =
           contentId: this.id,
           bookingDate: date,
           slot: this.slot,
-          phone: this.userInfo.authPhone || this.userInfo.phone,
+          phone: this.phone,
           contact: this.contacts,
           userName: this.user,
           purpose: this.purpose,
@@ -667,7 +670,8 @@ var _default =
         if (res.code == 200) {
           res.body.map(function (item) {
             item.userList.map(function (ite) {
-              ite.isCheck = false;
+              _this4.$set(ite, 'isCheck', false);
+              // ite.isCheck = false
             });
           });
           _this4.teamList = res.body;

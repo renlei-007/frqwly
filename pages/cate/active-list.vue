@@ -60,6 +60,11 @@
 		onLoad(e) {
 			if(e.type){
 				this.type = e.type
+				if(e.type=='体育赛事'){
+					uni.setNavigationBarTitle({
+						title: e.type
+					})
+				}
 			}
 			this.getCateList()
 			this.getList()

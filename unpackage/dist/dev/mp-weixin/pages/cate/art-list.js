@@ -96,7 +96,7 @@ var components
 try {
   components = {
     ysScroll: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 658))
+      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 660))
     }
   }
 } catch (e) {
@@ -199,7 +199,7 @@ var _default =
 
       type: '',
       page: 0,
-      orderBy: 4 };
+      orderBy: 1 };
 
   },
   onLoad: function onLoad() {
@@ -235,7 +235,7 @@ var _default =
       }
       if (index == 0) {
         this.type = '';
-        this.orderBy = 4;
+        this.orderBy = 1;
       }
       this.page = 0;
       this.artList = [];

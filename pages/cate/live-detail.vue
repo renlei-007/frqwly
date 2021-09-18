@@ -4,17 +4,27 @@
 			<view class="video_play">
 				<!-- #ifdef MP-WEIXIN -->
 				<video id="myVideo" :src="content.liveRecord.recordUrl" v-if='content.liveRecord.type == 2' object-fit="fill"></video>
-				<live-player id="livePlayer" class="live-player" catchtouchmove :src="content.liveRecord.pullUrl" autoplay="true"
-				  v-if='content.liveRecord.type == 1' @click="handleControlbar">
-					<view class="player-tool" :style="{bottom:(showControlbar?'0':'-60rpx')}">
-						<view class="tools">
-							<view class="full-screen" @tap.stop="handleFullScreen()">
-								<text class="iconfont" v-if="!fullScreenFlag">&#xe6d9;</text>
-								<text class="iconfont" v-else>&#xe794;</text>
-							</view>
-						</view>
-					</view>
-				</live-player>
+				<video id="myVideo" :src="content.liveRecord.pullUrl" v-if='content.liveRecord.type == 1' object-fit="fill"></video>
+				<!-- <live-player 
+					id="livePlayer" 
+					class="live-player" 
+					catchtouchmove 
+					:src="content.liveRecord.pullUrl" 
+					:autoplay="true"
+					v-if='content.liveRecord.type == 1' 
+					@tap="handleControlbar"
+					mode="live"
+				>
+					<cover-view class="player-tool" :style="{bottom:(showControlbar?'0':'-60rpx')}">
+						<cover-view class="tools">
+							<cover-view class="full-screen" @tap.stop="handleFullScreen()">
+								<cover-image class="screen_icon" src="../../static/screen.png" ></cover-image>
+								<cover-view class="screen_icon" v-if="false">&#xe6d9;</cover-view>
+								<cover-view class="iconfont" v-if="false">&#xe794;</cover-view>
+							</cover-view>
+						</cover-view>
+					</cover-view>
+				</live-player> -->
 				<!-- #endif -->
 				<!-- #ifndef MP-WEIXIN -->
 				<video id="myVideo" :src="content.liveRecord.recordUrl" v-if='content.liveRecord.type == 2' object-fit="fill"></video>
@@ -76,12 +86,21 @@
 				
 				showControlbar: true,
 				timer:null,
+				
+				lastTapDiffTime: 0,
+				
+				index: 0,  
+				start_time: 0,  
+				end_time: 0
 			};
 		},
 		onLoad(e) {
 			this.id = e.id
 			this.getDetail()
 			this.getLiveList()
+			if(this.isLogin){
+				this.homeRequest({url:'/view',method:'GET',data:{}})
+			}
 		},
 		onReady(res) {
 			console.log('ready!');
@@ -107,6 +126,7 @@
 				this.getLiveList();
 			},
 			handleControlbar() {
+				console.log(111111111);
 				this.showControlbar = !this.showControlbar
 			},
 			//全屏功能的实现
@@ -184,9 +204,9 @@ page{
 }
 video,live-player {
 	width: 100%;
+	height: 100%;
 }
 uni-video{ height: 100%;}
-video{height: 100%;}
 .live-detail{
 	width: 100%;
 	background-color: #FFFFFF;
@@ -273,5 +293,56 @@ video{height: 100%;}
 			border-bottom: 1px solid #eee;
 		}
 	}
+}
+//播放器弹出工具
+.player-tool {
+	width: 100%;
+	height: 60rpx;
+	background: rgba(0,0,0,0.5);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	position: absolute;
+	left: 0;
+	z-index: 1000000;
+	padding: 0 0rpx;
+	transition: all 0.3s;
+	.tools {
+		height: 100%;
+		width: 100%;
+		display: flex;
+		align-items: center;
+
+		.full-screen {
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: absolute;
+			right:40upx; 
+			.screen_icon{
+				width: 40rpx;
+				height: 40rpx;
+			}
+			.iconfont {
+				color: #fff;
+				font-weight: bold;font-size:36upx ;padding: 0 0 0 40upx;
+
+			}
+		}
+
+		.cruise {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-left: 25rpx;
+
+			.iconfont {
+				color: #E45A3E;
+				font-size: 45rpx;
+			}
+		}
+	}
+
 }
 </style>

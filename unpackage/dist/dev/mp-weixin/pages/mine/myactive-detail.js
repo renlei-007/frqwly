@@ -205,8 +205,9 @@ var _default =
       content: {},
       record: {
         orders: [],
-        content: {} } };
+        content: {} },
 
+      globalUrl: 'https://furong.culturalcloud.net/' };
 
   },
   onLoad: function onLoad(e) {

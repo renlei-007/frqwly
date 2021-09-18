@@ -5,12 +5,13 @@
 				<video v-if="content.attr_videopath" :src="content.attr_videopath" controls></video>
 				<image v-else class="swiper_img" mode="" :src="content.titleImg"></image>
 			</view> -->
-			<swiper class="spot_info_img" circular autoplay="autoplay" indicator-dots="true" indicator-active-color="rgba(255,153,51,1)">
+			<swiper class="spot_info_img" circular :autoplay="content.attr_videopath?false:true" indicator-dots="true" indicator-active-color="rgba(255,153,51,1)">
 				<swiper-item class="swiper-item" v-if="content.attr_videopath">
 					<video id="myVideo" :src="content.attr_videopath" :controls="false" object-fit="fill" class="video-box"></video>
 				</swiper-item>
 				<swiper-item  class="swiper-recommend" v-for="(item, index) in content.picArr"  @tap="preview()" :key="index">
 					<image class="swiper_img" :src="item.picPaths" mode="widthFix"></image>
+					<image class="screen" src="/static/screen.png" mode=""></image>
 				</swiper-item> 
 			</swiper>
 			<view class="spot_info_title">{{content.title}}</view>
@@ -21,7 +22,7 @@
 			<view class="spot_info_line">
 				<image src="/static/position.png" style="width: 26rpx;" mode=""></image>
 				<text>{{content.attr_address}}</text>
-				<view class="openmap" @tap="openMap(content)">查看地图</view>
+				<view class="openmap" v-if="content.position.lng>0&&content.position.lat>0" @tap="openMap(content)">查看地图</view>
 			</view>
 			<view class="spot_info_line">
 				<image src="/static/phone.png" style="width: 28rpx;height: 28rpx;" mode=""></image>
@@ -44,7 +45,7 @@
 			<view class="tj_active_content">
 				<view class="tj_active_content_box" v-for="(item,index) in tourList" :key="index" @tap="todetail(item.id)">
 					<view class="tj_active_content_box_img">
-						<image :src="item.titleImg" mode=""></image>
+						<image :src="item.titleImg" mode="aspectFill"></image>
 					</view>
 					<view class="tj_active_content_box_title">{{item.stitle}}</view>
 				</view>
@@ -61,7 +62,12 @@
 		data() {
 			return {
 				spotId: '',
-				content: {},
+				content: {
+					position: {
+						lat: 0,
+						lng: 0,
+					}
+				},
 				tourList: [],
 				
 				commentList: [],
@@ -77,6 +83,9 @@
 			this.getDetail()
 			this.getTourList()
 			this.getCommentList()
+			if(this.isLogin){
+				this.homeRequest({url:'/view',method:'GET',data:{}})
+			}
 		},
 		methods: {
 			/**
@@ -179,6 +188,7 @@
 				})
 			},
 			preview(){
+				this.imgList = []
 				this.content.picArr.map(item=>{
 					this.imgList.push(item.picPaths)
 				})
@@ -210,9 +220,21 @@ page{
 				width: 100%;
 				height: 100%;
 			}
-			.swiper_img{
+			.swiper-recommend{
 				width: 100%;
 				height: 100%;
+				position: relative;
+				.swiper_img{
+					width: 100%;
+					height: 100%;
+				}
+				.screen{
+					width: 40rpx;
+					height: 40rpx;
+					position: absolute;
+					right: 20rpx;
+					bottom: 20rpx;
+				}
 			}
 		}
 		&_title{

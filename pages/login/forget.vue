@@ -2,14 +2,16 @@
 	<view class="forget content">
 		<view class="forget_box">
 			<view class="name_int log_int">
-				<input type="text" v-model="userform.username" placeholder="手机号" />
+				<input type="text" :disabled="is_change" v-model="userform.username" placeholder="手机号" />
 			</view>
 			<view class="pass_int log_int code_box">
 				<input type="number" class="code_inp" v-model="userform.code" placeholder="验证码" />
 				<view class="tips" @tap="getVerCode">{{tips}}</view>
 			</view>
-			<view class="pass_int log_int">
-				<input type="password" v-model="userform.password" placeholder="登录密码" />
+			<view class="pass_int log_int psw_int">
+				<input v-if="is_see" type="text" v-model="userform.password" placeholder="登录密码" />
+				<input v-else type="password" v-model="userform.password" placeholder="登录密码" />
+				<image src="/static/password.png" class="pass_see" mode="" @tap="seePsw"></image>
 			</view>
 			<view class="log_btn" @tap="register">重置密码</view>
 		</view>
@@ -28,9 +30,23 @@
 				tips: '获取验证码',
 				step: 0,
 				timer: null,
+				is_see: false,
+				is_change: false,
 			};
 		},
+		onLoad(e) {
+			if(e.change&&e.change==1){
+				this.is_change = true
+				this.userform.username = uni.getStorageSync('user_info').phone
+				uni.setNavigationBarTitle({
+					title: '修改密码',
+				})
+			}
+		},
 		methods: {
+			seePsw(){
+				this.is_see = !this.is_see
+			},
 			getVerCode(){
 				var myreg=/^[1][3,4,5,6,7,8,9][0-9]{9}$/;
 				if (this.userform.username.length != 11 || !myreg.test(this.userform.username)) {
@@ -171,6 +187,19 @@
 			.tips{
 				font-size: 32rpx;
 				color: #6446E1;
+			}
+		}
+		.psw_int{
+			margin-top: 30rpx;
+			position: relative;
+			display: flex;
+			align-items: center;
+			input{
+				width: 85%;
+			}
+			.pass_see{
+				width: 50rpx;
+				height: 50rpx;
 			}
 		}
 	}

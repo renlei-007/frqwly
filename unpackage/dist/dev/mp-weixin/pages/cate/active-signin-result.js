@@ -149,7 +149,7 @@ var _default =
   },
   onLoad: function onLoad(e) {
     this.id = e.id;
-    this.getStatus();
+    // this.getStatus()
   },
   methods: {
     getStatus: function getStatus() {var _this = this;
@@ -163,19 +163,22 @@ var _default =
       });
     },
     submit: function submit() {
-      if (this.status == 0) {
-        uni.navigateTo({
-          url: '/pages/mine/myactive' });
+      uni.navigateTo({
+        url: '/pages/mine/myactive' });
 
-      } else if (this.status == 1) {
-        uni.navigateTo({
-          url: './active-code?id=' + this.id });
-
-      } else {
-        uni.navigateBack({
-          delta: 1 });
-
-      }
+      // if(this.status==0){
+      // 	uni.navigateTo({
+      // 		url: '/pages/mine/myactive'
+      // 	})
+      // }else if(this.status==1){
+      // 	uni.navigateTo({
+      // 		url: './active-code?id='+this.id
+      // 	})
+      // }else{
+      // 	uni.navigateBack({
+      // 		delta: 1
+      // 	})
+      // }
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

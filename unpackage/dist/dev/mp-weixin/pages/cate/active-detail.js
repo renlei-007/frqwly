@@ -96,10 +96,10 @@ var components
 try {
   components = {
     ysComment: function() {
-      return Promise.all(/*! import() | components/base/ys-comment */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/base/ys-comment")]).then(__webpack_require__.bind(null, /*! @/components/base/ys-comment.vue */ 672))
+      return Promise.all(/*! import() | components/base/ys-comment */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/base/ys-comment")]).then(__webpack_require__.bind(null, /*! @/components/base/ys-comment.vue */ 674))
     },
     ysShare: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-share */ "components/base/ys-share").then(__webpack_require__.bind(null, /*! @/components/base/ys-share.vue */ 680))
+      return __webpack_require__.e(/*! import() | components/base/ys-share */ "components/base/ys-share").then(__webpack_require__.bind(null, /*! @/components/base/ys-share.vue */ 682))
     }
   }
 } catch (e) {
@@ -350,7 +350,7 @@ var _default =
     }
     if (this.isLogin) {
       this.getTicketStatus();
-
+      this.homeRequest({ url: '/view', method: 'GET', data: {} });
       this.homeRequest({
         url: '/content/collectExit',
         method: 'GET',

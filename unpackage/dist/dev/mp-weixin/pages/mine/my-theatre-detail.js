@@ -193,7 +193,8 @@ var _default =
         phone: '',
         reason: '' },
 
-      id: '' };
+      id: '',
+      globalUrl: 'https://furong.culturalcloud.net/' };
 
   },
   onLoad: function onLoad(e) {

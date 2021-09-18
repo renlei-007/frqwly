@@ -192,7 +192,8 @@ var _default =
 
         reason: '' },
 
-      id: '' };
+      id: '',
+      globalUrl: 'https://furong.culturalcloud.net/' };
 
   },
   onLoad: function onLoad(e) {
@@ -202,8 +203,8 @@ var _default =
   methods: {
     qrcodeCotent: function qrcodeCotent() {
       var params = {
-        type: 4,
-        value: this.record.orderNo };
+        type: 6,
+        value: this.record.id };
 
       return encodeURIComponent(JSON.stringify(params));
     },

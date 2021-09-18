@@ -4,8 +4,8 @@ import rand from './random.js'
 import sign from './sign.js'
 import aes from './aes.js'
 
-// const baseUrl = 'https://furong.culturalcloud.net/'
-const baseUrl = 'http://192.168.2.149:8080/'
+const baseUrl = 'https://furong.culturalcloud.net/'
+// const baseUrl = 'http://192.168.2.149:8080/'
 var navigateTo_num = 0; //页面跳转次数,用于登录失效的跳转判断,防止多接口请求时跳转多个页面
 const img_upload_path = '/api/upload_new/image' //图片上传接口地址
 const img_upload_name = 'uploadFile' //图片上传名字
@@ -503,17 +503,25 @@ class common {
 	 */
 	_setPreviewImage() {
 		Vue.prototype.previewImage = (urls) => {
+			console.log(urls);
 			uni.previewImage({
 				urls: urls,
 				longPressActions: {
 					itemList: ['保存图片'],
 					success: (data) => {
+						console.log(data);
 						console.log('选中了第' + (data.tapIndex + 1) + '个按钮,第' + (data.index + 1) +
 							'张图片');
 					},
 					fail: (err) => {
 						console.log(err.errMsg);
 					}
+				},
+				success: (res) => {
+					console.log(res);
+				},
+				fail: (err) => {
+					console.log(err);
 				}
 			});
 		}

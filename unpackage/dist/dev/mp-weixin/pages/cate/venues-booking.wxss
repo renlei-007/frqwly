@@ -26,6 +26,7 @@
 /* 文章场景相关 */
 page {
   background-color: #FFFFFF;
+  overflow: auto;
 }
 .venues-booking {
   width: 100%;
@@ -38,7 +39,7 @@ page {
 }
 .venues-booking .signin .detail_img {
   width: 100%;
-  height: 50rpx;
+  height: 450rpx;
 }
 .venues-booking .signin .detail {
   width: 100%;
@@ -165,58 +166,88 @@ page {
 }
 .venues-booking .input_box .choose_seat {
   width: 100%;
-  height: 600rpx;
   box-sizing: border-box;
   padding: 30rpx 0;
-  background-color: #ccc;
+  background-color: rgba(225, 227, 230, 0.3);
   overflow: auto;
 }
 .venues-booking .input_box .choose_seat .movable-area {
-  width: 200%;
-  height: 200%;
+  width: 100%;
+  height: 100%;
   overflow: auto;
-  margin-left: -200px;
-  margin-top: -200px;
 }
 .venues-booking .input_box .choose_seat .movable-area .movable-view {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  -webkit-transform: translateX(100rpx) translateY(100rpx);
+          transform: translateX(100rpx) translateY(100rpx);
+}
+.venues-booking .input_box .choose_seat .movable-area .movable-view .screen {
+  width: 100%;
+  height: 40rpx;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  position: relative;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  margin-bottom: 20rpx;
 }
-.venues-booking .input_box .choose_seat .movable-area .movable-view .choose_seat_hover {
-  color: #FFFFFF;
+.venues-booking .input_box .choose_seat .movable-area .movable-view .screen_box {
+  width: 200rpx;
+  text-align: center;
+  height: 36rpx;
+  line-height: 36rpx;
+  font-size: 28rpx;
+  color: rgba(0, 0, 0, 0.3);
+}
+.venues-booking .input_box .choose_seat .movable-area .movable-view .choose_seat_box {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+.venues-booking .input_box .choose_seat .movable-area .movable-view .choose_seat_box .choose_seat_hover {
+  color: rgba(0, 0, 0, 0.3);
   width: auto;
   text-align: center;
 }
-.venues-booking .input_box .choose_seat .movable-area .movable-view .choose_seat_hover_num {
+.venues-booking .input_box .choose_seat .movable-area .movable-view .choose_seat_box .choose_seat_hover_num {
   width: 50rpx;
   height: 40rpx;
   line-height: 40rpx;
   font-size: 24rpx;
 }
-.venues-booking .input_box .choose_seat .movable-area .movable-view .seat_box {
-  width: 660rpx;
+.venues-booking .input_box .choose_seat .movable-area .movable-view .choose_seat_box .seat_box {
   height: 500rpx;
 }
-.venues-booking .input_box .choose_seat .movable-area .movable-view .seat_box_row {
+.venues-booking .input_box .choose_seat .movable-area .movable-view .choose_seat_box .seat_box_row {
   width: 100%;
   height: 40rpx;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
 }
-.venues-booking .input_box .choose_seat .movable-area .movable-view .seat_box_row_col {
+.venues-booking .input_box .choose_seat .movable-area .movable-view .choose_seat_box .seat_box_row_col {
   min-width: 40rpx;
   height: 40rpx;
   box-sizing: border-box;
   padding: 5rpx;
 }
-.venues-booking .input_box .choose_seat .movable-area .movable-view .seat_box_row_col image {
+.venues-booking .input_box .choose_seat .movable-area .movable-view .choose_seat_box .seat_box_row_col view {
+  width: 30rpx;
+  height: 30rpx;
+  border: 1rpx solid #ccc;
+  border-radius: 6rpx;
+}
+.venues-booking .input_box .choose_seat .movable-area .movable-view .choose_seat_box .seat_box_row_col image {
   width: 30rpx;
   height: 30rpx;
 }
-.venues-booking .input_box .choose_seat .movable-area .movable-view .seat_box_row_col text {
+.venues-booking .input_box .choose_seat .movable-area .movable-view .choose_seat_box .seat_box_row_col text {
   font-size: 24rpx;
   display: block;
   line-height: 24rpx;

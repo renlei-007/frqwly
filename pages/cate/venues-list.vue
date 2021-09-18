@@ -35,11 +35,11 @@
 		data() {
 			return {
 				cutList: [{
-					id: '198',
-					name: '剧场'
-				},{
 					id: '179',
 					name: '文化馆'
+				},{
+					id: '198',
+					name: '芙蓉剧场'
 				},{
 					id: '180',
 					name: '图书馆'
@@ -74,7 +74,7 @@
 			if(e.title){
 				switch (e.title) {
 					case '文化馆':
-						this.cutIndex = 1
+						this.cutIndex = 0
 						break
 					case '图书馆':
 						this.cutIndex = 2

@@ -8,36 +8,36 @@
 				<view>预订时间：{{record.record.bookingDate}}</view>
 				<view>预订时段：{{record.record.slot}}</view>
 				<view>预定电话：{{record.record.phone}}</view>
-				<view>预定用户：{{record.record.user.realname || record.record.user.username}}</view>
+				<view>预定用户：{{record.record.user.authName || record.record.user.name}}</view>
 			</view>
 			<view class="info" v-if="type == 2">
 				<view><rich-text :nodes="record.content.title"></rich-text></view>
 				<view>预订时间：{{record.bookingDate}}</view>
 				<view>预订时段：{{record.slot}}</view>
-				<view>预定用户：{{record.user.realname || record.user.username}}</view>
+				<view>预定用户：{{record.user.authName || record.user.name}}</view>
 				<view>预定电话：{{record.phone}}</view>
 				<view>联系人：{{record.contact}}</view>
 				<view>使用者：{{record.userName}}</view>
 				<view>场馆地址：{{record.content.attr_address}}</view>
 				<view>场馆电话：{{record.content.attr_phone}}</view>
 			</view>
-			<view class="info" v-if="type == 3">
+			<view class="info" v-if="type == 5">
 				<view>编号：{{record.id}}</view>
 				<view><rich-text :nodes="record.content.title"></rich-text></view>
 				<view>预定电话：{{record.phone}}</view>
-				<view>预定用户：{{record.user.realname || record.user.username}}</view>
+				<view>预定用户：{{record.user.authName || record.user.name}}</view>
 				<view>报名时间：{{record.createTime}}</view>
-				<view>已上课时：<text style="color: #FF1616;">{{record.content.attr_classHours}}</text></view>
+				<view>已上课时：<text style="color: #FF1616;">{{record.count}}</text></view>
 				<view>上课时间：{{record.content.attr_startTime}}至{{record.content.attr_endTime}}</view>
 				<view>培训地址：{{record.content.attr_address}}</view>
 			</view>
-			<view class="info" v-if="type == 4">
+			<view class="info" v-if="type == 6">
 				<view>编号：{{record.id}}</view>
 				<view><rich-text :nodes="record.content.title"></rich-text></view>
 				<view>预定电话：{{record.phone}}</view>
 				<view>预定时间：{{record.createTime}}</view>
-				<view>预定用户：{{record.user.realname || record.user.username}}</view>
-				<view>服务时间：<text v-text="formatTime(record)"></text>至<text v-text="formatTime(record)"></text></view>
+				<view>预定用户：{{record.user.authName || record.user.name}}</view>
+				<view>服务时间：<text>{{record.content.attr_startTime}}</text>至<text>{{record.content.attr_endTime}}</text></view>
 			</view>
 		</view>
 		<view class="page-bottom" @click="writeoff" v-if="canWriteoff">确认核销</view>
@@ -80,10 +80,10 @@
 				}else if(this.type == 2){//场馆核销
 					params.recordId = this.value
 					url = '/bookings/detail'
-				}else if(this.type == 3){//培训核销
+				}else if(this.type == 5){//培训核销
 					params.recordId = this.value
 					url = '/train/detail'
-				}else if(this.type == 4){//自愿活动核销
+				}else if(this.type == 6){//自愿活动核销
 					params.recordId = this.value
 					url = '/volunteer/detail'
 				}
@@ -112,10 +112,10 @@
 				}else if(this.type == 2){//场馆核销
 					params.recordId = this.value
 					url = '/booking_record/writeoff'
-				}else if(this.type == 3){//培训核销
+				}else if(this.type == 5){//培训核销
 					params.ids = this.value
 					url = '/train_record/writeoff'
-				}else if(this.type == 4){//自愿活动核销
+				}else if(this.type == 6){//自愿活动核销
 					params.recordId = this.value
 					url = '/volunteer/writeoff'
 				}
@@ -128,8 +128,8 @@
 						setTimeout(()=>{
 							uni.navigateBack({
 								delta:1
-							},1500)
-						})
+							})
+						},1500)
 					}else{
 						this.toast(res.message,'none')
 					}

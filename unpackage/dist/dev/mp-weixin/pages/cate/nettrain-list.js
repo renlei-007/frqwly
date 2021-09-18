@@ -96,7 +96,7 @@ var components
 try {
   components = {
     ysScroll: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 658))
+      return __webpack_require__.e(/*! import() | components/base/ys-scroll */ "components/base/ys-scroll").then(__webpack_require__.bind(null, /*! @/components/base/ys-scroll.vue */ 660))
     }
   }
 } catch (e) {
@@ -270,6 +270,14 @@ var _default =
         if (res.data.body.length == 0 && _this2.trainList.length == 0) {
           _this2.$refs.scroll.setLoadStatus('no_data');
         } else {
+          res.data.body.map(function (item) {
+            item.liveRecord.isLive = false;
+            if (item.liveRecord.type == 1 && item.liveRecord.startTime && item.liveRecord.endTime) {
+              if (nowTime > _this2.getTimeSec(item.liveRecord.startTime) && nowTime < _this2.getTimeSec(item.liveRecord.endTime)) {
+                item.liveRecord.isLive = true;
+              }
+            }
+          });
           _this2.trainList = _this2.trainList.concat(res.data.body);
           if (res.data.body.length < 10) {
             _this2.$refs.scroll.setLoadStatus('no_more');
@@ -278,6 +286,10 @@ var _default =
           }
         }
       });
+    },
+    getTimeSec: function getTimeSec(val) {
+      var time = new Date(val).getTime();
+      return time;
     },
     getCateList: function getCateList() {var _this3 = this;
       var params = {

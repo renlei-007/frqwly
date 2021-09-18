@@ -222,6 +222,9 @@
 					}
 				}
 			},
+			menuChange(index){
+				
+			},
 			filterResult(obj) {
 				let val = obj.result;
 				let titlesObj = obj.titles;

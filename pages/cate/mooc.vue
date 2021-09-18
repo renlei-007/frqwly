@@ -98,7 +98,7 @@
 			},
 			getList(){
 				let params={
-					channelIds: 191, count: 10, first: this.page, format:0, s_type: this.type,
+					channelIds: 191, count: 10, first: this.page, format:0, s_subject_like: this.type,
 				}
 				this.indexRequest({url:'/content/list.jspx',data:params}).then(res=>{
 					if(res.data.body.length==0&&this.moocList.length == 0){
@@ -121,7 +121,7 @@
 				this.indexRequest({url:'/model/get',data:params}).then(res=>{
 					console.log(res);
 					res.data.body.map(item=>{
-						if(item.field=='category'){
+						if(item.field=='subject'){
 							array = item.optValue
 						}
 					})

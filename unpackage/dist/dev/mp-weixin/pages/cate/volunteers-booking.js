@@ -96,7 +96,7 @@ var components
 try {
   components = {
     ysPicker: function() {
-      return __webpack_require__.e(/*! import() | components/base/ys-picker */ "components/base/ys-picker").then(__webpack_require__.bind(null, /*! @/components/base/ys-picker.vue */ 665))
+      return __webpack_require__.e(/*! import() | components/base/ys-picker */ "components/base/ys-picker").then(__webpack_require__.bind(null, /*! @/components/base/ys-picker.vue */ 667))
     }
   }
 } catch (e) {
@@ -262,8 +262,8 @@ var _default =
 
   },
   onLoad: function onLoad(e) {
-    this.id = e.id;
-    this.getDetail();
+    // this.id = e.id
+    // this.getDetail()
   },
   methods: {
     getDetail: function getDetail() {var _this = this;
@@ -277,7 +277,7 @@ var _default =
       });
     },
     selected: function selected(val) {//调起选择器组件
-      this.$refs.ysPicker.showModal('time', 'y-M-d');
+      this.$refs.ysPicker.showModal('time', 'b-y-M-d');
     },
     callPicker: function callPicker(res) {
       console.log(res);
@@ -285,8 +285,24 @@ var _default =
     },
     submit: function submit() {var _this2 = this;
       var params = this.form;
-      params.contentId = this.id;
       params.birthday = this.birthday;
+      this.homeRequest({
+        url: '/volunteerInfo/add',
+        method: 'GET',
+        data: params }).
+      then(function (res) {
+        if (res.code == 200) {
+          _this2.toast('申请成功,管理员审核通过后即可报名志愿者活动！');
+          setTimeout(function () {
+            uni.navigateBack({
+              delta: 1 });
+
+          }, 1000);
+        } else {
+          _this2.toast(res.message, 'none');
+        }
+      });
+      return;
       this.homeRequest({
         url: '/volunteer/add',
         method: 'GET',

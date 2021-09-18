@@ -10,6 +10,10 @@
 				<view class="map_content_detail_text">地址:{{calDistance(content)}}</view>
 			</view>
 		</view>
+		<view class="map-btn">
+			<view class="mbtn2" @click="back()"><image src="/static/back.png" mode=""></image>返回</view>
+			<view class="mbtn1" @click="openMap()"><image src="/static/map.png" mode=""></image>到这里去</view>
+		</view>
 	</view>
 </template>
 
@@ -82,6 +86,17 @@
 					})
 				});
 			},
+			openMap(){
+				uni.openLocation({
+					latitude: this.latitude,
+					longitude: this.longitude,
+					name: this.content.title,
+					address: this.content.attr_address
+				})
+			},
+			back(){
+				uni.navigateBack()
+			},
 			calDistance(item){
 				if(item && item.position && this.lat){
 					return this.getDistance(this.lat, this.lng, item.position.lat, item.position.lng)+'KM';
@@ -113,7 +128,7 @@ page{
 }
 .map_content{
 	width: 690rpx;
-	margin: 0 auto;
+	margin: 30rpx auto 0;
 	border: 1px solid #ddd;
 	&_img{
 		width: 100%;
@@ -141,6 +156,44 @@ page{
 			text-overflow: ellipsis;
 			white-space: nowrap;
 		}
+	}
+}
+.map-btn{
+	padding: 20rpx 0 0 0;
+	text-align: center;
+	height: 70rpx;
+	display: flex;
+	justify-content: center;
+}
+.map-btn .mbtn1{
+	background: #b92121;
+	border-radius: 50rpx;
+	padding: 0 30rpx;
+	margin: 0 10rpx;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	image{
+		width: 32rpx;
+		height: 32rpx;
+		margin-right: 10rpx;
+	}
+}
+.map-btn .mbtn2{
+	text-align: center;
+	border:solid 1px #b92121;
+	border-radius: 50rpx;
+	padding: 0 30rpx;
+	margin: 0 10rpx;
+	color: #b92121;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	image{
+		width: 32rpx;
+		height: 32rpx;
+		margin-right: 10rpx;
 	}
 }
 </style>

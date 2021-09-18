@@ -23,7 +23,7 @@
 			<view class="actives_box" v-for="(item, index) in record.orders" :key="index">
 				<view class="actives_box_tips">核销二维码</view>
 				<view class="actives_box_img">
-					<image class="code_img" :src="baseUrl+'special/o_create_dimensioncode.jspx?content='+qrcodeCotent(item)" mode=""></image>
+					<image class="code_img" :src="globalUrl+'special/o_create_dimensioncode.jspx?content='+qrcodeCotent(item)" mode=""></image>
 					<view class="state" v-if="item.status ==1"><image :src="verifyImg"></image></view>
 				</view>
 				<view class="actives_box_title">{{record.content.title}}</view>
@@ -53,6 +53,7 @@
 					orders:[],
 					content: {},
 				}, 
+				globalUrl: 'https://furong.culturalcloud.net/',
 			};
 		},
 		onLoad(e) {
